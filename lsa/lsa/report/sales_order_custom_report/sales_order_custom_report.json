@@ -1,0 +1,33 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2024-01-25 12:05:00.804005",
+ "disabled": 1,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 52,
+ "is_standard": "Yes",
+ "letter_head": "LSA",
+ "letterhead": null,
+ "modified": "2024-02-21 15:10:39.280634",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Sales Order Custom Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Sales Order",
+ "report_name": "Sales Order Custom Report",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "LSA Account Executive"
+  },
+  {
+   "role": "LSA CEO Admin"
+  },
+  {
+   "role": "LSA Accounts Manager"
+  }
+ ]
+}

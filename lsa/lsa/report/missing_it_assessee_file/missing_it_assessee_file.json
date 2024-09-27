@@ -1,0 +1,36 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2024-01-16 12:40:57.053398",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "LSA",
+ "letterhead": null,
+ "modified": "2024-02-19 16:37:47.762660",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Missing IT Assessee File",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "IT Assessee File Yearly Report",
+ "report_name": "Missing IT Assessee File",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "LSA OPS SENIOR MANAGER"
+  },
+  {
+   "role": "LSA CEO Admin"
+  },
+  {
+   "role": "LSA GST Ops Manager"
+  }
+ ]
+}

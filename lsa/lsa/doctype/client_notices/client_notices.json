@@ -1,0 +1,431 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "creation": "2023-12-27 11:33:00.410520",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tab_break_cpal",
+  "section_break_uncd",
+  "login_date",
+  "notice_date",
+  "notice_date_refdata",
+  "cid",
+  "customer_firm_name",
+  "contact_person",
+  "customer_status",
+  "registration_number",
+  "assessee_name",
+  "executive_name",
+  "executive",
+  "column_break_enhn",
+  "status",
+  "notices_status",
+  "partner",
+  "priority",
+  "notices_type",
+  "financial_year",
+  "demand_amount_rs",
+  "other_charges",
+  "total_value",
+  "lost_reason",
+  "section_break_iklo",
+  "notice_description_column",
+  "text_editor_cerg",
+  "notice_followup_tab",
+  "create_followup",
+  "notice_followups",
+  "other_details_tab",
+  "section_break_clho",
+  "office_ph_no",
+  "data_dioo",
+  "section_break_tycp",
+  "notice_reason",
+  "column_break_gimm",
+  "retrun_filed_by",
+  "column_break_lfgq",
+  "return_submitted_by",
+  "section_break_hznn",
+  "department_name",
+  "department_address",
+  "column_break_assj",
+  "officer_name",
+  "officer_ph",
+  "officer_email_id_copy",
+  "officer_email_id",
+  "associate_partner_tab",
+  "prof_partner",
+  "column_break_lhbr",
+  "partner_mobile_no",
+  "admin_info_tab",
+  "admin_notes",
+  "admin_notes_table"
+ ],
+ "fields": [
+  {
+   "fieldname": "tab_break_cpal",
+   "fieldtype": "Tab Break",
+   "label": "Notice Details"
+  },
+  {
+   "fieldname": "section_break_uncd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Today",
+   "fetch_from": ".customer_name",
+   "fieldname": "login_date",
+   "fieldtype": "Date",
+   "label": "Login Date "
+  },
+  {
+   "fieldname": "notice_date",
+   "fieldtype": "Date",
+   "label": "Notice Date"
+  },
+  {
+   "fieldname": "notice_date_refdata",
+   "fieldtype": "Data",
+   "label": "Notice Date Ref.Data"
+  },
+  {
+   "fetch_from": "cid.customer_name",
+   "fieldname": "customer_firm_name",
+   "fieldtype": "Data",
+   "label": "Customer Firm Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "cid.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.",
+   "fieldname": "registration_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Registration Number (PAN/GSTNO/REG NO)",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.",
+   "fieldname": "assessee_name",
+   "fieldtype": "Data",
+   "label": "ASSESSEE NAME"
+  },
+  {
+   "fetch_from": "executive.full_name",
+   "fieldname": "executive_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Executive Name"
+  },
+  {
+   "fieldname": "column_break_enhn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "notices_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Notices Status",
+   "options": "Received\nUnder Review\nAwaiting Client Information\nAwaiting Consultant Review\nResponse Drafted\nResponse Submitted\nAmended Notice Received\nAppeal Filed\nOn Hold\nResolved\nClosed\nEscalated\nDisputed\nClient went to other Auditor",
+   "reqd": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Priority",
+   "options": "\nHigh\nMedium\nLow",
+   "reqd": 1
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "notices_type",
+   "fieldtype": "Select",
+   "label": "Notices Type",
+   "options": "\nINCOME TAX\nGST\nTDS\nVAT\nROC\nPT",
+   "reqd": 1
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "financial_year",
+   "fieldtype": "Link",
+   "label": "Financial Year",
+   "options": "FY",
+   "reqd": 1
+  },
+  {
+   "bold": 1,
+   "default": "1",
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "demand_amount_rs",
+   "fieldtype": "Currency",
+   "label": "Demand Amount Rs",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "bold": 1,
+   "default": "0",
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "other_charges",
+   "fieldtype": "Currency",
+   "label": "Interest and Penalty",
+   "non_negative": 1
+  },
+  {
+   "bold": 1,
+   "default": "0",
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "total_value",
+   "fieldtype": "Currency",
+   "label": "Total Value",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_iklo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notice_description_column",
+   "fieldtype": "Column Break",
+   "label": "Notice Description"
+  },
+  {
+   "fieldname": "text_editor_cerg",
+   "fieldtype": "Text Editor"
+  },
+  {
+   "fieldname": "other_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Other Details"
+  },
+  {
+   "fetch_from": "associate_partner.email",
+   "fieldname": "data_dioo",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "section_break_tycp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notice_reason",
+   "fieldtype": "Select",
+   "label": "Notice Reason",
+   "options": "\nDue to Client Side Error\nDue to Clerical Error"
+  },
+  {
+   "fieldname": "column_break_gimm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "retrun_filed_by",
+   "fieldtype": "Select",
+   "label": "Retrun Filed By",
+   "options": "\nOur Team\nOthers"
+  },
+  {
+   "fieldname": "column_break_lfgq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "return_submitted_by",
+   "fieldtype": "Data",
+   "label": "Return Submitted By"
+  },
+  {
+   "fieldname": "section_break_hznn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "department_name",
+   "fieldtype": "Data",
+   "label": "Department Name"
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "department_address",
+   "fieldtype": "Small Text",
+   "label": "Department Address"
+  },
+  {
+   "fieldname": "column_break_assj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "officer_name",
+   "fieldtype": "Data",
+   "label": "Officer Name"
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "officer_ph",
+   "fieldtype": "Data",
+   "label": "Officer Mob. No."
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "officer_email_id_copy",
+   "fieldtype": "Data",
+   "label": "Department Ph No."
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "officer_email_id",
+   "fieldtype": "Data",
+   "label": "Officer Email Id"
+  },
+  {
+   "fieldname": "cid",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer"
+  },
+  {
+   "fetch_from": "null.",
+   "fieldname": "executive",
+   "fieldtype": "Link",
+   "label": "Executive",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_clho",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "associate_partner.mobile_number",
+   "fieldname": "office_ph_no",
+   "fieldtype": "Data",
+   "label": "office Ph no."
+  },
+  {
+   "fetch_from": "cid.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "default": "Open",
+   "fetch_from": ".customer_name",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Open\nClose",
+   "reqd": 1
+  },
+  {
+   "depends_on": "partner",
+   "fieldname": "associate_partner_tab",
+   "fieldtype": "Tab Break",
+   "label": "Associate Partner"
+  },
+  {
+   "fieldname": "prof_partner",
+   "fieldtype": "Link",
+   "label": "Prof. Partner",
+   "options": "Supplier"
+  },
+  {
+   "default": "0",
+   "fieldname": "partner",
+   "fieldtype": "Check",
+   "label": "Prof. Partner"
+  },
+  {
+   "fieldname": "notice_followup_tab",
+   "fieldtype": "Tab Break",
+   "label": "Notice Followup"
+  },
+  {
+   "fieldname": "create_followup",
+   "fieldtype": "Button",
+   "label": "Create Followup"
+  },
+  {
+   "fieldname": "notice_followups",
+   "fieldtype": "HTML",
+   "label": "Notice Followups"
+  },
+  {
+   "fieldname": "column_break_lhbr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "prof_partner.custom_asspartner_mobile_no",
+   "fieldname": "partner_mobile_no",
+   "fieldtype": "Data",
+   "label": "Partner Mobile No"
+  },
+  {
+   "fieldname": "lost_reason",
+   "fieldtype": "Data",
+   "label": "Lost Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "admin_info_tab",
+   "fieldtype": "Tab Break",
+   "label": "Admin Info"
+  },
+  {
+   "fieldname": "admin_notes",
+   "fieldtype": "HTML",
+   "label": "Admin Notes",
+   "permlevel": 5
+  },
+  {
+   "fieldname": "admin_notes_table",
+   "fieldtype": "Table",
+   "label": "Admin Notes Table",
+   "options": "CRM Note",
+   "permlevel": 5
+  }
+ ],
+ "links": [],
+ "modified": "2024-04-19 15:43:11.181183",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Client Notices",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

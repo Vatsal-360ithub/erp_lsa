@@ -1,0 +1,126 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{gst_yearly_summery_report}-{month}-{quarterly}-{gst_type}",
+ "creation": "2023-12-14 19:04:55.415920",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_hgtw",
+  "gst_type",
+  "amended_from",
+  "column_break_xoff",
+  "gst_yearly_summery_report",
+  "step_4_count",
+  "column_break_oztd",
+  "month",
+  "quarterly"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_hgtw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Gst Filing Data Report",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "gst_yearly_summery_report",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "FY",
+   "options": "Gst Yearly Summery Report",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.gst_type == 'Regular' || doc.gst_type == 'QRMP'",
+   "fieldname": "month",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "MONTH",
+   "mandatory_depends_on": "eval:doc.gst_type == 'Regular' || doc.gst_type == 'QRMP'",
+   "options": "\nAPR\nMAY\nJUN\nJUL\nAUG\nSEP\nOCT\nNOV\nDEC\nJAN\nFEB\nMAR"
+  },
+  {
+   "fieldname": "gst_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "GST Type",
+   "options": "\nRegular\nQRMP\nComposition",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_xoff",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_oztd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.gst_type == 'Composition'",
+   "fieldname": "quarterly",
+   "fieldtype": "Select",
+   "label": "QUARTERLY",
+   "mandatory_depends_on": "eval:doc.gst_type == 'Composition'",
+   "options": "\nAPR-JUN\nJUL-SEP\nOCT-DEC\nJAN-MAR"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "step_4_count",
+   "fieldtype": "Int",
+   "label": "(Step 4) Count",
+   "non_negative": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "group": "Gst Filling Data",
+   "link_doctype": "Gst Filling Data",
+   "link_fieldname": "gst_filling_report_id"
+  }
+ ],
+ "modified": "2024-03-13 18:53:34.133843",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Gst Filing Data Report",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "LSA GST Ops Manager(A,Sernior)",
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

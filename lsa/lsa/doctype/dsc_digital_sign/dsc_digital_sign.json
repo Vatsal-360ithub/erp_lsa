@@ -1,0 +1,232 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "creation": "2023-11-27 10:41:52.380597",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_information_tab",
+  "customer_id",
+  "dsc_pwd",
+  "dsc_reg_date",
+  "dsc_exp_date",
+  "column_break_zmgg",
+  "customer_name",
+  "dsc_status",
+  "assessee_type",
+  "assessee",
+  "column_break_nnkn",
+  "customer_status",
+  "dsc_no",
+  "pan",
+  "adhaar",
+  "section_break_gduy",
+  "dsc_tokan_company_name",
+  "column_break_igil",
+  "dsc_certificate_company_name",
+  "tab_2_tab",
+  "supplier_name",
+  "supplier_support_mob",
+  "column_break_hnth",
+  "designation",
+  "email_id_of_supplier",
+  "tab_3_tab",
+  "notes_html",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Basic Information"
+  },
+  {
+   "fieldname": "dsc_pwd",
+   "fieldtype": "Data",
+   "label": "DSC Pwd",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "dsc_reg_date",
+   "fieldtype": "Date",
+   "label": "DSC Reg Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dsc_exp_date",
+   "fieldtype": "Date",
+   "label": "DSC Exp",
+   "length": 4,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_zmgg",
+   "fieldtype": "Column Break",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "default": "Enable",
+   "fieldname": "dsc_status",
+   "fieldtype": "Select",
+   "label": "DSC Status",
+   "options": "\nEnable\nDisable",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assessee_type",
+   "fieldtype": "Select",
+   "label": "Assessee Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assessee",
+   "fieldtype": "Data",
+   "label": "Assessee Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_nnkn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Status",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "dsc_no",
+   "fieldtype": "Data",
+   "label": "DSC No",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan",
+   "fieldtype": "Data",
+   "label": "Pan",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "adhaar",
+   "fieldtype": "Data",
+   "label": "Adhaar",
+   "length": 12,
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_gduy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "dsc_tokan_company_name",
+   "fieldtype": "Data",
+   "label": "DSC Tokan Company Name"
+  },
+  {
+   "fieldname": "column_break_igil",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dsc_certificate_company_name",
+   "fieldtype": "Data",
+   "label": "DSC Certificate Company Name"
+  },
+  {
+   "fieldname": "tab_2_tab",
+   "fieldtype": "Tab Break",
+   "label": "Vendor / Supplier Details"
+  },
+  {
+   "fieldname": "supplier_name",
+   "fieldtype": "Link",
+   "label": "Supplier Name",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "supplier_support_mob",
+   "fieldtype": "Int",
+   "label": "Supplier Support Mob.",
+   "length": 10
+  },
+  {
+   "fieldname": "column_break_hnth",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Select",
+   "label": "Designation",
+   "options": "\nDirector\nPartner\nManager\nAccountants\nSales Person\nStaff"
+  },
+  {
+   "fieldname": "email_id_of_supplier",
+   "fieldtype": "Data",
+   "label": "Email id of Supplier"
+  },
+  {
+   "fieldname": "tab_3_tab",
+   "fieldtype": "Tab Break",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "notes_html",
+   "fieldtype": "HTML",
+   "label": "Notes html"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Table",
+   "label": "Notes",
+   "options": "CRM Note"
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-12 09:49:56.075542",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "DSC Digital Sign",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

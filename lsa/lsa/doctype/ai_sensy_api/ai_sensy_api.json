@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-12-01 10:08:37.317577",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "application_url",
+  "ai_sensy_url",
+  "ai_sensy_api"
+ ],
+ "fields": [
+  {
+   "fieldname": "application_url",
+   "fieldtype": "Data",
+   "label": "Application Url"
+  },
+  {
+   "fieldname": "ai_sensy_url",
+   "fieldtype": "Data",
+   "label": "Ai Sensy Url"
+  },
+  {
+   "fieldname": "ai_sensy_api",
+   "fieldtype": "Small Text",
+   "label": "Ai Sensy Api"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-01-02 13:00:28.620903",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Ai Sensy Api",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,376 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "PR-.fy.-.customer_id.-.##",
+ "creation": "2024-03-20 16:41:27.603941",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_id",
+  "customer_name",
+  "contact_person",
+  "mobile_no",
+  "email",
+  "gstin",
+  "service_active",
+  "customer_disabled",
+  "customer_status",
+  "column_break_jewh",
+  "fy",
+  "status",
+  "effective_from",
+  "effective_to",
+  "mode_of_approval",
+  "approval_doc",
+  "previous_pricing",
+  "next_pricing",
+  "section_break_nall",
+  "recurring_services",
+  "section_break_nvah",
+  "next_price_revision",
+  "previous_price_revision",
+  "gst_type",
+  "attachments_tab",
+  "file_type",
+  "column_break_kniu",
+  "file_name",
+  "column_break_twlt",
+  "attachment_notes",
+  "column_break_kxsb",
+  "attachment",
+  "section_break_umam",
+  "attachment_html",
+  "sales_order_config_tab",
+  "column_break_nawp",
+  "billing_start_date",
+  "billing_end_date",
+  "column_break_veyv",
+  "automatic_so_creation",
+  "payment_link_generation",
+  "new_followup_creation",
+  "share_with_client_via_wa",
+  "share_with_client_via_mail",
+  "section_break_oyym",
+  "so_remainder"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_primary_mobile_no",
+   "fieldname": "mobile_no",
+   "fieldtype": "Data",
+   "label": "Mobile No",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "service_active",
+   "fieldtype": "Check",
+   "label": "Active",
+   "read_only": 1
+  },
+  {
+   "fieldname": "previous_pricing",
+   "fieldtype": "Link",
+   "label": "Previous Pricing",
+   "options": "Recurring Service Pricing",
+   "read_only": 1
+  },
+  {
+   "fieldname": "next_pricing",
+   "fieldtype": "Link",
+   "label": "Next Pricing",
+   "options": "Recurring Service Pricing",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_jewh",
+   "fieldtype": "Column Break",
+   "read_only": 1
+  },
+  {
+   "fieldname": "fy",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "FY",
+   "options": "FY",
+   "reqd": 1
+  },
+  {
+   "default": "Need to Revise",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Need to Revise\nRevised\nInformed to Client\nApproved\nNot Approved\nRevise Again\nDiscontinued\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "effective_from",
+   "fieldtype": "Date",
+   "label": "Effective From",
+   "reqd": 1
+  },
+  {
+   "fieldname": "effective_to",
+   "fieldtype": "Date",
+   "label": "Effective To"
+  },
+  {
+   "fieldname": "mode_of_approval",
+   "fieldtype": "Select",
+   "label": "Mode of Approval",
+   "options": "\nSigned Copy\nEmail\nMeeting\nWhatsApp\nCall"
+  },
+  {
+   "depends_on": "mode_of_approval",
+   "fieldname": "approval_doc",
+   "fieldtype": "Attach",
+   "label": "Approval Doc"
+  },
+  {
+   "fieldname": "section_break_nall",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "recurring_services",
+   "fieldtype": "Table",
+   "label": "Recurring Services",
+   "options": "Recurring Service Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_nvah",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "next_price_revision",
+   "fieldtype": "HTML",
+   "label": "Next Price Revision"
+  },
+  {
+   "fieldname": "previous_price_revision",
+   "fieldtype": "HTML",
+   "label": "Previous Price Revision"
+  },
+  {
+   "default": "0",
+   "fetch_from": "customer_id.disabled",
+   "fieldname": "customer_disabled",
+   "fieldtype": "Check",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Customer Disabled",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Customer Status",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_primary_email",
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.gstin",
+   "fieldname": "gstin",
+   "fieldtype": "Data",
+   "label": "GSTIN",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gst_type",
+   "fieldtype": "Data",
+   "label": "GST Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "file_type",
+   "fieldtype": "Select",
+   "label": "File Type",
+   "options": "\nApproval Doc\nOthers",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_kniu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "file_name",
+   "fieldtype": "Data",
+   "label": "File Name",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_twlt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment_notes",
+   "fieldtype": "Small Text",
+   "label": "Attachment Notes",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_kxsb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "section_break_umam",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attachment_html",
+   "fieldtype": "HTML",
+   "label": "Attachment HTML"
+  },
+  {
+   "fieldname": "sales_order_config_tab",
+   "fieldtype": "Tab Break",
+   "label": "Sales Order Config"
+  },
+  {
+   "default": "0",
+   "fieldname": "automatic_so_creation",
+   "fieldtype": "Check",
+   "label": "Automatic SO creation"
+  },
+  {
+   "fieldname": "column_break_nawp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "payment_link_generation",
+   "fieldtype": "Check",
+   "label": "Payment Link Generation"
+  },
+  {
+   "default": "0",
+   "fieldname": "new_followup_creation",
+   "fieldtype": "Check",
+   "label": "New FollowUp Creation"
+  },
+  {
+   "default": "0",
+   "fieldname": "share_with_client_via_wa",
+   "fieldtype": "Check",
+   "label": "Share with Client via WA"
+  },
+  {
+   "default": "0",
+   "fieldname": "share_with_client_via_mail",
+   "fieldtype": "Check",
+   "label": "Share with Client via Mail"
+  },
+  {
+   "fieldname": "billing_start_date",
+   "fieldtype": "Date",
+   "label": "Billing Start Date"
+  },
+  {
+   "fieldname": "billing_end_date",
+   "fieldtype": "Date",
+   "label": "Billing End Date"
+  },
+  {
+   "fieldname": "column_break_veyv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_oyym",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "so_remainder",
+   "fieldtype": "Table",
+   "label": "SO Remainder",
+   "options": "Monthly SO Remainder"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-09-25 17:31:53.886576",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Recurring Service Pricing",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "LSA Account Executive",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "LSA Accounts Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

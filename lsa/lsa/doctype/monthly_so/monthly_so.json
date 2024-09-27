@@ -1,0 +1,129 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{fy}-{month}-{#}",
+ "creation": "2024-05-20 14:47:23.694353",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "fy",
+  "total_so_this_month",
+  "status",
+  "column_break_blqw",
+  "month",
+  "auto_generated_so_this_month",
+  "section_break_uuku",
+  "so_generated",
+  "payment_link_generated",
+  "column_break_uzqy",
+  "informed_to_client",
+  "followup_created",
+  "section_break_svnd",
+  "so_remainder"
+ ],
+ "fields": [
+  {
+   "fieldname": "fy",
+   "fieldtype": "Link",
+   "label": "FY",
+   "options": "FY",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "total_so_this_month",
+   "fieldtype": "Int",
+   "label": "Total SO This Month",
+   "read_only": 1
+  },
+  {
+   "fieldname": "auto_generated_so_this_month",
+   "fieldtype": "Int",
+   "label": "Auto Generated SO This Month",
+   "read_only": 1
+  },
+  {
+   "fieldname": "month",
+   "fieldtype": "Select",
+   "label": "Month",
+   "options": "\nAPR\nMAY\nJUN\nJUL\nAUG\nSEP\nOCT\nNOV\nDEC\nJAN\nFEB\nMAR",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending for SO Creation\nSO Created\nPayment Links Created\nInformed to Client\nFollowup Created\nPayment Links Cancelled"
+  },
+  {
+   "fieldname": "section_break_uuku",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "so_generated",
+   "fieldtype": "Check",
+   "label": "SO generated"
+  },
+  {
+   "default": "0",
+   "fieldname": "payment_link_generated",
+   "fieldtype": "Check",
+   "label": "Payment Link Generated"
+  },
+  {
+   "fieldname": "column_break_uzqy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "informed_to_client",
+   "fieldtype": "Check",
+   "label": "Informed to Client"
+  },
+  {
+   "default": "0",
+   "fieldname": "followup_created",
+   "fieldtype": "Check",
+   "label": "Followup Created"
+  },
+  {
+   "fieldname": "section_break_svnd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "so_remainder",
+   "fieldtype": "Table",
+   "label": "SO Remainder",
+   "options": "Monthly SO Remainder"
+  },
+  {
+   "fieldname": "column_break_blqw",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-05-24 12:07:23.040261",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Monthly SO",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

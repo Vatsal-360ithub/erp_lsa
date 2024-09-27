@@ -1,0 +1,191 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "LSA-REG-.#####",
+ "creation": "2023-12-25 16:54:34.845334",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "customer_name",
+  "column_break_bqas",
+  "contact_person",
+  "section_break_yqsg",
+  "registration_type",
+  "application_type",
+  "application_login_date",
+  "column_break_omok",
+  "entity_name",
+  "primary_applicant_name",
+  "mobile_number",
+  "column_break_cljj",
+  "status",
+  "issuance_date",
+  "email_id",
+  "column_break_cnlz",
+  "approved_registration_number",
+  "validity_period",
+  "executive",
+  "section_break_siko",
+  "add_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "registration_type",
+   "fieldtype": "Select",
+   "label": "Registration Type",
+   "options": "\nGST\nPAN\nMSME\nProfessional Tax\nTrademark\nIEC Import Export Code\nESI\nPF\nFSSAI Food License\nShop and Establishment Act\nMCA Roc - LLP\nMCA Roc - Pvt Ltd\nMca Roc - Opc\nTAN\nPartnership Firm\nStartup India Registration\nDSC Digital Signature\nLabour Licence",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nPending\nDocument Requested\nDocument Collected\nApplication Pre-Scrutiny Done\nApplication Verified and Reviewed\nApplication Submitted\nQuery Raised\nQuery Resubmitted\nRegistration Completed\nApplication Rejected\nShared with Client\nFeedback Collected\nCancelled From Client Side",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fetch_if_empty": 1,
+   "fieldname": "entity_name",
+   "fieldtype": "Data",
+   "label": "Entity Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_cljj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "issuance_date",
+   "fieldtype": "Date",
+   "label": "Issuance Date"
+  },
+  {
+   "fieldname": "approved_registration_number",
+   "fieldtype": "Data",
+   "label": "Approved Registration Number"
+  },
+  {
+   "fieldname": "validity_period",
+   "fieldtype": "Data",
+   "label": "Validity Period"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_yqsg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_bqas",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer.custom_primary_mobile_no",
+   "fetch_if_empty": 1,
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "label": "Mobile Number"
+  },
+  {
+   "fetch_from": "customer.custom_primary_email",
+   "fetch_if_empty": 1,
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Email Id"
+  },
+  {
+   "default": "Today",
+   "fieldname": "application_login_date",
+   "fieldtype": "Date",
+   "label": "Application Login Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "primary_applicant_name",
+   "fieldtype": "Data",
+   "label": "Primary Applicant Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "application_type",
+   "fieldtype": "Select",
+   "label": "Application Type",
+   "options": "New\nAmendment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "executive",
+   "fieldtype": "Link",
+   "label": "Executive",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_omok",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_cnlz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_siko",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "add_notes",
+   "fieldtype": "Small Text",
+   "label": "Add Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-20 18:13:56.516629",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Registration Application",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,169 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{tds_report}-{####}",
+ "creation": "2023-12-17 16:28:36.253390",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_cjpz",
+  "amended_from",
+  "tds_file",
+  "tan_number",
+  "deductor_name",
+  "customer_id",
+  "customer_name",
+  "customer_status",
+  "column_break_etve",
+  "tds_report",
+  "fy",
+  "qtr",
+  "status",
+  "section_break_kotm",
+  "date_of_filing",
+  "column_break_sqlt",
+  "token_no"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_cjpz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "TDS QTRLY FILING",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "tds_file",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "TDS FILE",
+   "options": "TDS File",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "tds_file.tan_no",
+   "fieldname": "tan_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "TAN NUMBER",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "tds_report.fy",
+   "fieldname": "fy",
+   "fieldtype": "Link",
+   "label": "FY",
+   "options": "FY",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "tds_report.qtr",
+   "fieldname": "qtr",
+   "fieldtype": "Select",
+   "label": "QTR",
+   "options": "\nQ1 APR-JUN\nQ2 JUL-SEP\nQ3 OCT-DEC\nQ4 JAN-MAR",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "tds_file.deductor_name",
+   "fieldname": "deductor_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Deductor Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_etve",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "STATUS",
+   "options": "PENDING\nM1 TDS / TCS DATA COLLECTED\nM1 TDS / TCS DATA VERIFIED AND REPORT PREPARED\nM1 TDS / TCS PAYMENT DONE\nM1 TDS / TCS CHALLAN VERIFIED AND UPDATED REPORT\nM2 TDS / TCS DATA COLLECTED\nM2 TDS / TCS DATA VERIFIED AND REPORT PREPARED\nM2 TDS / TCS PAYMENT DONE\nM2 TDS / TCS CHALLAN VERIFIED AND UPDATED REPORT\nM3 TDS / TCS DATA COLLECTED\nM3 TDS / TCS DATA VERIFIED AND REPORT PREPARED\nM3 TDS / TCS PAYMENT DONE\nM3 TDS / TCS CHALLAN VERIFIED AND UPDATED REPORT\nTDS / TCS FILED\nTDS / TCS FORMS GENERATED\nTDS / TCS FORMS SHARED TO CLIENT",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_kotm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "date_of_filing",
+   "fieldtype": "Date",
+   "label": "Date Of Filing"
+  },
+  {
+   "fieldname": "column_break_sqlt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "token_no",
+   "fieldtype": "Data",
+   "label": "Token no"
+  },
+  {
+   "fieldname": "tds_report",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "TDS REPORT",
+   "options": "TDS REPORT",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "tds_file.customer_id",
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-08-09 12:36:42.638154",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "TDS QTRLY FILING",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

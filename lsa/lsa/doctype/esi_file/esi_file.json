@@ -1,0 +1,475 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "creation": "2023-11-24 17:32:13.732581",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_information_tab",
+  "customer_id",
+  "customer_name",
+  "customer_status",
+  "contact_person",
+  "column_break_iiqt",
+  "esi_status",
+  "assessee_name",
+  "pan_of_assessee",
+  "column_break_mjhd",
+  "enabled",
+  "registartion_no",
+  "assessee_type",
+  "company_name",
+  "section_break_ccxy",
+  "esi_allotment_date",
+  "filling_starting_date",
+  "it_assessee",
+  "column_break_mvvm",
+  "registratred_mob_no",
+  "registratred_email_id",
+  "gst_assessee",
+  "last_filed",
+  "column_break_nklw",
+  "reg_add",
+  "executive",
+  "executive_name",
+  "section_break_deyf",
+  "other_info",
+  "section_break_xmpq",
+  "service_status_history",
+  "crediential_details_tab",
+  "trace_user_id",
+  "security_que_1",
+  "security_que_2",
+  "column_break_fckm",
+  "trace_password",
+  "secu_ans_1",
+  "secu_ans_2",
+  "authorised_person_information_tab",
+  "name1",
+  "date_of_birth",
+  "mob_no",
+  "email_id",
+  "column_break_dcao",
+  "designation",
+  "pan_no",
+  "adhaar_no",
+  "dsc_sr_no",
+  "column_break_fkmr",
+  "address",
+  "comments_tab",
+  "notes_html",
+  "notes",
+  "account_tab",
+  "service_name",
+  "hsn_code",
+  "description",
+  "column_break_iboy",
+  "current_recurring_fees",
+  "frequency",
+  "annual_fees",
+  "section_break_lwhu",
+  "addon_services"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Basic Information"
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_iiqt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Enable",
+   "fieldname": "esi_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "ESI Status",
+   "options": "\nEnable\nDisable",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assessee_name",
+   "fieldtype": "Data",
+   "label": "Assessee Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan_of_assessee",
+   "fieldtype": "Data",
+   "label": "Pan of Assessee",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_mjhd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "registartion_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Registartion No",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "assessee_type",
+   "fieldtype": "Select",
+   "label": "Assessee type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_ccxy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "esi_allotment_date",
+   "fieldtype": "Date",
+   "label": "ESI Allotment date"
+  },
+  {
+   "fieldname": "filling_starting_date",
+   "fieldtype": "Date",
+   "label": "Filling Starting Date"
+  },
+  {
+   "fieldname": "it_assessee",
+   "fieldtype": "Link",
+   "label": "IT Assessee",
+   "options": "IT Assessee File"
+  },
+  {
+   "fieldname": "column_break_mvvm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "registratred_mob_no",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Reg Mob. no.",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "registratred_email_id",
+   "fieldtype": "Data",
+   "label": "Reg Email id"
+  },
+  {
+   "fieldname": "gst_assessee",
+   "fieldtype": "Link",
+   "label": "GST Assessee",
+   "options": "Gstfile"
+  },
+  {
+   "fieldname": "column_break_nklw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reg_add",
+   "fieldtype": "Small Text",
+   "label": "Reg Add"
+  },
+  {
+   "fieldname": "executive",
+   "fieldtype": "Link",
+   "label": "Executive",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_deyf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "other_info",
+   "fieldtype": "Text Editor",
+   "label": "Other Info"
+  },
+  {
+   "fieldname": "crediential_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Crediential Details"
+  },
+  {
+   "fieldname": "trace_user_id",
+   "fieldtype": "Data",
+   "label": "User id"
+  },
+  {
+   "fieldname": "security_que_1",
+   "fieldtype": "Data",
+   "label": "Security Que 1"
+  },
+  {
+   "fieldname": "security_que_2",
+   "fieldtype": "Data",
+   "label": "Security Que 2"
+  },
+  {
+   "fieldname": "column_break_fckm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "trace_password",
+   "fieldtype": "Data",
+   "label": "Password"
+  },
+  {
+   "fieldname": "secu_ans_1",
+   "fieldtype": "Data",
+   "label": "Secu Ans 1"
+  },
+  {
+   "fieldname": "secu_ans_2",
+   "fieldtype": "Data",
+   "label": "Secu Ans 2"
+  },
+  {
+   "fieldname": "authorised_person_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Authorised Person"
+  },
+  {
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of Birth"
+  },
+  {
+   "fieldname": "mob_no",
+   "fieldtype": "Int",
+   "label": "Mob No",
+   "length": 10
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Email Id"
+  },
+  {
+   "fieldname": "column_break_dcao",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Select",
+   "label": "Designation",
+   "options": "Director\nPartner\nManager\nAccountants\nSales Person\nStaff",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan_no",
+   "fieldtype": "Data",
+   "label": "Pan No",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "adhaar_no",
+   "fieldtype": "Int",
+   "label": "Adhaar No",
+   "length": 12
+  },
+  {
+   "fetch_from": "dsc_no.dsc_no",
+   "fieldname": "dsc_sr_no",
+   "fieldtype": "Link",
+   "label": "DSC Sr No",
+   "options": "DSC Digital Sign"
+  },
+  {
+   "fieldname": "column_break_fkmr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "comments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "notes_html",
+   "fieldtype": "HTML",
+   "label": "Notes HTML"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Table",
+   "label": "Notes",
+   "options": "CRM Note"
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "account_tab",
+   "fieldtype": "Tab Break",
+   "label": "Accounts"
+  },
+  {
+   "default": "OTHER SERVICES",
+   "fieldname": "service_name",
+   "fieldtype": "Link",
+   "label": "Service Name",
+   "options": "Item",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "current_recurring_fees",
+   "fieldtype": "Currency",
+   "label": "Current Recurring Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "service_name.gst_hsn_code",
+   "fieldname": "hsn_code",
+   "fieldtype": "Data",
+   "label": "HSN Code",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "column_break_iboy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description",
+   "permlevel": 2,
+   "read_only": 1
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "default": "Y",
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "M\nQ\nH\nY",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "annual_fees",
+   "fieldtype": "Currency",
+   "label": "Annual Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "executive.full_name",
+   "fieldname": "executive_name",
+   "fieldtype": "Data",
+   "label": "Executive Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "last_filed",
+   "fieldtype": "Data",
+   "label": "Last Filed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_xmpq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "service_status_history",
+   "fieldtype": "Table",
+   "label": "Service Status History",
+   "options": "Service Master Status Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_lwhu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "addon_services",
+   "fieldtype": "Table",
+   "label": "Addon Services",
+   "options": "Service Master Addon",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-29 12:46:06.224315",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "ESI File",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

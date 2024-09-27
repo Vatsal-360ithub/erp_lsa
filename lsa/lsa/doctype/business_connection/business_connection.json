@@ -1,0 +1,494 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format: CON-{MM}-{YY}-{####}",
+ "creation": "2023-11-24 17:21:05.829794",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "contact_info_section",
+  "salutation",
+  "login_date",
+  "first_name",
+  "column_break_qize",
+  "mob_no_1",
+  "mob_no_2",
+  "business_name",
+  "column_break_whnv",
+  "email_id",
+  "office_email_id",
+  "column_break_wazs",
+  "phone_no",
+  "phone_ext",
+  "website",
+  "connection_type_section",
+  "opportunity_type",
+  "connection_type",
+  "connector_response_type",
+  "current_status",
+  "designation",
+  "column_break_ezrn",
+  "priority",
+  "business_category",
+  "meeting_platform",
+  "first_meeting_at_date",
+  "connection_for",
+  "column_break_hucf",
+  "first_meeting_at",
+  "other_details_of_connection",
+  "gives_connection",
+  "lead_owner",
+  "column_break_buzh",
+  "reference_by_name",
+  "gender",
+  "ask_desired_connection",
+  "product_line",
+  "section_break_znvk",
+  "personal_details_column",
+  "years_in_this_business",
+  "annual_revenue",
+  "market_segment",
+  "column_break_sdmy",
+  "industry",
+  "territory",
+  "no_of_employees",
+  "business_details_column",
+  "10_good_customers",
+  "address_tab",
+  "address_and_contacts_section",
+  "city",
+  "state",
+  "country",
+  "column_break_vcyo",
+  "address",
+  "column_break_osqs",
+  "image",
+  "visiting_card_back",
+  "other_tab",
+  "personal_info_column",
+  "other_details",
+  "social_connection",
+  "comments_tab",
+  "notes_html",
+  "notes",
+  "admin_info_tab",
+  "admin_notes_html_column",
+  "admin_html",
+  "admin_notes"
+ ],
+ "fields": [
+  {
+   "default": "Mr",
+   "fieldname": "salutation",
+   "fieldtype": "Select",
+   "label": "Salutation",
+   "options": "\nMr\nMrs\nMiss\nMs",
+   "reqd": 1
+  },
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "Male\nFemale"
+  },
+  {
+   "fieldname": "gives_connection",
+   "fieldtype": "Data",
+   "label": "Gives Connection"
+  },
+  {
+   "fieldname": "ask_desired_connection",
+   "fieldtype": "Data",
+   "label": "Ask Desired Connection"
+  },
+  {
+   "fieldname": "business_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Business Name"
+  },
+  {
+   "fieldname": "business_category",
+   "fieldtype": "Data",
+   "label": "Business Category",
+   "reqd": 1
+  },
+  {
+   "default": "Director",
+   "fieldname": "designation",
+   "fieldtype": "Select",
+   "label": "Designation",
+   "options": "\nDirector\nPartner\nManager\nEmployee\nSales Team",
+   "reqd": 1
+  },
+  {
+   "default": "LSA",
+   "fieldname": "connection_for",
+   "fieldtype": "Select",
+   "label": "Connection For",
+   "options": "\nLSA\nBIG Shot Capital\n360 IT HUB"
+  },
+  {
+   "fieldname": "reference_by_name",
+   "fieldtype": "Data",
+   "label": "Reference By Name"
+  },
+  {
+   "default": "Today",
+   "fieldname": "login_date",
+   "fieldtype": "Date",
+   "label": "Login Date",
+   "options": "Today",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "meeting_platform",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Meeting Platform",
+   "options": "\nBNI\nFINPRO\nRB\nEXISITING CLIENT\nOTHER",
+   "reqd": 1
+  },
+  {
+   "fieldname": "first_meeting_at",
+   "fieldtype": "Data",
+   "label": "First Meeting At (Place)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "first_meeting_at_date",
+   "fieldtype": "Date",
+   "label": "First Meeting At (Date)"
+  },
+  {
+   "default": "__user",
+   "fieldname": "lead_owner",
+   "fieldtype": "Link",
+   "label": "Lead Owner",
+   "options": "User",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact_info_section",
+   "fieldtype": "Section Break",
+   "label": "Contact Info"
+  },
+  {
+   "fieldname": "mob_no_1",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Main Mobile No",
+   "length": 13,
+   "reqd": 1
+  },
+  {
+   "fieldname": "mob_no_2",
+   "fieldtype": "Data",
+   "label": "Mob No 2",
+   "length": 13
+  },
+  {
+   "fieldname": "column_break_whnv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Personal email id"
+  },
+  {
+   "fieldname": "office_email_id",
+   "fieldtype": "Data",
+   "label": "Office email id"
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "website"
+  },
+  {
+   "fieldname": "column_break_wazs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "phone_no",
+   "fieldtype": "Data",
+   "label": "Phone No",
+   "length": 10
+  },
+  {
+   "fieldname": "phone_ext",
+   "fieldtype": "Data",
+   "label": "Phone Ext.",
+   "length": 10
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "connection_type_section",
+   "fieldtype": "Section Break",
+   "label": "Connection Type"
+  },
+  {
+   "fieldname": "opportunity_type",
+   "fieldtype": "Select",
+   "label": "Opportunity Type",
+   "options": "\nAMAZING\nGOOD\nNORMAL",
+   "reqd": 1
+  },
+  {
+   "fieldname": "connection_type",
+   "fieldtype": "Select",
+   "label": "Connection Type",
+   "options": "\nClient\nSupplier\nPartner\nProspect"
+  },
+  {
+   "fieldname": "connector_response_type",
+   "fieldtype": "Select",
+   "label": "Connector Response Type",
+   "options": "\nVery Good\nNormal\nIgnoring"
+  },
+  {
+   "fieldname": "column_break_ezrn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "\nLow\nMedium\nHigh\nUrgent"
+  },
+  {
+   "fieldname": "current_status",
+   "fieldtype": "Select",
+   "label": "Current Status",
+   "options": "\nActive\nPotential\nInactive"
+  },
+  {
+   "fieldname": "column_break_hucf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "other_details_of_connection",
+   "fieldtype": "Small Text",
+   "label": "Other Details of Connection"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_znvk",
+   "fieldtype": "Section Break",
+   "label": "Business Other Details"
+  },
+  {
+   "fieldname": "personal_details_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "years_in_this_business",
+   "fieldtype": "Int",
+   "label": "No of Years in This Business"
+  },
+  {
+   "fieldname": "annual_revenue",
+   "fieldtype": "Int",
+   "label": "Annual Revenue"
+  },
+  {
+   "fieldname": "industry",
+   "fieldtype": "Link",
+   "label": "Industry",
+   "options": "Industry Type"
+  },
+  {
+   "fieldname": "market_segment",
+   "fieldtype": "Link",
+   "label": "Market Segment",
+   "options": "Market Segment"
+  },
+  {
+   "fieldname": "no_of_employees",
+   "fieldtype": "Select",
+   "label": "No of Employees",
+   "options": "\n1-10\n11-50\n51-200\n201-500\n501-1000\n1000+"
+  },
+  {
+   "fieldname": "column_break_sdmy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "territory",
+   "fieldtype": "Link",
+   "label": "Territory",
+   "options": "Territory"
+  },
+  {
+   "fieldname": "10_good_customers",
+   "fieldtype": "Small Text",
+   "label": "10 Good Customers"
+  },
+  {
+   "fieldname": "business_details_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "product_line",
+   "fieldtype": "Small Text",
+   "label": "Product Line"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Visiting Card Front"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "address_and_contacts_section",
+   "fieldtype": "Section Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "City"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "column_break_vcyo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "column_break_osqs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "other_tab",
+   "fieldtype": "Tab Break",
+   "label": "Other Information"
+  },
+  {
+   "fieldname": "personal_info_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "other_details",
+   "fieldtype": "Text Editor",
+   "label": "Other Details"
+  },
+  {
+   "fieldname": "social_connection",
+   "fieldtype": "Data",
+   "label": "Social Media Connection"
+  },
+  {
+   "fieldname": "comments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "notes_html",
+   "fieldtype": "HTML",
+   "label": "Notes HTML"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Table",
+   "label": "Notes",
+   "no_copy": 1,
+   "options": "CRM Note"
+  },
+  {
+   "fieldname": "admin_info_tab",
+   "fieldtype": "Tab Break",
+   "label": "Admin Info"
+  },
+  {
+   "fieldname": "admin_notes_html_column",
+   "fieldtype": "Column Break",
+   "label": "Admin Notes HTML"
+  },
+  {
+   "fieldname": "admin_html",
+   "fieldtype": "HTML",
+   "label": "Admin HTML",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "admin_notes",
+   "fieldtype": "Table",
+   "label": "Admin Notes",
+   "options": "CRM Note",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_qize",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_buzh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "visiting_card_back",
+   "fieldtype": "Attach Image",
+   "label": "Visiting Card Back"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-26 19:09:13.112777",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Business Connection",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

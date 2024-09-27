@@ -1,0 +1,36 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2024-01-04 18:04:25.068045",
+ "disabled": 1,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 4,
+ "is_standard": "Yes",
+ "letter_head": "LSA",
+ "letterhead": null,
+ "modified": "2024-04-25 10:22:42.874403",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Gst Filling Data Custom Report View",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Gst Filling Data",
+ "report_name": "Gst Filling Data Custom Report View",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "LSA OPS SENIOR MANAGER"
+  },
+  {
+   "role": "LSA CEO Admin"
+  },
+  {
+   "role": "LSA GST Executive(A,B)"
+  }
+ ]
+}

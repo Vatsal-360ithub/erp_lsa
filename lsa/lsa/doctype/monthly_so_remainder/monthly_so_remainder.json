@@ -1,0 +1,69 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-20 13:14:54.614187",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "remainder_type",
+  "frequency",
+  "active",
+  "effective_from",
+  "effective_to",
+  "last_bulk_creation"
+ ],
+ "fields": [
+  {
+   "fieldname": "remainder_type",
+   "fieldtype": "Select",
+   "label": "Remainder Type",
+   "options": "Email\nWhatsApp"
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Frequency",
+   "non_negative": 1,
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "active",
+   "fieldtype": "Select",
+   "label": "Active",
+   "options": "Yes\nNo",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "effective_from",
+   "fieldtype": "Date",
+   "label": "Effective From"
+  },
+  {
+   "fieldname": "effective_to",
+   "fieldtype": "Date",
+   "label": "Effective To"
+  },
+  {
+   "fieldname": "last_bulk_creation",
+   "fieldtype": "Datetime",
+   "label": "Last Bulk Creation",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-22 16:04:00.030386",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Monthly SO Remainder",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

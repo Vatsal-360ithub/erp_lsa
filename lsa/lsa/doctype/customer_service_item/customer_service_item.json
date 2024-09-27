@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-12-29 17:15:39.325352",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ohsy",
+  "column_break_wjqr",
+  "service_type",
+  "service_id",
+  "customer_name",
+  "credential_number",
+  "login_id",
+  "password"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ohsy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_wjqr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Gstfile",
+   "fieldname": "service_type",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Service Type",
+   "options": "DocType",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "service_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Service ID ",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Customer Name",
+   "options": "service_type",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "credential_number",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Credential Number ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "login_id",
+   "fieldtype": "Data",
+   "label": "Login ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Data",
+   "label": "Password",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-01-02 13:00:20.963822",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Customer Service Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

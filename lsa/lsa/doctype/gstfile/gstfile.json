@@ -1,0 +1,636 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:gst_number",
+ "creation": "2023-10-05 11:43:32.041050",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_details",
+  "customer_id",
+  "customer_name",
+  "customer_status",
+  "contact_person",
+  "gst_executive",
+  "executive",
+  "executive_name",
+  "last_filed",
+  "gstfile_search",
+  "filing_started_from",
+  "column_break_ccyw",
+  "gst_details",
+  "enabled",
+  "gst_number",
+  "gst_file_number",
+  "gst_current_status",
+  "gst_type",
+  "company_name",
+  "type_of_business",
+  "proprietor_name",
+  "pan",
+  "aadhar_no",
+  "non_compliant",
+  "section_break_fpls",
+  "mobile",
+  "mobile_2",
+  "gst_registered_email",
+  "communication_email_ld",
+  "column_break_fmri",
+  "full_address",
+  "city",
+  "state",
+  "county",
+  "pin_code",
+  "section_break_unqb",
+  "bank_name",
+  "account_number",
+  "ifsc",
+  "column_break_meww",
+  "assessee",
+  "assessee_name",
+  "assessee_pan",
+  "section_break_lanp",
+  "service_status_history",
+  "credentials_tab",
+  "gst_column",
+  "gst_user_name",
+  "gst_password",
+  "eway_user_name",
+  "eway_password",
+  "pt_user_name",
+  "pt_password",
+  "vat_and_tally_column",
+  "tin_no",
+  "vat_user_name",
+  "vat_password",
+  "tally_user_name",
+  "tally_password",
+  "attachments_tab",
+  "file_type",
+  "column_break_mnek",
+  "file_name",
+  "column_break_prua",
+  "attachment_notes",
+  "column_break_wkjp",
+  "attachment",
+  "section_break_vseb",
+  "attachment_html",
+  "accounts_tab",
+  "service_name",
+  "hsn_code",
+  "description",
+  "column_break_udoe",
+  "current_recurring_fees",
+  "frequency",
+  "annual_fees",
+  "section_break_ripr",
+  "addon_services"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_details",
+   "fieldtype": "Heading",
+   "label": "Customer Details"
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "permlevel": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Name",
+   "permlevel": 1,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Status",
+   "permlevel": 1,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_if_empty": 1,
+   "fieldname": "gst_executive",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Gst Executive",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "column_break_ccyw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gst_details",
+   "fieldtype": "Heading",
+   "label": "GST Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Enabled",
+   "permlevel": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "gst_number",
+   "fieldtype": "Data",
+   "label": "Gst Number",
+   "permlevel": 1,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "gst_file_number",
+   "fieldtype": "Data",
+   "label": "Gst File Number",
+   "permlevel": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "gst_current_status",
+   "fieldtype": "Select",
+   "label": "Gst Current Status",
+   "options": "\nREGISTERED\nAPPLIED FOR CANCELLATION\nCANCELLED ON APPLICANT REQUEST\nSUO MOTO CANCELLED\nAPPLIED FOR REVOCATION",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "gst_type",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Gst Type",
+   "options": "\nRegular\nComposition\nQRMP",
+   "permlevel": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name",
+   "permlevel": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "type_of_business",
+   "fieldtype": "Select",
+   "label": "Type of Business",
+   "options": "\nTRADING\nSERVICE\nMANUFACTURING\nWORK CONTRACTOR",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "section_break_fpls",
+   "fieldtype": "Section Break",
+   "label": "Communication"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Mobile",
+   "permlevel": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "mobile_2",
+   "fieldtype": "Data",
+   "label": "Mobile 2",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "gst_registered_email",
+   "fieldtype": "Data",
+   "label": "GST Registered Email",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "communication_email_ld",
+   "fieldtype": "Data",
+   "label": "Communication Email ld",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "column_break_fmri",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "full_address",
+   "fieldtype": "Small Text",
+   "label": "Full Address",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Autocomplete",
+   "label": "State",
+   "mandatory_depends_on": "eval: doc.country == 'India'",
+   "options": "\nAndhra Pradesh\nArunachal Pradesh\nAssam\nBihar\nChhattisgarh\nGoa\nGujarat\nHaryana\nHimachal Pradesh\nJharkhand\nKarnataka\nKerala\nMadhya Pradesh\nMaharashtra\nManipur\nMeghalaya\nMizoram\nNagaland\nOdisha\nPunjab\nRajasthan\nSikkim\nTamil Nadu\nTelangana\nTripura\nUttar Pradesh\nUttarakhand\nWest Bengal\nAndaman and Nicobar Islands\nChandigarh\nDadra and Nagar Haveli and Daman and Diu\nLakshadweep\nDelhi\nPondicherry\nLadakh\nJammu and Kashmir",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "county",
+   "fieldtype": "Select",
+   "label": "County",
+   "options": "India",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "pin_code",
+   "fieldtype": "Data",
+   "label": "PIN Code",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "section_break_unqb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Data",
+   "label": "Bank Name",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "account_number",
+   "fieldtype": "Data",
+   "label": "Account Number",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "ifsc",
+   "fieldtype": "Data",
+   "label": "IFSC",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "column_break_meww",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assessee",
+   "fieldtype": "Link",
+   "label": "Assessee",
+   "options": "IT Assessee File",
+   "permlevel": 1
+  },
+  {
+   "fetch_from": "assessee.assessee_name",
+   "fieldname": "assessee_name",
+   "fieldtype": "Data",
+   "label": "Assessee Name",
+   "permlevel": 1,
+   "read_only": 1
+  },
+  {
+   "fetch_from": "assessee.pan",
+   "fieldname": "assessee_pan",
+   "fieldtype": "Data",
+   "label": "Assessee PAN",
+   "permlevel": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "credentials_tab",
+   "fieldtype": "Tab Break",
+   "label": "Credentials"
+  },
+  {
+   "fieldname": "gst_column",
+   "fieldtype": "Column Break",
+   "label": "GST"
+  },
+  {
+   "fieldname": "gst_user_name",
+   "fieldtype": "Data",
+   "label": "GST User Name",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "gst_password",
+   "fieldtype": "Data",
+   "ignore_user_permissions": 1,
+   "ignore_xss_filter": 1,
+   "label": "GST Password"
+  },
+  {
+   "fieldname": "eway_user_name",
+   "fieldtype": "Data",
+   "label": "Eway User Name",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "eway_password",
+   "fieldtype": "Data",
+   "label": "Eway Password"
+  },
+  {
+   "fieldname": "tin_no",
+   "fieldtype": "Data",
+   "label": "Tin No",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "vat_and_tally_column",
+   "fieldtype": "Column Break",
+   "label": "VAT and Tally"
+  },
+  {
+   "fieldname": "vat_user_name",
+   "fieldtype": "Data",
+   "label": "Vat User Name",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "vat_password",
+   "fieldtype": "Data",
+   "label": "Vat Password",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "tally_user_name",
+   "fieldtype": "Data",
+   "label": "Tally User Name",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "tally_password",
+   "fieldtype": "Data",
+   "label": "Tally Password",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "proprietor_name",
+   "fieldtype": "Data",
+   "label": "Proprietor Name",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "pan",
+   "fieldtype": "Data",
+   "label": "PAN",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "aadhar_no",
+   "fieldtype": "Data",
+   "label": "Aadhar No.",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "accounts_tab",
+   "fieldtype": "Tab Break",
+   "label": "Accounts"
+  },
+  {
+   "default": "GST Filling",
+   "fieldname": "service_name",
+   "fieldtype": "Link",
+   "label": "Service Name",
+   "options": "Item",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "column_break_udoe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "service_name.gst_hsn_code",
+   "fieldname": "hsn_code",
+   "fieldtype": "Data",
+   "label": "HSN Code",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "current_recurring_fees",
+   "fieldtype": "Currency",
+   "label": "Current Recurring Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description",
+   "permlevel": 2,
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fetch_from": ".company_email",
+   "fieldname": "executive",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Executive",
+   "options": "User",
+   "permlevel": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "executive.full_name",
+   "fieldname": "executive_name",
+   "fieldtype": "Data",
+   "label": "Executive Name",
+   "permlevel": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "M\nQ\nH\nY",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "annual_fees",
+   "fieldtype": "Currency",
+   "label": "Annual Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "pt_user_name",
+   "fieldtype": "Data",
+   "label": "PT User Name"
+  },
+  {
+   "fieldname": "pt_password",
+   "fieldtype": "Data",
+   "label": "PT Password"
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "last_filed",
+   "fieldtype": "Data",
+   "label": "Last Filed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gstfile_search",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Gstfile Search",
+   "options": "Gstfile"
+  },
+  {
+   "fieldname": "filing_started_from",
+   "fieldtype": "Date",
+   "label": "Filing Started From"
+  },
+  {
+   "default": "0",
+   "fieldname": "non_compliant",
+   "fieldtype": "Check",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Non-Compliant",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_lanp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "service_status_history",
+   "fieldtype": "Table",
+   "label": "Service Status History",
+   "options": "Service Master Status Item"
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "file_type",
+   "fieldtype": "Select",
+   "label": "File Type",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_mnek",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "file_name",
+   "fieldtype": "Data",
+   "label": "File Name",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_prua",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment_notes",
+   "fieldtype": "Small Text",
+   "label": "Attachment Notes",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_wkjp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "section_break_vseb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attachment_html",
+   "fieldtype": "HTML",
+   "label": "Attachment HTML"
+  },
+  {
+   "fieldname": "section_break_ripr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "addon_services",
+   "fieldtype": "Table",
+   "label": "Addon Services",
+   "options": "Service Master Addon"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-09-24 16:01:23.080684",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Gstfile",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "customer_id, gst_number, customer_name, mobile, proprietor_name, company_name",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "company_name",
+ "track_changes": 1
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <style>
+
+body {
+    font-family: 'Poppins';
+    background: rgb(113, 113, 113)
+}
+
+.container {
+  max-width: 380px;
+  margin: 60px auto;
+  overflow: hidden;
+}
+
+.printer-top {
+  z-index: 1;
+  border: 6px solid #666666;
+  height: 6px;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: #333333;
+}
+
+.paper-container {
+  position: relative;
+  overflow: hidden;
+  height: 467px;
+}
+
+.paper {
+  background: #ffffff;
+  height: 447px;
+  position: absolute;
+  z-index: 2;
+  margin: 0 12px;
+  margin-top: -12px;
+  
+  
+}
+
+.main-contents {
+  margin: 0 12px;
+  padding: 24px;
+}
+
+.success-icon {
+  text-align: center;
+  font-size: 48px;
+  height: 72px;
+  background: #359d00;
+  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  margin: 16px auto;
+  color: #fff;
+}
+
+.success-title {
+  font-size: 22px;
+  text-align: center;
+  color: #359d00;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.success-description {
+  font-size: 15px;
+  line-height: 21px;
+  color: #999;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.order-details {
+  text-align: center;
+  color: #333;
+  font-weight: bold;
+  .order-number-label {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  .order-number {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    line-height: 24px;
+    font-size: 24px;
+    padding: 8px 0;
+    margin-bottom: 12px;
+  }
+}
+
+.order-footer {
+  text-align: center;
+  line-height: 18px;
+  font-size: 18px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #999;
+}
+</style>
+</head>
+<body>
+    <div class="container"> 
+          <div class="paper-container">
+           
+            <div class="paper">
+              <div class="main-contents">
+                <div class="success-icon">&#10004;</div>
+                <div class="success-title">
+                  Payment Completed
+                </div>
+                <div class="success-description">
+                    Payment successfully processed, thank you for your transaction!</div>
+                <div class="order-details">
+                  <div class="order-number-label">Transaction ID</div>
+                  <div class="order-number">123456</div>
+                  <div class="order-number-label">Amount</div>
+                <div class="order-number">₹10,000</div>
+                </div>
+                <!-- <div class="order-footer">Thank you!</div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+</body>
+</html>

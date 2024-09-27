@@ -1,0 +1,112 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-12-19 18:00:17.338215",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "data_xqrq",
+  "date_of_birth",
+  "mob_no",
+  "email_id",
+  "column_break_dcao",
+  "designation",
+  "din",
+  "pan_no",
+  "adhaar_no",
+  "column_break_fkmr",
+  "dsc_sr_no",
+  "address"
+ ],
+ "fields": [
+  {
+   "fieldname": "data_xqrq",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of Birth"
+  },
+  {
+   "fieldname": "mob_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mob No",
+   "length": 13
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Email Id"
+  },
+  {
+   "fieldname": "column_break_dcao",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Designation",
+   "options": "Director\nPartner\nManager\nAccountants\nSales Person\nStaff",
+   "reqd": 1
+  },
+  {
+   "fieldname": "din",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "DIN",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Pan No",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "adhaar_no",
+   "fieldtype": "Data",
+   "label": "Adhaar No",
+   "length": 12
+  },
+  {
+   "fieldname": "column_break_fkmr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "dsc_no.dsc_no",
+   "fieldname": "dsc_sr_no",
+   "fieldtype": "Link",
+   "label": "DSC Sr No",
+   "options": "DSC Digital Sign"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-01-02 13:00:26.718357",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "MCA Company Directors",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

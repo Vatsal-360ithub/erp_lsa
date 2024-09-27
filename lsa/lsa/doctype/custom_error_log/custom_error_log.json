@@ -1,0 +1,94 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format::ER-{master_type}-{#####}",
+ "creation": "2024-09-25 18:16:25.673458",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_xamq",
+  "master_type",
+  "master_reference",
+  "context",
+  "column_break_xuqv",
+  "type",
+  "record_reference",
+  "section_break_bfxr",
+  "error_statement"
+ ],
+ "fields": [
+  {
+   "fieldname": "master_type",
+   "fieldtype": "Link",
+   "label": "Master Type",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "master_reference",
+   "fieldtype": "Dynamic Link",
+   "label": "Master reference ",
+   "options": "master_type"
+  },
+  {
+   "fieldname": "context",
+   "fieldtype": "Data",
+   "label": "Context"
+  },
+  {
+   "fieldname": "column_break_xuqv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Link",
+   "label": "Type",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "record_reference",
+   "fieldtype": "Dynamic Link",
+   "label": "Record Reference",
+   "options": "type"
+  },
+  {
+   "fieldname": "section_break_bfxr",
+   "fieldtype": "Section Break",
+   "read_only": 1
+  },
+  {
+   "fieldname": "error_statement",
+   "fieldtype": "Long Text",
+   "label": "Error Statement"
+  },
+  {
+   "fieldname": "section_break_xamq",
+   "fieldtype": "Section Break",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-09-27 12:41:22.803272",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Custom Error Log",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

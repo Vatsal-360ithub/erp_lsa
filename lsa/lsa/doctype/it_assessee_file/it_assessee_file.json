@@ -1,0 +1,521 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:pan",
+ "creation": "2023-10-06 21:27:20.389852",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_id",
+  "column_break_tfcm",
+  "customer_name",
+  "column_break_howw",
+  "customer_status",
+  "column_break_xanz",
+  "contact_person",
+  "enabled",
+  "section_break_uyye",
+  "assessee_first_name",
+  "assessee_middle_name",
+  "assessee_last_name",
+  "assessee_name",
+  "date_of_birth",
+  "executive",
+  "executive_name",
+  "column_break_vwrq",
+  "registered_mob",
+  "alternative_mob",
+  "email_id",
+  "father",
+  "mother",
+  "last_filed",
+  "column_break_obbf",
+  "pan",
+  "it_password",
+  "aadhaar_number",
+  "assessee_type",
+  "it_assessee_file_search",
+  "section_break_kcui",
+  "service_status_history",
+  "bank_details_tab",
+  "bank_name",
+  "bank_branch",
+  "column_break_vpkg",
+  "bank_account_no",
+  "bank_ifsc",
+  "address_tab",
+  "address",
+  "column_break_gwbm",
+  "city",
+  "pin_code",
+  "state",
+  "doc_attachment_tab",
+  "file_type",
+  "column_break_bogj",
+  "file_name",
+  "column_break_qdtg",
+  "attachment_notes",
+  "column_break_cwlg",
+  "attachment",
+  "section_break_ootr",
+  "attachment_html",
+  "section_break_yaix",
+  "photo",
+  "bank_passbook__cancel_cheque",
+  "column_break_almu",
+  "pan_card",
+  "adhaar_card",
+  "accounts_tab",
+  "service_name",
+  "hsn_code",
+  "description",
+  "column_break_nexw",
+  "current_recurring_fees",
+  "frequency",
+  "annual_fees",
+  "section_break_dgiv",
+  "addon_services"
+ ],
+ "fields": [
+  {
+   "fieldname": "column_break_tfcm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "column_break_howw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status"
+  },
+  {
+   "fieldname": "column_break_xanz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Enabled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_uyye",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "assessee_first_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Assessee First Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assessee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Assessee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date Of Birth"
+  },
+  {
+   "fieldname": "father",
+   "fieldtype": "Data",
+   "label": "Father"
+  },
+  {
+   "fieldname": "column_break_vwrq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assessee_last_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Assessee Last Name"
+  },
+  {
+   "fieldname": "registered_mob",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Registered Mob",
+   "length": 10
+  },
+  {
+   "fieldname": "alternative_mob",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Alternative Mob",
+   "length": 10
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Email id"
+  },
+  {
+   "fieldname": "mother",
+   "fieldtype": "Data",
+   "label": "Mother"
+  },
+  {
+   "fieldname": "column_break_obbf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pan",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "PAN",
+   "length": 10,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "it_password",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "IT Password"
+  },
+  {
+   "fieldname": "aadhaar_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Aadhaar Number",
+   "length": 12
+  },
+  {
+   "fieldname": "assessee_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Assessee Type",
+   "options": "\nINDIVIDUAL\nHINDU UNDIVIDED FAMILY\nCOMPANY\nFIRM\nASSOCIATION OF PERSONS\nBODY OF INDIVIDUALS\nLOCAL AUTHORITY\nARTIFICIAL JUDICIAL PERSON"
+  },
+  {
+   "fieldname": "bank_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Bank Details"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Data",
+   "label": "Bank name"
+  },
+  {
+   "fieldname": "bank_branch",
+   "fieldtype": "Data",
+   "label": "Bank Branch"
+  },
+  {
+   "fieldname": "column_break_vpkg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bank_account_no",
+   "fieldtype": "Data",
+   "label": "Bank Account No."
+  },
+  {
+   "fieldname": "bank_ifsc",
+   "fieldtype": "Data",
+   "label": "Bank IFSC"
+  },
+  {
+   "fieldname": "address_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "column_break_gwbm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "pin_code",
+   "fieldtype": "Data",
+   "label": "Pin Code",
+   "length": 6
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "doc_attachment_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach",
+   "label": "Photo"
+  },
+  {
+   "fieldname": "bank_passbook__cancel_cheque",
+   "fieldtype": "Attach",
+   "label": "Bank Passbook / Cancel Cheque"
+  },
+  {
+   "fieldname": "column_break_almu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pan_card",
+   "fieldtype": "Attach",
+   "label": "Pan Card"
+  },
+  {
+   "fieldname": "adhaar_card",
+   "fieldtype": "Attach",
+   "label": "Adhaar Card"
+  },
+  {
+   "fieldname": "assessee_middle_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Assessee Middle Name"
+  },
+  {
+   "fieldname": "accounts_tab",
+   "fieldtype": "Tab Break",
+   "label": "Accounts"
+  },
+  {
+   "fieldname": "current_recurring_fees",
+   "fieldtype": "Currency",
+   "label": "Current Recurring Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_nexw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "default": "Incometax Filing",
+   "fieldname": "service_name",
+   "fieldtype": "Link",
+   "label": "Service Name",
+   "options": "Item",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fetch_from": "service_name.gst_hsn_code",
+   "fieldname": "hsn_code",
+   "fieldtype": "Data",
+   "label": "HSN Code",
+   "permlevel": 2,
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description",
+   "permlevel": 2,
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fetch_from": ".company_email",
+   "fieldname": "executive",
+   "fieldtype": "Link",
+   "label": "Executive",
+   "options": "User"
+  },
+  {
+   "default": "Y",
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "M\nQ\nH\nY",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "annual_fees",
+   "fieldtype": "Currency",
+   "label": "Annual Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fetch_from": "executive.full_name",
+   "fieldname": "executive_name",
+   "fieldtype": "Data",
+   "label": "Executive Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "last_filed",
+   "fieldtype": "Data",
+   "label": "Last Filed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "it_assessee_file_search",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "IT Assessee File Search",
+   "options": "IT Assessee File"
+  },
+  {
+   "fieldname": "section_break_kcui",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "service_status_history",
+   "fieldtype": "Table",
+   "label": "Service Status History",
+   "options": "Service Master Status Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "file_type",
+   "fieldtype": "Select",
+   "label": "File Type",
+   "options": "\nAssessee On boarding Form\nPrevious Years Data\nOther Documents",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_bogj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "file_name",
+   "fieldtype": "Data",
+   "label": "File Name",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_qdtg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment_notes",
+   "fieldtype": "Small Text",
+   "label": "Attachment Notes",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_cwlg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "section_break_ootr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attachment_html",
+   "fieldtype": "HTML",
+   "label": "Attachment HTML"
+  },
+  {
+   "fieldname": "section_break_yaix",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_dgiv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "addon_services",
+   "fieldtype": "Table",
+   "label": "Addon Services",
+   "options": "Service Master Addon",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-29 12:43:14.807651",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "IT Assessee File",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "pan,assessee_name, customer_id, customer_name, registered_mob",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "assessee_name",
+ "track_changes": 1
+}

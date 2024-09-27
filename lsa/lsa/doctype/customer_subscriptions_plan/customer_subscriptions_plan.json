@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-12-22 17:06:22.571299",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_id",
+  "whatsapp",
+  "email",
+  "status",
+  "column_break_irqx",
+  "subscription_start_date",
+  "subscription_end_date",
+  "action_frequency",
+  "notification",
+  "section_break_xwiw",
+  "services"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "whatsapp",
+   "fieldtype": "Data",
+   "label": "WhatsApp Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Active\nInactive",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_irqx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "subscription_start_date",
+   "fieldtype": "Date",
+   "label": "Subscription Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "subscription_end_date",
+   "fieldtype": "Date",
+   "label": "Subscription End Date"
+  },
+  {
+   "default": "Monthly",
+   "fieldname": "action_frequency",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Action Frequency",
+   "options": "Monthly\nQuarterly\nYearly",
+   "reqd": 1
+  },
+  {
+   "default": "WhatsApp and Email",
+   "fieldname": "notification",
+   "fieldtype": "Select",
+   "label": "Notification",
+   "options": "WhatsApp\nEmail\nWhatsApp and Email"
+  },
+  {
+   "fieldname": "section_break_xwiw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "services",
+   "fieldtype": "Table",
+   "label": "Services",
+   "options": "Subscription Item",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-02 13:00:25.181785",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Customer Subscriptions Plan",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

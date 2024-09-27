@@ -1,0 +1,80 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{fy}-{qtr}",
+ "creation": "2023-12-17 17:07:42.802545",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "fy",
+  "column_break_ofwx",
+  "qtr",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "fy",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "FY",
+   "options": "FY",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ofwx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "qtr",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "QTR",
+   "options": "\nQ1 APR-JUN\nQ2 JUL-SEP\nQ3 OCT-DEC\nQ4 JAN-MAR",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "TDS REPORT",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "group": "TDS QTRLY FILING",
+   "link_doctype": "TDS QTRLY FILING",
+   "link_fieldname": "tds_report"
+  }
+ ],
+ "modified": "2024-01-12 09:49:01.226576",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "TDS REPORT",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

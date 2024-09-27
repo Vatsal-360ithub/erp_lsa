@@ -1,0 +1,37 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2024-01-12 14:54:57.039273",
+ "disabled": 1,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "LSA",
+ "letterhead": null,
+ "modified": "2024-07-30 17:55:21.553950",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Gstfile Without Gst Yearly Filing Summery",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Gstfile",
+ "reference_report": "Comparison Gstfile Master's Vs GST Filing Data created",
+ "report_name": "Gstfile Without Gst Yearly Filing Summery",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "LSA CEO Admin"
+  },
+  {
+   "role": "LSA OPS SENIOR MANAGER"
+  },
+  {
+   "role": "LSA GST Ops Manager(A,Sernior)"
+  }
+ ]
+}

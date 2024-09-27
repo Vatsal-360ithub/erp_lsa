@@ -1,0 +1,497 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "field:tan_no",
+ "creation": "2023-11-24 16:54:47.387767",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_information_tab",
+  "customer_id",
+  "customer_name",
+  "customer_status",
+  "contact_person",
+  "column_break_iiqt",
+  "enabled",
+  "deductor_name",
+  "pan_of_deductor",
+  "column_break_mjhd",
+  "tan_no",
+  "assessee_type",
+  "dsc_sr_no",
+  "last_filed",
+  "section_break_ccxy",
+  "tan_allotment_date",
+  "tds_filling_starting_date",
+  "it_assessee",
+  "column_break_mvvm",
+  "registratred_mob_no",
+  "registratred_email_id",
+  "gst_assessee",
+  "tds_file_search",
+  "column_break_nklw",
+  "reg_add",
+  "executive",
+  "executive_name",
+  "section_break_gkfb",
+  "other_info",
+  "section_break_kzlw",
+  "service_status_history",
+  "crediential_details_tab",
+  "trace_user_id",
+  "it_user_id",
+  "security_que_1",
+  "security_que_2",
+  "column_break_fckm",
+  "trace_password",
+  "it_portal_password",
+  "secu_ans_1",
+  "secu_ans_2",
+  "authorised_person_information_tab",
+  "name1",
+  "date_of_birth",
+  "mob_no",
+  "email_id",
+  "column_break_dcao",
+  "designation",
+  "pan_no",
+  "adhaar_no",
+  "column_break_fkmr",
+  "address",
+  "comments_tab",
+  "notes_html",
+  "notes",
+  "account_tab",
+  "service_name",
+  "hsn_code",
+  "description",
+  "column_break_oldr",
+  "current_recurring_fees",
+  "frequency",
+  "annual_fees",
+  "section_break_wasx",
+  "addon_services"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Basic Information"
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_iiqt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "deductor_name",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Deductor Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan_of_deductor",
+   "fieldtype": "Data",
+   "label": "Pan of Deductor",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_mjhd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tan_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tan No",
+   "length": 10,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "assessee_type",
+   "fieldtype": "Select",
+   "label": "Assessee type",
+   "options": "COMPANY\nINDIVIDUAL\nFIRM",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "dsc_no.dsc_no",
+   "fieldname": "dsc_sr_no",
+   "fieldtype": "Link",
+   "label": "DSC sr no",
+   "options": "DSC Digital Sign"
+  },
+  {
+   "fieldname": "section_break_ccxy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "tan_allotment_date",
+   "fieldtype": "Date",
+   "label": "TAN Allotment date"
+  },
+  {
+   "fieldname": "tds_filling_starting_date",
+   "fieldtype": "Date",
+   "label": "Filling Starting Date"
+  },
+  {
+   "fieldname": "it_assessee",
+   "fieldtype": "Link",
+   "label": "IT Assessee",
+   "options": "IT Assessee File"
+  },
+  {
+   "fieldname": "column_break_mvvm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "registratred_mob_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Reg Mob. no.",
+   "length": 13,
+   "reqd": 1
+  },
+  {
+   "fieldname": "registratred_email_id",
+   "fieldtype": "Data",
+   "label": "Reg Email id"
+  },
+  {
+   "fieldname": "gst_assessee",
+   "fieldtype": "Link",
+   "label": "GST Assessee",
+   "options": "Gstfile"
+  },
+  {
+   "fieldname": "column_break_nklw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reg_add",
+   "fieldtype": "Small Text",
+   "label": "Reg Add"
+  },
+  {
+   "fieldname": "executive",
+   "fieldtype": "Link",
+   "label": "Executive",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_gkfb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "other_info",
+   "fieldtype": "Small Text",
+   "label": "Other Info"
+  },
+  {
+   "fieldname": "crediential_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Crediential Details"
+  },
+  {
+   "fieldname": "trace_user_id",
+   "fieldtype": "Data",
+   "label": "Trace user id"
+  },
+  {
+   "fieldname": "it_user_id",
+   "fieldtype": "Data",
+   "label": "IT User ID"
+  },
+  {
+   "fieldname": "security_que_1",
+   "fieldtype": "Data",
+   "label": "Security Que 1"
+  },
+  {
+   "fieldname": "security_que_2",
+   "fieldtype": "Data",
+   "label": "Security Que 2"
+  },
+  {
+   "fieldname": "column_break_fckm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "trace_password",
+   "fieldtype": "Data",
+   "label": "Trace Password"
+  },
+  {
+   "fieldname": "it_portal_password",
+   "fieldtype": "Data",
+   "label": "IT Portal Password"
+  },
+  {
+   "fieldname": "secu_ans_1",
+   "fieldtype": "Data",
+   "label": "Secu Ans 1"
+  },
+  {
+   "fieldname": "secu_ans_2",
+   "fieldtype": "Data",
+   "label": "Secu Ans 2"
+  },
+  {
+   "fieldname": "authorised_person_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Authorised Person"
+  },
+  {
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of Birth"
+  },
+  {
+   "fieldname": "mob_no",
+   "fieldtype": "Data",
+   "label": "Mob No",
+   "length": 13
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Email Id"
+  },
+  {
+   "fieldname": "column_break_dcao",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Select",
+   "label": "Designation",
+   "options": "Director\nProprietor\nPartner\nManager\nAccountants\nSales Person\nStaff",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan_no",
+   "fieldtype": "Data",
+   "label": "Pan No",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "adhaar_no",
+   "fieldtype": "Data",
+   "label": "Adhaar No",
+   "length": 12
+  },
+  {
+   "fieldname": "column_break_fkmr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "comments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "notes_html",
+   "fieldtype": "HTML",
+   "label": "Notes HTML"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Table",
+   "label": "Notes",
+   "options": "CRM Note"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "account_tab",
+   "fieldtype": "Tab Break",
+   "label": "Accounts"
+  },
+  {
+   "default": "TDS Filling",
+   "fieldname": "service_name",
+   "fieldtype": "Link",
+   "label": "Service Name",
+   "options": "Item",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "column_break_oldr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "current_recurring_fees",
+   "fieldtype": "Currency",
+   "label": "Current Recurring Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "service_name.gst_hsn_code",
+   "fieldname": "hsn_code",
+   "fieldtype": "Data",
+   "label": "HSN Code",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description",
+   "permlevel": 2,
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "M\nQ\nH\nY",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "annual_fees",
+   "fieldtype": "Currency",
+   "label": "Annual Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fetch_from": "executive.full_name",
+   "fieldname": "executive_name",
+   "fieldtype": "Data",
+   "label": "Executive Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "last_filed",
+   "fieldtype": "Data",
+   "label": "Last Filed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tds_file_search",
+   "fieldtype": "Link",
+   "label": "TDS File Search",
+   "options": "TDS File"
+  },
+  {
+   "fieldname": "section_break_kzlw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "service_status_history",
+   "fieldtype": "Table",
+   "label": "Service Status History",
+   "options": "Service Master Status Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_wasx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "addon_services",
+   "fieldtype": "Table",
+   "label": "Addon Services",
+   "options": "Service Master Addon",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-29 12:47:54.916611",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "TDS File",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "customer_id, customer_name, tan_no, deductor_name, registratred_mob_no",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "deductor_name",
+ "track_changes": 1
+}

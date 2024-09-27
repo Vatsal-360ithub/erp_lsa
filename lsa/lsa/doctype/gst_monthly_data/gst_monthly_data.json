@@ -1,0 +1,56 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "creation": "2023-10-07 22:31:34.081701",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "gst_file",
+  "column_break_qcjv",
+  "company_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "gst_file",
+   "fieldtype": "Link",
+   "label": "Gst File",
+   "options": "Gstfile"
+  },
+  {
+   "fieldname": "column_break_qcjv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-02 13:00:28.843657",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Gst Monthly Data",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

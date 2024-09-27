@@ -1,0 +1,447 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:{ay}-{it_assessee_file}-{###}",
+ "creation": "2023-12-18 15:57:57.865804",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_hj5q",
+  "amended_from",
+  "ay",
+  "can_be_filed",
+  "it_assessee_file",
+  "pan",
+  "assessee_full_name",
+  "filing_type",
+  "filing_status",
+  "executive",
+  "column_break_prnj",
+  "customer_id",
+  "customer_name",
+  "contact_person",
+  "customer_status",
+  "mobile_no",
+  "it_enabled",
+  "created_manually",
+  "filing_notes",
+  "income_and_deduction_tab",
+  "salary",
+  "house_property",
+  "business_income",
+  "capital_gain",
+  "others_income",
+  "deduction",
+  "column_break_fmnw",
+  "total_salary",
+  "total_income_from_house_property",
+  "total_business_income",
+  "total_income_from_capital_gain",
+  "total_income_from_other_sources",
+  "total_deduction_from_other_sources",
+  "section_break_hook",
+  "salary_details",
+  "house_properties",
+  "business_incomes",
+  "capital_gains",
+  "others_incomes",
+  "deductions",
+  "section_break_vdbn",
+  "total_income_and_deduction",
+  "loan_details_tab",
+  "emi_details",
+  "attachments_tab",
+  "file_type",
+  "column_break_luab",
+  "file_name",
+  "column_break_ptob",
+  "attachment_notes",
+  "column_break_hyet",
+  "attachment",
+  "section_break_somo",
+  "attachment_html"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_hj5q",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "IT Assessee Filing Data",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "it_assessee_file",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "IT Assessee File",
+   "options": "IT Assessee File",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "it_assessee_file.pan",
+   "fieldname": "pan",
+   "fieldtype": "Data",
+   "label": "PAN"
+  },
+  {
+   "fetch_from": "it_assessee_file.assessee_name",
+   "fieldname": "assessee_full_name",
+   "fieldtype": "Data",
+   "label": "Assessee Full Name"
+  },
+  {
+   "fieldname": "filing_status",
+   "fieldtype": "Select",
+   "label": "FILING STATUS",
+   "options": "PENDING INITIAL CONTACT\nDOCUMENTS REQUESTED\nDOCUMENTS PARTIALLY RECEIVED\nDOCUMENTS FULLY COLLECTED\nREVIEWED AND VERIFIED\nRETURN PREPARED\nSHARED TO CLIENT REVIEW\nFILED\nACK AND VERIFIED\nDOCS SHARED WITH CLIENT",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ay",
+   "fieldtype": "Link",
+   "label": "Ay",
+   "options": "IT Assessee File Yearly Report",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "it_assessee_file.customer_id",
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "column_break_prnj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status"
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "default": "0",
+   "fieldname": "created_manually",
+   "fieldtype": "Check",
+   "label": "Created Manually",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "it_assessee_file.executive_name",
+   "fieldname": "executive",
+   "fieldtype": "Data",
+   "label": "Executive"
+  },
+  {
+   "fieldname": "filing_notes",
+   "fieldtype": "Small Text",
+   "label": "Filing Notes"
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_primary_mobile_no",
+   "fieldname": "mobile_no",
+   "fieldtype": "Data",
+   "label": "Mobile No"
+  },
+  {
+   "fieldname": "income_and_deduction_tab",
+   "fieldtype": "Tab Break",
+   "label": "Income and Deduction"
+  },
+  {
+   "fieldname": "loan_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Loan Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "salary",
+   "fieldtype": "Check",
+   "label": "Salary"
+  },
+  {
+   "default": "0",
+   "fieldname": "house_property",
+   "fieldtype": "Check",
+   "label": "House Property"
+  },
+  {
+   "default": "0",
+   "fieldname": "business_income",
+   "fieldtype": "Check",
+   "label": "Business Income"
+  },
+  {
+   "default": "0",
+   "fieldname": "capital_gain",
+   "fieldtype": "Check",
+   "label": "Capital Gain"
+  },
+  {
+   "default": "0",
+   "fieldname": "others_income",
+   "fieldtype": "Check",
+   "label": "Others Income"
+  },
+  {
+   "default": "0",
+   "fieldname": "deduction",
+   "fieldtype": "Check",
+   "label": "Deduction"
+  },
+  {
+   "fieldname": "column_break_fmnw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "salary",
+   "fieldname": "total_salary",
+   "fieldtype": "Currency",
+   "label": "Total Salary",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "house_property",
+   "fieldname": "total_income_from_house_property",
+   "fieldtype": "Currency",
+   "label": "Total Income from House Property",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "business_income",
+   "fieldname": "total_business_income",
+   "fieldtype": "Currency",
+   "label": "Total Business Income",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "capital_gain",
+   "fieldname": "total_income_from_capital_gain",
+   "fieldtype": "Currency",
+   "label": "Total Income From Capital Gain",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "others_income",
+   "fieldname": "total_income_from_other_sources",
+   "fieldtype": "Currency",
+   "label": "Total Income From Other Sources",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "deduction",
+   "fieldname": "total_deduction_from_other_sources",
+   "fieldtype": "Currency",
+   "label": "Total Deduction From Other Sources",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_hook",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "salary",
+   "fieldname": "salary_details",
+   "fieldtype": "Table",
+   "label": "Salary Details",
+   "options": "Salary"
+  },
+  {
+   "depends_on": "house_property",
+   "fieldname": "house_properties",
+   "fieldtype": "Table",
+   "label": "House Properties",
+   "options": "House Property"
+  },
+  {
+   "depends_on": "business_income",
+   "fieldname": "business_incomes",
+   "fieldtype": "Table",
+   "label": "Business Incomes",
+   "options": "Income"
+  },
+  {
+   "depends_on": "capital_gain",
+   "fieldname": "capital_gains",
+   "fieldtype": "Table",
+   "label": "Capital Gains",
+   "options": "Capital Gain"
+  },
+  {
+   "depends_on": "others_income",
+   "fieldname": "others_incomes",
+   "fieldtype": "Table",
+   "label": "Others Incomes",
+   "options": "Others Income"
+  },
+  {
+   "depends_on": "deduction",
+   "fieldname": "deductions",
+   "fieldtype": "Table",
+   "label": "Deductions",
+   "options": "Deduction"
+  },
+  {
+   "fieldname": "total_income_and_deduction",
+   "fieldtype": "Table",
+   "label": "Total Income and Deduction",
+   "options": "Total Income And Deduction",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_vdbn",
+   "fieldtype": "Section Break",
+   "label": "Total Income and Deduction"
+  },
+  {
+   "default": "NO",
+   "fieldname": "can_be_filed",
+   "fieldtype": "Select",
+   "label": "Can be filed",
+   "options": "YES\nNO",
+   "permlevel": 2,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "emi_details",
+   "fieldtype": "Table",
+   "label": "EMI Details",
+   "options": "Loan Details Tab EMI"
+  },
+  {
+   "default": "0",
+   "fetch_from": "it_assessee_file.enabled",
+   "fieldname": "it_enabled",
+   "fieldtype": "Check",
+   "label": "IT Enabled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "filing_type",
+   "fieldtype": "Select",
+   "label": "Filing Type",
+   "options": "\nSalaried\nPersonal IT\nHigh Personal IT\nRegistered Business\nIT Audit"
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "file_type",
+   "fieldtype": "Select",
+   "label": "File Type",
+   "options": "\nBS\nFinalized Computation\nProjected Report\nFinalized Accounting Backup\nFinalized Audit Related\nProperties Related\nLoans Related\nOther Documents",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_luab",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "file_name",
+   "fieldtype": "Data",
+   "label": "File Name",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_ptob",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment_notes",
+   "fieldtype": "Small Text",
+   "label": "Attachment Notes",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_hyet",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "section_break_somo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attachment_html",
+   "fieldtype": "HTML",
+   "label": "Attachment HTML"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-07-26 17:48:09.352752",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "IT Assessee Filing Data",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lsa IT Ops Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

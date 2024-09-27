@@ -1,0 +1,145 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "creation": "2023-10-05 11:56:19.790337",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_id",
+  "customer_name",
+  "customer_status",
+  "column_break_mewb",
+  "other_person_name",
+  "payment_regarding",
+  "section_break_woyr",
+  "date_of_payment",
+  "amount",
+  "our_bank_account",
+  "column_break_dtob",
+  "paid_by",
+  "receiver_person",
+  "transaction_description",
+  "section_break_ttxi",
+  "description"
+ ],
+ "fields": [
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_mewb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "other_person_name",
+   "fieldtype": "Data",
+   "label": "Other Person Name"
+  },
+  {
+   "fieldname": "payment_regarding",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Payment Regarding",
+   "options": "\nIT\nGST\nTDS\nPT\nROC\nHAND LOAN\nOTHER",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_woyr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "date_of_payment",
+   "fieldtype": "Date",
+   "label": "Date Of Payment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "our_bank_account",
+   "fieldtype": "Select",
+   "label": "Our Bank Account",
+   "options": "\nLSA-KOTAK\nLSA-PNB-1480\nLSA-BOB-526\nLS-SBI-HSR\nPS-BOB\nRLP-BOB\nCASH\nOTHER",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_dtob",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "paid_by",
+   "fieldtype": "Link",
+   "label": "Paid By",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "receiver_person",
+   "fieldtype": "Data",
+   "label": "Receiver Person"
+  },
+  {
+   "fieldname": "transaction_description",
+   "fieldtype": "Data",
+   "label": "Transaction Description"
+  },
+  {
+   "fieldname": "section_break_ttxi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "label": "Customer ID",
+   "options": "Customer"
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-02 13:00:25.698568",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "NTC Payment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

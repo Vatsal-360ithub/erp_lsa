@@ -1,0 +1,483 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:cin",
+ "creation": "2023-11-24 16:50:09.608557",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_information_tab",
+  "customer_id",
+  "customer_name",
+  "customer_status",
+  "contact_person",
+  "column_break_iiqt",
+  "company_status",
+  "company_name",
+  "company_pan",
+  "last_filed",
+  "column_break_mjhd",
+  "enabled",
+  "cin",
+  "registartion_no",
+  "company_type",
+  "section_break_ccxy",
+  "date_of_incorporation",
+  "tds_filling_starting_date",
+  "it_assessee",
+  "column_break_mvvm",
+  "registratred_mob_no",
+  "registratred_email_id",
+  "gst_assessee",
+  "mca_roc_file_search",
+  "column_break_nklw",
+  "company_reg_add",
+  "executive",
+  "executive_name",
+  "section_break_toek",
+  "bank_name",
+  "bank_account_no",
+  "bank_ifsc",
+  "column_break_gdzo",
+  "authorized_capital",
+  "paid_up_capital",
+  "section_break_deyf",
+  "other_info",
+  "section_break_jegl",
+  "service_status_history",
+  "director_tab",
+  "table_rufo",
+  "crediential_details_tab",
+  "trace_user_id",
+  "security_que_1",
+  "security_que_2",
+  "column_break_fckm",
+  "trace_password",
+  "secu_ans_1",
+  "secu_ans_2",
+  "comments_tab",
+  "notes_html",
+  "notes",
+  "account_tab",
+  "section_break_fyju",
+  "service_name",
+  "hsn_code",
+  "description",
+  "column_break_dfri",
+  "current_recurring_fees",
+  "frequency",
+  "annual_fees",
+  "section_break_ovon",
+  "addon_services"
+ ],
+ "fields": [
+  {
+   "fieldname": "basic_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Basic Info"
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_iiqt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Enable",
+   "fieldname": "company_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Company Status",
+   "options": "\nEnable\nDisable",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "company_pan",
+   "fieldtype": "Data",
+   "label": "Company Pan",
+   "length": 10,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_mjhd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cin",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "CIN",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "registartion_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Registartion No",
+   "length": 8
+  },
+  {
+   "fieldname": "company_type",
+   "fieldtype": "Select",
+   "label": "Company type",
+   "options": "\nLIMITED LIABILITY PARTNERSHIP\nPRIVATE LIMITED COMPANY\nLIMITED COMPANY",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_ccxy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "date_of_incorporation",
+   "fieldtype": "Date",
+   "label": "Date of Incorporation"
+  },
+  {
+   "fieldname": "tds_filling_starting_date",
+   "fieldtype": "Date",
+   "label": "Filling Starting Date"
+  },
+  {
+   "fieldname": "it_assessee",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "IT Assessee",
+   "options": "IT Assessee File"
+  },
+  {
+   "fieldname": "column_break_mvvm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "registratred_mob_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Company Reg Mob. no.",
+   "length": 13,
+   "reqd": 1
+  },
+  {
+   "fieldname": "registratred_email_id",
+   "fieldtype": "Data",
+   "label": "Company Reg Email id"
+  },
+  {
+   "fieldname": "gst_assessee",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "GST Assessee",
+   "options": "Gstfile"
+  },
+  {
+   "fieldname": "column_break_nklw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company_reg_add",
+   "fieldtype": "Small Text",
+   "label": "Company Reg Add"
+  },
+  {
+   "fieldname": "executive",
+   "fieldtype": "Link",
+   "label": "Executive",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_toek",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Data",
+   "label": "Bank Name"
+  },
+  {
+   "fieldname": "bank_account_no",
+   "fieldtype": "Data",
+   "label": "Bank Account No"
+  },
+  {
+   "fieldname": "bank_ifsc",
+   "fieldtype": "Data",
+   "label": "Bank IFSC"
+  },
+  {
+   "fieldname": "column_break_gdzo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "authorized_capital",
+   "fieldtype": "Currency",
+   "label": "Authorized Capital"
+  },
+  {
+   "fieldname": "paid_up_capital",
+   "fieldtype": "Currency",
+   "label": "Paid up capital"
+  },
+  {
+   "fieldname": "section_break_deyf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "other_info",
+   "fieldtype": "Small Text",
+   "label": "Other Info"
+  },
+  {
+   "fieldname": "director_tab",
+   "fieldtype": "Tab Break",
+   "label": "Director"
+  },
+  {
+   "fieldname": "table_rufo",
+   "fieldtype": "Table",
+   "options": "MCA Company Directors"
+  },
+  {
+   "fieldname": "crediential_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Crediential Details"
+  },
+  {
+   "fieldname": "trace_user_id",
+   "fieldtype": "Data",
+   "label": "User id"
+  },
+  {
+   "fieldname": "security_que_1",
+   "fieldtype": "Data",
+   "label": "Security Que 1"
+  },
+  {
+   "fieldname": "security_que_2",
+   "fieldtype": "Data",
+   "label": "Security Que 2"
+  },
+  {
+   "fieldname": "column_break_fckm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "trace_password",
+   "fieldtype": "Data",
+   "label": "Password"
+  },
+  {
+   "fieldname": "secu_ans_1",
+   "fieldtype": "Data",
+   "label": "Secu Ans 1"
+  },
+  {
+   "fieldname": "secu_ans_2",
+   "fieldtype": "Data",
+   "label": "Secu Ans 2"
+  },
+  {
+   "fieldname": "comments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "notes_html",
+   "fieldtype": "HTML",
+   "label": "Notes HTML"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Table",
+   "label": "Notes",
+   "options": "CRM Note"
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "account_tab",
+   "fieldtype": "Tab Break",
+   "label": "Accounts"
+  },
+  {
+   "default": "ROC Filling",
+   "fieldname": "service_name",
+   "fieldtype": "Link",
+   "label": "Service Name",
+   "options": "Item",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "column_break_dfri",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "current_recurring_fees",
+   "fieldtype": "Currency",
+   "label": "Current Recurring Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "service_name.gst_hsn_code",
+   "fieldname": "hsn_code",
+   "fieldtype": "Data",
+   "label": "HSN Code",
+   "permlevel": 2,
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description",
+   "permlevel": 2,
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "M\nQ\nH\nY",
+   "permlevel": 2,
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "annual_fees",
+   "fieldtype": "Currency",
+   "label": "Annual Fees",
+   "non_negative": 1,
+   "permlevel": 2,
+   "precision": "2",
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fetch_from": "executive.full_name",
+   "fieldname": "executive_name",
+   "fieldtype": "Data",
+   "label": "Executive Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "last_filed",
+   "fieldtype": "Data",
+   "label": "Last Filed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "mca_roc_file_search",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "MCA ROC File Search",
+   "options": "MCA ROC File"
+  },
+  {
+   "fieldname": "section_break_jegl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "service_status_history",
+   "fieldtype": "Table",
+   "label": "Service Status History",
+   "options": "Service Master Status Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "addon_services",
+   "fieldtype": "Table",
+   "label": "Addon Services",
+   "options": "Service Master Addon",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_fyju",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_ovon",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-29 12:44:45.560847",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "MCA ROC File",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "registratred_mob_no, cin, company_name, customer_id, customer_name",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

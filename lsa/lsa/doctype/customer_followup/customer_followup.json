@@ -1,0 +1,197 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:FOL-{customer_id}-{#####}",
+ "creation": "2024-01-19 19:40:42.128594",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_id",
+  "client_name",
+  "contact_person",
+  "mobile_number",
+  "total_remaining_balance",
+  "executive_name",
+  "executive",
+  "column_break_lffe",
+  "status",
+  "followup_date",
+  "followup_type",
+  "client_person",
+  "next_followup_date",
+  "dummy_field",
+  "section_break_nals",
+  "sales_order_summary",
+  "column_break_etfi",
+  "followup_note",
+  "section_break_oatl",
+  "details_of_so"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer_id.customer_name",
+   "fieldname": "client_name",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "total_remaining_balance",
+   "fieldtype": "Float",
+   "label": "Total Remaining Balance",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "executive",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Executive",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_lffe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Open",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Open\nClosed",
+   "read_only": 1,
+   "sort_options": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "followup_date",
+   "fieldtype": "Date",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Followup Date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "next_followup_date",
+   "fieldtype": "Date",
+   "in_standard_filter": 1,
+   "label": "Next Followup Date",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "executive.full_name",
+   "fieldname": "executive_name",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Executive Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_nals",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sales_order_summary",
+   "fieldtype": "Small Text",
+   "label": "Sales Order Summary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_etfi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "followup_note",
+   "fieldtype": "Small Text",
+   "label": "Followup Note"
+  },
+  {
+   "fieldname": "section_break_oatl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "details_of_so",
+   "fieldtype": "HTML",
+   "label": "Details of SO"
+  },
+  {
+   "default": "Call",
+   "fieldname": "followup_type",
+   "fieldtype": "Select",
+   "label": "Followup Type",
+   "options": "Call\nMessage\nEmail\nMeeting",
+   "reqd": 1
+  },
+  {
+   "fieldname": "client_person",
+   "fieldtype": "Data",
+   "label": "Client Person"
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_primary_mobile_no",
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "label": "Mobile Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dummy_field",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "label": "Dummy Field"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_calendar_and_gantt": 1,
+ "links": [],
+ "modified": "2024-03-18 18:32:00.470567",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Customer Followup",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

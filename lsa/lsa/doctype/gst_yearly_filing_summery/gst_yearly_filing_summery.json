@@ -1,0 +1,416 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:GST-{fy}-{gst_file_id}",
+ "creation": "2023-12-14 16:21:05.043679",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "gst_yearly_summery_report_id",
+  "fy",
+  "cid",
+  "customer_id",
+  "contact_person",
+  "customer_status",
+  "created_manually",
+  "previous_filing_summary",
+  "next_filing_summary",
+  "column_break_cibz",
+  "gst_file_id",
+  "company",
+  "gstin",
+  "gst_executive",
+  "gst_type",
+  "gstfile_enabled",
+  "non_compliant",
+  "section_break_dspl",
+  "fy_first_month_of_filling",
+  "sales_total_taxable",
+  "column_break_oplc",
+  "fy_last_month_of_filling",
+  "purchase_total_taxable",
+  "section_break_xcuc",
+  "tax_paid_amount",
+  "column_break_ucso",
+  "interest_paid_amount",
+  "column_break_xukb",
+  "penalty_paid_amount",
+  "section_break_neih",
+  "step_4_summary",
+  "pt_tax_payment_tab",
+  "pt_amount",
+  "pt_payment_status",
+  "pt_user_name",
+  "pt_password",
+  "column_break_bigm",
+  "pt_tax_received_date",
+  "pt_tax_payment_date",
+  "ctd_reference_number",
+  "section_break_gjjb",
+  "pt_important_notes",
+  "attachments_tab",
+  "file_type",
+  "column_break_yade",
+  "file_name",
+  "column_break_tydf",
+  "attachment_notes",
+  "column_break_qmlz",
+  "attachment",
+  "section_break_laom",
+  "attachment_html"
+ ],
+ "fields": [
+  {
+   "fieldname": "gst_yearly_summery_report_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Gst Yearly Summery Report ID",
+   "options": "Gst Yearly Summery Report",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "gst_yearly_summery_report_id.fy",
+   "fieldname": "fy",
+   "fieldtype": "Data",
+   "label": "FY"
+  },
+  {
+   "fieldname": "fy_first_month_of_filling",
+   "fieldtype": "Data",
+   "label": "Fy First Month Of Filling"
+  },
+  {
+   "fieldname": "fy_last_month_of_filling",
+   "fieldtype": "Data",
+   "label": "Fy Last Month Of Filling"
+  },
+  {
+   "fieldname": "gst_file_id",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Gstfile",
+   "options": "Gstfile",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "gst_file_id.customer_id",
+   "fieldname": "cid",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_standard_filter": 1,
+   "label": "CID",
+   "options": "Customer"
+  },
+  {
+   "default": "0",
+   "fieldname": "sales_total_taxable",
+   "fieldtype": "Currency",
+   "label": "Total Sales Taxable",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "purchase_total_taxable",
+   "fieldtype": "Currency",
+   "label": "Total Purchase Taxable",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tax_paid_amount",
+   "fieldtype": "Currency",
+   "label": "Total Tax Paid Amount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "penalty_paid_amount",
+   "fieldtype": "Currency",
+   "label": "Total Penalty Paid Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "interest_paid_amount",
+   "fieldtype": "Currency",
+   "label": "Total Interest Paid Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_cibz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_dspl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_oplc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "gst_file_id.gst_type",
+   "fieldname": "gst_type",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "GST Type"
+  },
+  {
+   "fetch_from": "gst_file_id.executive_name",
+   "fieldname": "gst_executive",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Executive"
+  },
+  {
+   "fetch_from": "gst_file_id.gst_number",
+   "fieldname": "gstin",
+   "fieldtype": "Data",
+   "label": "GSTIN"
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status"
+  },
+  {
+   "fieldname": "section_break_xcuc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ucso",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_xukb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "created_manually",
+   "fieldtype": "Check",
+   "label": " Created Manually",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "gst_file_id.enabled",
+   "fieldname": "gstfile_enabled",
+   "fieldtype": "Check",
+   "label": "Gstfile Enabled",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gst_file_id.customer_name",
+   "fieldname": "company",
+   "fieldtype": "Data",
+   "label": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pt_tax_payment_tab",
+   "fieldtype": "Tab Break",
+   "label": "PT Tax Payment"
+  },
+  {
+   "fieldname": "pt_amount",
+   "fieldtype": "Currency",
+   "label": "PT Amount"
+  },
+  {
+   "fieldname": "pt_payment_status",
+   "fieldtype": "Select",
+   "label": "PT Payment Status",
+   "options": "Not Received\nReceived\nTax Paid\nNTC"
+  },
+  {
+   "fetch_from": "gst_file_id.pt_user_name",
+   "fieldname": "pt_user_name",
+   "fieldtype": "Data",
+   "label": "PT User Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gst_file_id.pt_password",
+   "fieldname": "pt_password",
+   "fieldtype": "Data",
+   "label": "PT Password",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_bigm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pt_tax_received_date",
+   "fieldtype": "Date",
+   "label": "PT Tax Received Date"
+  },
+  {
+   "fieldname": "pt_tax_payment_date",
+   "fieldtype": "Date",
+   "label": "PT Tax Payment Date"
+  },
+  {
+   "fieldname": "ctd_reference_number",
+   "fieldtype": "Data",
+   "label": "CTD Reference Number"
+  },
+  {
+   "fieldname": "section_break_gjjb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "pt_important_notes",
+   "fieldtype": "Small Text",
+   "label": "PT Important Notes"
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_neih",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "step_4_summary",
+   "fieldtype": "HTML",
+   "label": "Step 4 Summary"
+  },
+  {
+   "default": "0",
+   "fieldname": "non_compliant",
+   "fieldtype": "Check",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Non-Compliant",
+   "read_only": 1
+  },
+  {
+   "fieldname": "previous_filing_summary",
+   "fieldtype": "Link",
+   "label": "Previous Filing Summary",
+   "options": "Gst Yearly Filing Summery",
+   "read_only": 1
+  },
+  {
+   "fieldname": "next_filing_summary",
+   "fieldtype": "Link",
+   "label": "Next Filing Summary",
+   "options": "Gst Yearly Filing Summery",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gst_file_id.customer_id",
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "file_type",
+   "fieldtype": "Select",
+   "label": "File Type",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_yade",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "file_name",
+   "fieldtype": "Data",
+   "label": "File Name",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_tydf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment_notes",
+   "fieldtype": "Small Text",
+   "label": "Attachment Notes",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "column_break_qmlz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment",
+   "permlevel": 4
+  },
+  {
+   "fieldname": "section_break_laom",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attachment_html",
+   "fieldtype": "HTML",
+   "label": "Attachment HTML"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-26 18:26:40.793575",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Gst Yearly Filing Summery",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "LSA GST Ops Manager(A,Sernior)",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "LSA OPS SENIOR MANAGER",
+   "select": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

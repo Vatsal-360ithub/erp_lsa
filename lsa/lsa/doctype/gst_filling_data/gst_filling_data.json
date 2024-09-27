@@ -1,0 +1,400 @@
+{
+ "actions": [],
+ "autoname": "format:{fy}-{month}-{gst_type}-{#######}",
+ "creation": "2023-12-14 18:03:31.414070",
+ "default_view": "Report",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_jiec",
+  "submitted",
+  "cid",
+  "customer_id",
+  "gstfile",
+  "company",
+  "customer_status",
+  "contact_person",
+  "mobile_no_gst",
+  "email_gst",
+  "column_break_fdja",
+  "company_name",
+  "gst_type",
+  "gst_yearly_filling_summery_id",
+  "gst_user_name",
+  "gst_password",
+  "proprietor_name",
+  "gstfile_enabled",
+  "non_compliant",
+  "section_break_mauk",
+  "fy",
+  "column_break_bwdw",
+  "month",
+  "column_break_boyo",
+  "filing_status",
+  "column_break_anjv",
+  "executive",
+  "section_break_abwx",
+  "sales_total_taxable",
+  "purchase_total_taxable",
+  "recorded_by",
+  "created_manually",
+  "column_break_vods",
+  "itc_igst",
+  "itc_cgst",
+  "itc_sgst",
+  "itc_cess",
+  "column_break_oret",
+  "tax_paid",
+  "tax_paid_amount",
+  "interest_paid_amount",
+  "penalty_paid_amount",
+  "section_break_rsnh",
+  "gst_filling_report_id",
+  "column_break_kogm",
+  "filing_notes",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_abwx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Gst Filling Data",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "gst_yearly_filling_summery_id",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "GST Yearly Filling Summary ID",
+   "options": "Gst Yearly Filing Summery",
+   "reqd": 1
+  },
+  {
+   "fieldname": "month",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Month",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gstfile",
+   "fieldtype": "Link",
+   "label": "Gstfile",
+   "options": "Gstfile",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "gstfile.customer_id",
+   "fieldname": "cid",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "CID",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_total_taxable",
+   "fieldtype": "Currency",
+   "label": "Sales Total Taxable"
+  },
+  {
+   "fieldname": "purchase_total_taxable",
+   "fieldtype": "Currency",
+   "label": "Purchase Total Taxable"
+  },
+  {
+   "fieldname": "itc_igst",
+   "fieldtype": "Currency",
+   "label": "ITC IGST"
+  },
+  {
+   "fieldname": "itc_cgst",
+   "fieldtype": "Currency",
+   "label": "ITC CGST"
+  },
+  {
+   "fieldname": "itc_sgst",
+   "fieldtype": "Currency",
+   "label": "ITC SGST"
+  },
+  {
+   "fieldname": "itc_cess",
+   "fieldtype": "Currency",
+   "label": "ITC CESS"
+  },
+  {
+   "default": "No",
+   "fieldname": "tax_paid",
+   "fieldtype": "Select",
+   "label": "Tax Paid",
+   "options": "Yes\nNo"
+  },
+  {
+   "depends_on": "eval:doc.tax_paid == 'Yes'",
+   "fieldname": "tax_paid_amount",
+   "fieldtype": "Currency",
+   "label": "Tax Paid Amount"
+  },
+  {
+   "depends_on": "eval:doc.tax_paid == 'Yes'",
+   "fieldname": "penalty_paid_amount",
+   "fieldtype": "Currency",
+   "label": "Penalty Paid Amount"
+  },
+  {
+   "depends_on": "eval:doc.tax_paid == 'Yes'",
+   "fieldname": "interest_paid_amount",
+   "fieldtype": "Currency",
+   "label": "Interest Paid Amount"
+  },
+  {
+   "fieldname": "recorded_by",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Recorded By",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "filing_status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Filing Status",
+   "options": "Pending\nData Collected\nData Finalized\nTax Calculation Done\nTax Informed to Client\nGSTR-1 or IFF Prepared and Filed\nGSTR-2A/2B or 4A/4B Reco done\nTax Payment Processed\nGSTR-3B / CMP08 Prepared and Filed\nFiled Summery Shared With Client",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gstfile.gst_type",
+   "fieldname": "gst_type",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Gst Type",
+   "options": "Gst Type",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_oret",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_rsnh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "gst_yearly_filling_summery_id.fy",
+   "fieldname": "fy",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "FY",
+   "options": "Gst Yearly Summery Report",
+   "search_index": 1
+  },
+  {
+   "fieldname": "gst_filling_report_id",
+   "fieldtype": "Link",
+   "label": "Gst Filling Report Id",
+   "options": "Gst Filing Data Report",
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_bwdw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_boyo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_jiec",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_fdja",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_anjv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_vods",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_mauk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "customer_id.custom_customer_status_",
+   "fieldname": "customer_status",
+   "fieldtype": "Data",
+   "label": "Customer Status ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_kogm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "filing_notes",
+   "fieldtype": "Data",
+   "label": "Filing Notes"
+  },
+  {
+   "fetch_from": "gstfile.mobile",
+   "fieldname": "mobile_no_gst",
+   "fieldtype": "Data",
+   "label": "Mobile No (GST)",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gstfile.gst_registered_email",
+   "fieldname": "email_gst",
+   "fieldtype": "Data",
+   "label": "Email (GST)",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gstfile.executive_name",
+   "fieldname": "executive",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Executive",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gstfile.company_name",
+   "fieldname": "company",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Company ",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "gstfile.gst_number",
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "GSTIN",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "gstfile.gst_user_name",
+   "fieldname": "gst_user_name",
+   "fieldtype": "Data",
+   "label": "GST User Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gstfile.gst_password",
+   "fieldname": "gst_password",
+   "fieldtype": "Data",
+   "label": "GST Password",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gstfile.proprietor_name",
+   "fieldname": "proprietor_name",
+   "fieldtype": "Data",
+   "label": "Proprietor Name",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "created_manually",
+   "fieldtype": "Check",
+   "label": "Created Manually",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "gstfile.enabled",
+   "fieldname": "gstfile_enabled",
+   "fieldtype": "Check",
+   "label": "Gstfile Enabled"
+  },
+  {
+   "default": "0",
+   "fieldname": "submitted",
+   "fieldtype": "Check",
+   "label": "Submitted",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "customer_id.custom_contact_person",
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "default": "0",
+   "fieldname": "non_compliant",
+   "fieldtype": "Check",
+   "in_filter": 1,
+   "in_standard_filter": 1,
+   "label": "Non-Compliant"
+  },
+  {
+   "fetch_from": "gstfile.customer_id",
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Customer ID",
+   "options": "Customer",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-08-03 12:34:50.418209",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Gst Filling Data",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "LSA GST Ops Manager(A,Sernior)",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

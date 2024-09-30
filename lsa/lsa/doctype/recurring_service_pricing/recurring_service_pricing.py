@@ -278,7 +278,7 @@ def fetch_services(customer_id=None):
                 if (c_services_addon["parent"],c_services_addon["addon_service_name"]) in existing_pricing_items:
                     c_services_addon["current_recurring_fees"]=existing_pricing_items[(c_services_addon["parent"],c_services_addon["addon_service_name"])]
                 else:
-                    c_services_addon["current_recurring_fees"]=c_services_addon["current_recurring_fees"]
+                    c_services_addon["current_recurring_fees"]=c_services_addon["current_charges"]
                 c_services_addon["name"]=c_service.name
                 c_services+=[(c_services_addon)]
             # for c_service in c_services_n:
@@ -1304,13 +1304,18 @@ class MonthlySO(Document):
         #     self.followup_created=1
         #     self.save()
 
-
+# frappe.enqueue('tnc_frappe_custom_app.tnc_custom_app.doctype.student_exam.student_exam.process_students_in_background', 
+#                         queue='long', 
+#                         timeout=6000, 
+#                         name=name, 
+#                         # limit=limit
+#                         )
 
             
         
 
 @frappe.whitelist()
-def generate_bulk_so():
+def generate_bulk_so(fy,month,frequency):
     # print("generate_bulk_so_triggered")
     # print(type(services))
     # services = services.split(",")
@@ -1328,9 +1333,16 @@ def generate_bulk_so():
     # cur_month = self.month.lower()
     # cur_year = today.year
     # first_day_of_month, last_day_of_month = get_date_range_of_so(cur_month, cur_year)
+    month_num=datetime.strptime(month, "%B").month
+    year =int(fy.split('-')[0] if month_num>3 else fy.split('-')[1])
 
-    today = datetime.today()
-    # today = date(2025, 4, 1)
+    # today = datetime.today()
+    today = date(year, month_num, 1)
+    # print(str(today))
+    # frequency = frequency[:-2].replace(" ", "")
+    frequency =frequency[:-2].split(', ')
+    # print(frequency)
+    # print("|".join(frequency[:-2].split(', ')))
 
     # Get the first day of the current month
     first_day_of_month = today.replace(day=1)
@@ -1362,95 +1374,108 @@ def generate_bulk_so():
 
     customer_service_map = {}
     customer_failed_service_map = []
-    if all_rsp:
-        
-        
-        # total_rsp=len(all_rsp)
-        # in_progress_rsp=0
+    for fr in frequency:
+        if all_rsp:
+            
+            
+            # total_rsp=len(all_rsp)
+            # in_progress_rsp=0
 
-        for rsp in all_rsp:
-            try:
-                customer_so_map = get_so_map(rsp.name, all_cust[rsp.customer_id], first_day_of_month, last_day_of_month)
-                if customer_so_map["status"]:
+            for rsp in all_rsp:
+                try:
+                    customer_so_map = get_so_map(rsp.name, all_cust[rsp.customer_id], first_day_of_month, last_day_of_month,fr)
+                    if customer_so_map["status"]:
 
-                    # print(customer_so_map)
-                    so_creation_response = create_sales_order(customer_so_map["customer_so_map"])
-                    so_id=None
-                    if so_creation_response["status"]:
-                        customer_service_map[rsp.customer_id] = True
-                        so_id=so_creation_response["so_id"]
-                        rsp["new_so_id"]=so_id
-                        success_count += 1
-                    else:
+                        # print(customer_so_map)
+                        so_creation_response = create_sales_order(customer_so_map["customer_so_map"])
+                        so_id=None
+                        if so_creation_response["status"]:
+                            customer_service_map[rsp.customer_id] = True
+                            so_id=so_creation_response["so_id"]
+                            rsp["new_so_id"]=so_id
+                            success_count += 1
+                        else:
+                            er_dict={}
+                            er_dict["doctype"]= "Custom Error Log"
+                            er_dict["master_type"]= "Recurring Service Pricing"
+                            er_dict["master_reference"]= rsp.name
+                            er_dict["type"]="Customer"
+                            er_dict["record_reference"]= rsp.customer_id
+                            er_dict["context"]="Auto postpaid Sales Order creation "
+                            er_dict["error_statement"]= f'''Error  creating Monthly SO for {customer_so_map["customer"]}: {so_creation_response["error"]}
+                            '''
+                            er_doc = frappe.get_doc(er_dict)
+                            er_doc.insert()
+                            rsp["new_so_id"]=so_id
+                            customer_failed_service_map.append(customer_so_map)
+                            # print("failed SO: ", customer_so_map["customer"], so_creation_response["error"])
+                        if so_id:
+                            if rsp.payment_link_generation: 
+                                generate_payment_link(so_id,rsp.name)
+                            # if rsp.share_with_client_via_wa: 
+                            #     autogen_so_mail(so_id, smtp_server,sender_email,rsp.name)
+                            # if rsp.share_with_client_via_mail:
+                            #     whatsapp_so_template(so_id,rsp.name)
+                                
+                    elif customer_so_map["status"] in [False]:
+                        # print(customer_so_map["error"])
+                        
                         er_dict={}
                         er_dict["doctype"]= "Custom Error Log"
                         er_dict["master_type"]= "Recurring Service Pricing"
                         er_dict["master_reference"]= rsp.name
-                        er_dict["type"]="Customer"
+                        er_dict["type"]= "Customer"
                         er_dict["record_reference"]= rsp.customer_id
                         er_dict["context"]="Auto postpaid Sales Order creation "
-                        er_dict["error_statement"]= f'''Error  creating Monthly SO for {customer_so_map["customer"]}: {so_creation_response["error"]}
+                        er_dict["error_statement"]= f'''Error fetching details for Monthly SO creation for {customer_so_map["customer"]}: {customer_so_map["error"]}
                         '''
                         er_doc = frappe.get_doc(er_dict)
                         er_doc.insert()
-                        rsp["new_so_id"]=so_id
-                        customer_failed_service_map.append(customer_so_map)
-                        # print("failed SO: ", customer_so_map["customer"], so_creation_response["error"])
-                    if so_id:
-                        if rsp.payment_link_generation: 
-                            generate_payment_link(so_id,rsp.name)
-                        # if rsp.share_with_client_via_wa: 
-                        #     autogen_so_mail(so_id, smtp_server,sender_email,rsp.name)
-                        # if rsp.share_with_client_via_mail:
-                        #     whatsapp_so_template(so_id,rsp.name)
-                            
-                elif customer_so_map["status"] in [False]:
-                    # print(customer_so_map["error"])
-                    
+                        rsp["new_so_id"]=None
+                        # pass
+                        
+                except Exception as er:
+                    frappe.log_error(f"An error occurred in bulk creation of Sales Orders: {er}")
+                    customer_service_map[rsp["customer_id"]] = False
                     er_dict={}
                     er_dict["doctype"]= "Custom Error Log"
                     er_dict["master_type"]= "Recurring Service Pricing"
                     er_dict["master_reference"]= rsp.name
-                    er_dict["type"]= "Customer"
+                    er_dict["type"]= "Customer"                 
                     er_dict["record_reference"]= rsp.customer_id
                     er_dict["context"]="Auto postpaid Sales Order creation "
-                    er_dict["error_statement"]= f'''Error fetching details for Monthly SO creation for {customer_so_map["customer"]}: {customer_so_map["error"]}
+                    er_dict["error_statement"]= f'''Exception Error  creating Monthly SO for {rsp["customer_id"]}: {er}
                     '''
                     er_doc = frappe.get_doc(er_dict)
                     er_doc.insert()
                     rsp["new_so_id"]=None
-                    # pass
-                    
+                    # print(er)
+                    # print("failed: ", rsp["customer_id"], str(er))
+                # in_progress_rsp+=1
+                # frappe.publish_realtime("progress", {
+                #                                 "total": total_rsp,
+                #                                 "created": in_progress_rsp
+                #                             }, user=frappe.session.user)
+            try:
+                resp_mail_server=create_smtp_server(email_account)
+                if resp_mail_server["status"]:
+                    smtp_server,sender_email=resp_mail_server["smtp_server"],resp_mail_server["sender_email"]
+                    for rsp in all_rsp:
+                        if rsp["new_so_id"] and rsp.share_with_client_via_mail: 
+                            autogen_so_mail(so_id, smtp_server,sender_email,rsp.name)
+                else:
+                    er_dict={}
+                    er_dict["doctype"]= "Custom Error Log"
+                    er_dict["master_type"]= "Email Account"
+                    er_dict["master_reference"]= email_account
+                    er_dict["type"]= "Recurring Service Pricing"                 
+                    # er_dict["record_reference"]= rsp.customer_id
+                    er_dict["context"]="Bulk Auto postpaid Sales Order sharing via Email Failed "
+                    er_dict["error_statement"]= f'''Exception Error sending bulk Mail for {all_rsp}: {resp_mail_server["msg"]}
+                    '''
+                    er_doc = frappe.get_doc(er_dict)
+                    er_doc.insert()
             except Exception as er:
-                frappe.log_error(f"An error occurred in bulk creation of Sales Orders: {er}")
-                customer_service_map[rsp["customer_id"]] = False
-                er_dict={}
-                er_dict["doctype"]= "Custom Error Log"
-                er_dict["master_type"]= "Recurring Service Pricing"
-                er_dict["master_reference"]= rsp.name
-                er_dict["type"]= "Customer"                 
-                er_dict["record_reference"]= rsp.customer_id
-                er_dict["context"]="Auto postpaid Sales Order creation "
-                er_dict["error_statement"]= f'''Exception Error  creating Monthly SO for {rsp["customer_id"]}: {er}
-                '''
-                er_doc = frappe.get_doc(er_dict)
-                er_doc.insert()
-                rsp["new_so_id"]=None
-                # print(er)
-                # print("failed: ", rsp["customer_id"], str(er))
-            # in_progress_rsp+=1
-            # frappe.publish_realtime("progress", {
-            #                                 "total": total_rsp,
-            #                                 "created": in_progress_rsp
-            #                             }, user=frappe.session.user)
-        try:
-            resp_mail_server=create_smtp_server(email_account)
-            if resp_mail_server["status"]:
-                smtp_server,sender_email=resp_mail_server["smtp_server"],resp_mail_server["sender_email"]
-                for rsp in all_rsp:
-                    if rsp["new_so_id"] and rsp.share_with_client_via_mail: 
-                        autogen_so_mail(so_id, smtp_server,sender_email,rsp.name)
-            else:
                 er_dict={}
                 er_dict["doctype"]= "Custom Error Log"
                 er_dict["master_type"]= "Email Account"
@@ -1458,57 +1483,57 @@ def generate_bulk_so():
                 er_dict["type"]= "Recurring Service Pricing"                 
                 # er_dict["record_reference"]= rsp.customer_id
                 er_dict["context"]="Bulk Auto postpaid Sales Order sharing via Email Failed "
-                er_dict["error_statement"]= f'''Exception Error sending bulk Mail for {all_rsp}: {resp_mail_server["msg"]}
+                er_dict["error_statement"]= f'''Exception Error sending bulk Mail for {all_rsp}: {er}
                 '''
                 er_doc = frappe.get_doc(er_dict)
                 er_doc.insert()
-        except Exception as er:
-            er_dict={}
-            er_dict["doctype"]= "Custom Error Log"
-            er_dict["master_type"]= "Email Account"
-            er_dict["master_reference"]= email_account
-            er_dict["type"]= "Recurring Service Pricing"                 
-            # er_dict["record_reference"]= rsp.customer_id
-            er_dict["context"]="Bulk Auto postpaid Sales Order sharing via Email Failed "
-            er_dict["error_statement"]= f'''Exception Error sending bulk Mail for {all_rsp}: {er}
-            '''
-            er_doc = frappe.get_doc(er_dict)
-            er_doc.insert()
 
-        try:
-            resp_wa_instance=validate_whatsapp_instance(wa_account)
-            if resp_wa_instance["status"] :
-                whatsapp_instance_doc=resp_wa_instance["whatsapp_instance_doc"]
-                if int(whatsapp_instance_doc.remaining_credits) >= len(all_rsp):
-                    whatsapp_log = frappe.new_doc('WhatsApp Message Log')
-                    whatsapp_log.send_date = frappe.utils.now_datetime()
-                    whatsapp_log.sender = frappe.session.user
-                    whatsapp_log.type = "Template"
-                    whatsapp_log.message = '''Dear {customer_name},
+            try:
+                resp_wa_instance=validate_whatsapp_instance(wa_account)
+                if resp_wa_instance["status"] :
+                    whatsapp_instance_doc=resp_wa_instance["whatsapp_instance_doc"]
+                    if int(whatsapp_instance_doc.remaining_credits) >= len(all_rsp):
+                        whatsapp_log = frappe.new_doc('WhatsApp Message Log')
+                        whatsapp_log.send_date = frappe.utils.now_datetime()
+                        whatsapp_log.sender = frappe.session.user
+                        whatsapp_log.type = "Template"
+                        whatsapp_log.message = '''Dear {customer_name},
 
-Please find attached Sale Order from {from_date} to {to_date} period {due_amount_message}. Kindly pay on below bank account details
+    Please find attached Sale Order from {from_date} to {to_date} period {due_amount_message}. Kindly pay on below bank account details
 
-Our Bank Account
-Lokesh Sankhala and ASSOSCIATES
-Account No = 73830200000526
-IFSC = BARB0VJJCRO
-Bank = Bank of Baroda,JC Road,Bangalore-560002
-UPI id = LSABOB@UPI
-Gpay / Phonepe no = 9513199200
-{payment_link}
+    Our Bank Account
+    Lokesh Sankhala and ASSOSCIATES
+    Account No = 73830200000526
+    IFSC = BARB0VJJCRO
+    Bank = Bank of Baroda,JC Road,Bangalore-560002
+    UPI id = LSABOB@UPI
+    Gpay / Phonepe no = 9513199200
+    {payment_link}
 
-Call us immediately in case of query.
+    Call us immediately in case of query.
 
-Best Regards,
-LSA Office Account Team
-accounts@lsaoffice.com
-8951692788'''
-                    
-                    for rsp in all_rsp:
-                        if rsp["new_so_id"] and rsp.share_with_client_via_wa: 
-                            resp_wa_sent=whatsapp_so_template(whatsapp_instance_doc,so_id,rsp.name)
-                            whatsapp_log.append("details",resp_wa_sent["msg_detail"])
-                    whatsapp_log.insert()
+    Best Regards,
+    LSA Office Account Team
+    accounts@lsaoffice.com
+    8951692788'''
+                        
+                        for rsp in all_rsp:
+                            if rsp["new_so_id"] and rsp.share_with_client_via_wa: 
+                                resp_wa_sent=whatsapp_so_template(whatsapp_instance_doc,so_id,rsp.name)
+                                whatsapp_log.append("details",resp_wa_sent["msg_detail"])
+                        whatsapp_log.insert()
+                    else:
+                        er_dict={}
+                        er_dict["doctype"]= "Custom Error Log"
+                        er_dict["master_type"]= "WhatsApp Instance"
+                        er_dict["master_reference"]= wa_account
+                        er_dict["type"]= "Recurring Service Pricing"                 
+                        # er_dict["record_reference"]= rsp.customer_id
+                        er_dict["context"]="Bulk Auto postpaid Sales Order sharing via WhatsaApp Failed due to insufficient credits"
+                        er_dict["error_statement"]= f'''Exception Error sending bulk WhatsaApp for {all_rsp}: Actuall Credits {whatsapp_instance_doc.remaining_credits}, Required Credits {len(all_rsp)}
+                        '''
+                        er_doc = frappe.get_doc(er_dict)
+                        er_doc.insert()
                 else:
                     er_dict={}
                     er_dict["doctype"]= "Custom Error Log"
@@ -1516,12 +1541,12 @@ accounts@lsaoffice.com
                     er_dict["master_reference"]= wa_account
                     er_dict["type"]= "Recurring Service Pricing"                 
                     # er_dict["record_reference"]= rsp.customer_id
-                    er_dict["context"]="Bulk Auto postpaid Sales Order sharing via WhatsaApp Failed due to insufficient credits"
-                    er_dict["error_statement"]= f'''Exception Error sending bulk WhatsaApp for {all_rsp}: Actuall Credits {whatsapp_instance_doc.remaining_credits}, Required Credits {len(all_rsp)}
+                    er_dict["context"]="Bulk Auto postpaid Sales Order sharing via WhatsaApp Failed "
+                    er_dict["error_statement"]= f'''Exception Error sending bulk WhatsaApp for {all_rsp}: {resp_wa_instance["msg"]}
                     '''
                     er_doc = frappe.get_doc(er_dict)
                     er_doc.insert()
-            else:
+            except Exception as er:
                 er_dict={}
                 er_dict["doctype"]= "Custom Error Log"
                 er_dict["master_type"]= "WhatsApp Instance"
@@ -1529,36 +1554,24 @@ accounts@lsaoffice.com
                 er_dict["type"]= "Recurring Service Pricing"                 
                 # er_dict["record_reference"]= rsp.customer_id
                 er_dict["context"]="Bulk Auto postpaid Sales Order sharing via WhatsaApp Failed "
-                er_dict["error_statement"]= f'''Exception Error sending bulk WhatsaApp for {all_rsp}: {resp_wa_instance["msg"]}
+                er_dict["error_statement"]= f'''Exception Error sending bulk WhatsaApp for {all_rsp}: {er}
                 '''
                 er_doc = frappe.get_doc(er_dict)
                 er_doc.insert()
-        except Exception as er:
-            er_dict={}
-            er_dict["doctype"]= "Custom Error Log"
-            er_dict["master_type"]= "WhatsApp Instance"
-            er_dict["master_reference"]= wa_account
-            er_dict["type"]= "Recurring Service Pricing"                 
-            # er_dict["record_reference"]= rsp.customer_id
-            er_dict["context"]="Bulk Auto postpaid Sales Order sharing via WhatsaApp Failed "
-            er_dict["error_statement"]= f'''Exception Error sending bulk WhatsaApp for {all_rsp}: {er}
-            '''
-            er_doc = frappe.get_doc(er_dict)
-            er_doc.insert()
 
 
-        # print(len(customer_service_map))
-        # print(customer_failed_service_map)
-        # if not customer_failed_service_map:
-        #     self.so_generated=1
-        #     self.status="SO Created"
-        # self.autogenerated_so_count = success_count
-        # self.save()
+            # print(len(customer_service_map))
+            # print(customer_failed_service_map)
+            # if not customer_failed_service_map:
+            #     self.so_generated=1
+            #     self.status="SO Created"
+            # self.autogenerated_so_count = success_count
+            # self.save()
 
 
 
 
-def get_so_map(rsp_id,cust_state,first_day_of_month,last_day_of_month):
+def get_so_map(rsp_id,cust_state,first_day_of_month,last_day_of_month,fr):
     rsp_doc = frappe.get_doc("Recurring Service Pricing", rsp_id)
     so_fields = ["customer", "transaction_date", "custom_so_from_date", "custom_so_to_date",
                     "custom_auto_generated",
@@ -1580,17 +1593,18 @@ def get_so_map(rsp_id,cust_state,first_day_of_month,last_day_of_month):
     else:
         return {"status":False,"error":f"Taxes Not Mapped properly for {rsp_doc.customer_id}, check customer's State field"}
 
-    services_map, first_day_of_so =get_services(rsp_doc.recurring_services,first_day_of_month,last_day_of_month)
+    services_map, first_day_of_so =get_services(rsp_doc.recurring_services,first_day_of_month,last_day_of_month,fr)
 
     customer_so_map["custom_so_from_date"] = first_day_of_so 
     customer_so_map["custom_so_to_date"] = first_day_of_month - timedelta(days=1)
-    customer_so_map["delivery_date"] = first_day_of_month
+    customer_so_map["delivery_date"] = first_day_of_month + timedelta(days=1)
     
     
     if services_map: 
         customer_so_map["items"] = services_map
         # print(len(services_map))
         # print(customer_so_map)
+        print(customer_so_map)
         return {"status":True,"customer_so_map": customer_so_map}
     else:
         return {"status":None,"error":f"No Services Mapped for {rsp_doc.customer_id}"}
@@ -1622,7 +1636,7 @@ def get_date_range_of_so(cur_month,cur_year):
         last_day_of_month = datetime(cur_year[1], (month_num[cur_month] - 12 + 3), last_day).date()
     return first_day_of_month,last_day_of_month
 
-def get_services(rsp_services,first_day_of_month,last_day_of_month):
+def get_services(rsp_services,first_day_of_month,last_day_of_month,fr):
     # mon_freq = {
     #             "apr": ["M", "Q", "Y",], 
     #             "may": ["M"], 
@@ -1685,7 +1699,7 @@ def get_services(rsp_services,first_day_of_month,last_day_of_month):
             continue
 
         # if serv_frequency in cur_month_freq and (item.service_type,serv_frequency) in services:
-        if serv_frequency in cur_month_freq :
+        if serv_frequency in cur_month_freq and serv_frequency==fr:
             items_fields = ["item_code", "custom_soi_from_date", "custom_soi_to_date", "description",
                             "gst_hsn_code", "qty", "uom", "rate",
                                             "gst_treatment"]
@@ -1952,7 +1966,7 @@ def autogen_so_mail(so_id, smtp_server,sender_email,rsp_id):
 
         recipients = so_doc.custom_primary_email
 
-        recipients = "vatsal.k@360ithub.com"
+        recipients = "lokesh.bwr@gmail.com"
         cc_email = "vatsal.k@360ithub.com"
 
         subject = f"New Sales Order generated from {so_doc.custom_so_from_date} to {so_doc.custom_so_to_date}"
@@ -2077,7 +2091,7 @@ def whatsapp_so_template(whatsapp_instance_doc,so_id,rsp_id):
     
     so_doc=frappe.get_doc("Sales Order",so_id)
     new_mobile= so_doc.custom_primary_mobile_no
-    new_mobile="9098543046"
+    new_mobile="9986892788"
     msg_detail={
                     "type": "Sales Order",
                     "document_id": so_doc.name,

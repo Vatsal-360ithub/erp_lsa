@@ -66,11 +66,11 @@ def create_smtp_server(email_account):
         smtp_server.starttls()  # Secure the connection
         smtp_server.login(sender_email, sender_password)
 
-        print("smtp server startedddddddddddddddddddddddddddddddddddddddddddddddd")
+        # print("smtp server startedddddddddddddddddddddddddddddddddddddddddddddddd")
         
         return {"status":True,"smtp_server":smtp_server, "sender_email":sender_email}
     except Exception as e:
-        print(f"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFailed to create SMTP server. Error: {e}")
+        # print(f"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFailed to create SMTP server. Error: {e}")
         return {"status":False,"msg":f"Error creating mail server: {e}"}
 
 def terminate_smtp_server(smtp_server):
@@ -80,7 +80,7 @@ def terminate_smtp_server(smtp_server):
 def single_mail_with_attachment_with_server(smtp_server, sender_email, recipients, subject, html_message,pdf_link,pdf_filename, cc_email=None):
     """Send an email using the provided SMTP server."""
     # Ensure recipients and cc_email are lists
-    
+    print("pdffffffffffffffffffffffffffffffffffffffffffff",pdf_link)
     try:
         # if isinstance(recipients, str):
         #     recipients = [recipients]
@@ -128,7 +128,7 @@ def get_file_from_link(link):
         if response.status_code == 200:
             return response.content
         else:
-            # print(f"Failed to fetch file from link. Status code: {response.status_code}")
+            print(f"Failed to fetch file from link. Status code:{link} {response.status_code}{response}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return None
     except Exception as e:
         # print(f"Error fetching file from link: {e}")

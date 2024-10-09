@@ -1,10 +1,10 @@
 # Copyright (c) 2024, Mohan and contributors
 # For license information, please see license.txt
-import frappe, os,csv,requests,boto3,calendar,time
+import frappe, os,csv,requests,boto3,calendar,time,re
 from frappe.model.document import Document
 from datetime import datetime,timedelta, date
 from dateutil.relativedelta import relativedelta
-
+from copy import deepcopy
 import datetime as dt
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -24,6 +24,27 @@ from lsa.custom_whatsapp_api import validate_whatsapp_instance, send_custom_what
 
 
 class RecurringServicePricing(Document):
+
+    def validate(self):
+
+        all_service_addons=[]
+        all_services = frappe.get_all("Customer Chargeable Doctypes")
+        for service in all_services:
+            # Get all records for the current service doctype
+            all_service_records = frappe.get_all(service.name, filters={"customer_id":self.customer_id,"enabled":1}, fields=["name", "service_name", "frequency", "current_recurring_fees"])
+            
+            for record in all_service_records:
+
+                # Get the document for each service record
+                service_addon = frappe.get_all("Service Master Addon", filters={"parent": record.name},fields=["name","addon_service_name"])
+                all_service_addons+=[addon.addon_service_name for addon in service_addon]
+        rsp_service_addons=[]       
+        for item in self.recurring_services:
+            rsp_service_addons.append(item.service_name)
+        
+        if sorted(rsp_service_addons)!=sorted(all_service_addons):
+            frappe.throw(f"The addons in RSP doesnot match with addons of service masters, to add new addons go to respective service masters")
+
 
     def on_update(self):
         frequency_dict =    {
@@ -87,7 +108,8 @@ class RecurringServicePricing(Document):
                 price_doc.next_pricing=self.name
                 price_doc.save()
                 prev_price_doc=price_doc.name
-            if self.service_active==0:      
+            if self.service_active==0:     
+                # print(self.recurring_services)
                 # print("Service Masters GEtting Updatedddddddddddddddddddddddddddddddddddd!!!!!!!!!!!!!!select * from `tabSessions`;!!!!!!!!!!!!!!!!29BPOPM7873K2ZS bench --site lsa.local mariadb") 
                 for item in self.recurring_services:
                     if item.price_revised=="Yes":
@@ -100,22 +122,32 @@ class RecurringServicePricing(Document):
                     item.save()
                     # print(item.service_name,item.revised_charges,frequency_dict[item.frequency],item.frequency )
                     master_service_doc = frappe.get_doc(item.service_type,item.service_id)
+                    # print(master_service_doc.addon_services)
                     item_master_list=frappe.get_all("Service Master Addon",
                                                         filters={
                                                             'parent':item.service_id,
                                                             "addon_service_name":item.service_name
                                                         },)
                     if item_master_list:
-                        frappe.delete_doc("Service Master Addon",item_master_list[0].name)
-                    master_service_doc.reload()
+                        addon_doc=frappe.get_doc("Service Master Addon",item_master_list[0].name)
+                        if item.revised_charges:
+                            addon_doc.current_charges = item.revised_charges
+                            addon_doc.status = "Active"
 
-                    new_item = master_service_doc.append('addon_services', {})
-            
-                    # Set values for fields in the new row
-                    new_item.addon_service_name = item.service_name
-                    new_item.current_charges = item.revised_charges
-                    new_item.frequency = frequency_dict[item.frequency] 
-                    master_service_doc.save()
+                        else:
+                            addon_doc.current_charges = item.revised_charges
+                            addon_doc.status = "Inactive"
+                        addon_doc.save()
+                    else:
+                        master_service_doc.reload()
+
+                        new_item = master_service_doc.append('addon_services', {})
+                
+                        # Set values for fields in the new row
+                        new_item.addon_service_name = item.service_name
+                        new_item.current_charges = item.revised_charges
+                        new_item.frequency = frequency_dict[item.frequency] 
+                        master_service_doc.save()
                     # print(master_service_doc.addon_services)
 
                 self.service_active=1
@@ -240,31 +272,17 @@ class RecurringServicePricing(Document):
     #             self.save()
             
 
-
-
 @frappe.whitelist()
 def fetch_services(customer_id=None):
     frequency_map={"M":"Monthly","Q":"Quarterly","H":"Half-yearly","Y":"Yearly"}
     all_services = frappe.get_all("Customer Chargeable Doctypes")
-    existing_pricing=frappe.get_all("Recurring Service Pricing",
-                                    filters={"customer_id":customer_id,
-                                             "status":"Approved"},)
-    existing_pricing_items={}
-    if existing_pricing and len(existing_pricing)==1:
-        existing_pricing=frappe.get_doc("Recurring Service Pricing",existing_pricing[0].name)
-        for row in existing_pricing.recurring_services:
-            existing_pricing_items[(row.service_id,row.service_name)]=row.revised_charges
 
-    # print(existing_pricing_items)
     c_services=[]
     for service in all_services:
-        # print(service["name"])
-        # if service["name"] in ("IT Assessee File","Gstfile"):
-            # print(service["name"])
-            
-        c_services_n= (frappe.get_all(service["name"], 
+
+        c_services_n = frappe.get_all(service["name"], 
                                         filters={'customer_id': customer_id,"enabled":1},
-                                        fields=["name","description"]))
+                                        fields=["name","description"])
         for c_service in c_services_n:
             c_services_addons= (frappe.get_all("Service Master Addon", 
                                             filters={"parenttype":service["name"],'parent': c_service.name},
@@ -275,21 +293,65 @@ def fetch_services(customer_id=None):
                 c_services_addon["description"]=c_service["description"]
                 c_services_addon["frequency"]=frequency_map[c_services_addon["frequency"]]
                 c_services_addon["service_type"]=c_services_addon["parenttype"]
-                if (c_services_addon["parent"],c_services_addon["addon_service_name"]) in existing_pricing_items:
-                    c_services_addon["current_recurring_fees"]=existing_pricing_items[(c_services_addon["parent"],c_services_addon["addon_service_name"])]
-                else:
-                    c_services_addon["current_recurring_fees"]=c_services_addon["current_charges"]
                 c_services_addon["name"]=c_service.name
                 c_services+=[(c_services_addon)]
-            # for c_service in c_services_n:
-            #   pass
+
     
     if c_services:
         # For demonstration purposes, let's just send back a response.
         data = c_services
-        return data
+        return {"status":True,"data":data}
     else:
-        return "No data found for the given parameters."
+        return {"status":False,"msg":"No data found for the given parameters."}
+
+# @frappe.whitelist()
+# def fetch_services(customer_id=None):
+#     frequency_map={"M":"Monthly","Q":"Quarterly","H":"Half-yearly","Y":"Yearly"}
+#     all_services = frappe.get_all("Customer Chargeable Doctypes")
+#     existing_pricing=frappe.get_all("Recurring Service Pricing",
+#                                     filters={"customer_id":customer_id,
+#                                              "status":"Approved"},)
+#     existing_pricing_items={}
+#     if existing_pricing and len(existing_pricing)==1:
+#         existing_pricing=frappe.get_doc("Recurring Service Pricing",existing_pricing[0].name)
+#         for row in existing_pricing.recurring_services:
+#             existing_pricing_items[(row.service_id,row.service_name)]=row.revised_charges
+
+#     # print(existing_pricing_items)
+#     c_services=[]
+#     for service in all_services:
+#         # print(service["name"])
+#         # if service["name"] in ("IT Assessee File","Gstfile"):
+#             # print(service["name"])
+            
+#         c_services_n= (frappe.get_all(service["name"], 
+#                                         filters={'customer_id': customer_id,"enabled":1},
+#                                         fields=["name","description"]))
+#         for c_service in c_services_n:
+#             c_services_addons= (frappe.get_all("Service Master Addon", 
+#                                             filters={"parenttype":service["name"],'parent': c_service.name},
+#                                             fields=["name","parent","parenttype","addon_service_name","current_charges","frequency"]))
+#             for c_services_addon in c_services_addons:
+#                 # c_service["service_type"]=service["name"]
+#                 # print(c_service["name"])
+#                 c_services_addon["description"]=c_service["description"]
+#                 c_services_addon["frequency"]=frequency_map[c_services_addon["frequency"]]
+#                 c_services_addon["service_type"]=c_services_addon["parenttype"]
+#                 if (c_services_addon["parent"],c_services_addon["addon_service_name"]) in existing_pricing_items:
+#                     c_services_addon["current_recurring_fees"]=existing_pricing_items[(c_services_addon["parent"],c_services_addon["addon_service_name"])]
+#                 else:
+#                     c_services_addon["current_recurring_fees"]=c_services_addon["current_charges"]
+#                 c_services_addon["name"]=c_service.name
+#                 c_services+=[(c_services_addon)]
+#             # for c_service in c_services_n:
+#             #   pass
+    
+#     if c_services:
+#         # For demonstration purposes, let's just send back a response.
+#         data = c_services
+#         return data
+#     else:
+#         return "No data found for the given parameters."
 
 
 @frappe.whitelist()
@@ -1315,7 +1377,8 @@ class MonthlySO(Document):
         
 
 @frappe.whitelist()
-def generate_bulk_so(fy,month,frequency):
+def generate_bulk_so(rsp_record_name,fy,month,frequency):
+    # print(rsp_record_name)
     # print("generate_bulk_so_triggered")
     # print(type(services))
     # services = services.split(",")
@@ -1352,7 +1415,7 @@ def generate_bulk_so(fy,month,frequency):
 
     all_cust_array = frappe.get_all("Customer",
                                      filters={
-                                         "name":"20131037",
+                                        #  "name":"20131037",
                                          "disabled": 0,
                                          "custom_billable": 1,
                                          # "custom_state": ("not in",[None]),
@@ -1363,7 +1426,7 @@ def generate_bulk_so(fy,month,frequency):
     all_rsp = frappe.get_all("Recurring Service Pricing",
                              filters={"status": "Approved",
                                       "automatic_so_creation":1,
-                                      "customer_id":"20131037",
+                                    #   "customer_id":"20131037",
                                       },
                              fields=["name", "customer_id","payment_link_generation","share_with_client_via_wa","share_with_client_via_mail",]
                              )
@@ -1374,7 +1437,8 @@ def generate_bulk_so(fy,month,frequency):
 
     customer_service_map = {}
     customer_failed_service_map = []
-    for fr in frequency:
+    # for fr in frequency:
+    if True:
         if all_rsp:
             
             
@@ -1382,42 +1446,47 @@ def generate_bulk_so(fy,month,frequency):
             # in_progress_rsp=0
 
             for rsp in all_rsp:
+                # print("All RSP",all_rsp)
                 try:
-                    customer_so_map = get_so_map(rsp.name, all_cust[rsp.customer_id], first_day_of_month, last_day_of_month,fr)
-                    if customer_so_map["status"]:
-
-                        # print(customer_so_map)
-                        so_creation_response = create_sales_order(customer_so_map["customer_so_map"])
-                        so_id=None
-                        if so_creation_response["status"]:
-                            customer_service_map[rsp.customer_id] = True
-                            so_id=so_creation_response["so_id"]
-                            rsp["new_so_id"]=so_id
-                            success_count += 1
-                        else:
-                            er_dict={}
-                            er_dict["doctype"]= "Custom Error Log"
-                            er_dict["master_type"]= "Recurring Service Pricing"
-                            er_dict["master_reference"]= rsp.name
-                            er_dict["type"]="Customer"
-                            er_dict["record_reference"]= rsp.customer_id
-                            er_dict["context"]="Auto postpaid Sales Order creation "
-                            er_dict["error_statement"]= f'''Error  creating Monthly SO for {customer_so_map["customer"]}: {so_creation_response["error"]}
-                            '''
-                            er_doc = frappe.get_doc(er_dict)
-                            er_doc.insert()
-                            rsp["new_so_id"]=so_id
-                            customer_failed_service_map.append(customer_so_map)
-                            # print("failed SO: ", customer_so_map["customer"], so_creation_response["error"])
-                        if so_id:
-                            if rsp.payment_link_generation: 
-                                generate_payment_link(so_id,rsp.name)
-                            # if rsp.share_with_client_via_wa: 
-                            #     autogen_so_mail(so_id, smtp_server,sender_email,rsp.name)
-                            # if rsp.share_with_client_via_mail:
-                            #     whatsapp_so_template(so_id,rsp.name)
+                    # print("Gettinggggggggggggggggg SO Maps",all_rsp)
+                    customer_so_maps = get_so_map(rsp_record_name,rsp.name, all_cust[rsp.customer_id], first_day_of_month, last_day_of_month,frequency)
+                    if customer_so_maps["status"]:
+                        so_id=[]
+                        rsp["new_so_id"]=so_id
+                        for customer_so_map in customer_so_maps["customer_so_maps"]:
+                            # print(customer_so_map)
+                            # print("SO Mapppppppppppppppppppppppppppp",customer_so_map)
+                            so_creation_response = create_sales_order(customer_so_map)
+                            so_id_i=None
+                            if so_creation_response["status"]:
+                                customer_service_map[rsp.customer_id] = True
+                                so_id_i=so_creation_response["so_id"]
+                                rsp["new_so_id"]+=[so_id_i]
+                                success_count += 1
+                            else:
+                                er_dict={}
+                                er_dict["doctype"]= "Custom Error Log"
+                                er_dict["master_type"]= "Recurring Service Pricing"
+                                er_dict["master_reference"]= rsp.name
+                                er_dict["type"]="Customer"
+                                er_dict["record_reference"]= rsp.customer_id
+                                er_dict["context"]="Auto postpaid Sales Order creation "
+                                er_dict["error_statement"]= f'''Error  creating Monthly SO for {customer_so_map["customer"]}: {so_creation_response["error"]}
+                                '''
+                                er_doc = frappe.get_doc(er_dict)
+                                er_doc.insert()
+                                # rsp["new_so_id"]=so_id
+                                customer_failed_service_map.append(customer_so_map)
+                                # print("failed SO: ", customer_so_map["customer"], so_creation_response["error"])
+                            if so_id_i:
+                                if rsp.payment_link_generation: 
+                                    generate_payment_link(so_id_i,rsp.name)
+                                # if rsp.share_with_client_via_wa: 
+                                #     autogen_so_mail(so_id, smtp_server,sender_email,rsp.name)
+                                # if rsp.share_with_client_via_mail:
+                                #     whatsapp_so_template(so_id,rsp.name)
                                 
-                    elif customer_so_map["status"] in [False]:
+                    elif customer_so_maps["status"] in [False]:
                         # print(customer_so_map["error"])
                         
                         er_dict={}
@@ -1427,13 +1496,13 @@ def generate_bulk_so(fy,month,frequency):
                         er_dict["type"]= "Customer"
                         er_dict["record_reference"]= rsp.customer_id
                         er_dict["context"]="Auto postpaid Sales Order creation "
-                        er_dict["error_statement"]= f'''Error fetching details for Monthly SO creation for {customer_so_map["customer"]}: {customer_so_map["error"]}
+                        er_dict["error_statement"]= f'''Error fetching details for Monthly SO creation for {rsp.customer_id}: {customer_so_maps["error"]}
                         '''
                         er_doc = frappe.get_doc(er_dict)
                         er_doc.insert()
                         rsp["new_so_id"]=None
                         # pass
-                        
+                    print(rsp,"///////////////////////////////////////////////////////////////////////////////////////////")   
                 except Exception as er:
                     frappe.log_error(f"An error occurred in bulk creation of Sales Orders: {er}")
                     customer_service_map[rsp["customer_id"]] = False
@@ -1449,6 +1518,9 @@ def generate_bulk_so(fy,month,frequency):
                     er_doc = frappe.get_doc(er_dict)
                     er_doc.insert()
                     rsp["new_so_id"]=None
+                    print(rsp,er,"Error printing rsp///////////////////////////////////////////////////////////////////////////////////////////")  
+
+
                     # print(er)
                     # print("failed: ", rsp["customer_id"], str(er))
                 # in_progress_rsp+=1
@@ -1456,13 +1528,16 @@ def generate_bulk_so(fy,month,frequency):
                 #                                 "total": total_rsp,
                 #                                 "created": in_progress_rsp
                 #                             }, user=frappe.session.user)
+                frappe.db.commit()
             try:
                 resp_mail_server=create_smtp_server(email_account)
                 if resp_mail_server["status"]:
                     smtp_server,sender_email=resp_mail_server["smtp_server"],resp_mail_server["sender_email"]
                     for rsp in all_rsp:
+                        print(rsp)
                         if rsp["new_so_id"] and rsp.share_with_client_via_mail: 
-                            autogen_so_mail(so_id, smtp_server,sender_email,rsp.name)
+                            print("Mailllllllllllllllllllllllllllllllllllllllllllllllllllllllllll")
+                            autogen_so_mail( smtp_server,sender_email,rsp.name,rsp_record_name)
                 else:
                     er_dict={}
                     er_dict["doctype"]= "Custom Error Log"
@@ -1481,7 +1556,7 @@ def generate_bulk_so(fy,month,frequency):
                 er_dict["master_type"]= "Email Account"
                 er_dict["master_reference"]= email_account
                 er_dict["type"]= "Recurring Service Pricing"                 
-                # er_dict["record_reference"]= rsp.customer_id
+                er_dict["record_reference"]= rsp.customer_id
                 er_dict["context"]="Bulk Auto postpaid Sales Order sharing via Email Failed "
                 er_dict["error_statement"]= f'''Exception Error sending bulk Mail for {all_rsp}: {er}
                 '''
@@ -1492,7 +1567,7 @@ def generate_bulk_so(fy,month,frequency):
                 resp_wa_instance=validate_whatsapp_instance(wa_account)
                 if resp_wa_instance["status"] :
                     whatsapp_instance_doc=resp_wa_instance["whatsapp_instance_doc"]
-                    if int(whatsapp_instance_doc.remaining_credits) >= len(all_rsp):
+                    if int(whatsapp_instance_doc.remaining_credits) >= len(all_rsp) and rsp.share_with_client_via_wa:
                         whatsapp_log = frappe.new_doc('WhatsApp Message Log')
                         whatsapp_log.send_date = frappe.utils.now_datetime()
                         whatsapp_log.sender = frappe.session.user
@@ -1519,7 +1594,7 @@ def generate_bulk_so(fy,month,frequency):
                         
                         for rsp in all_rsp:
                             if rsp["new_so_id"] and rsp.share_with_client_via_wa: 
-                                resp_wa_sent=whatsapp_so_template(whatsapp_instance_doc,so_id,rsp.name)
+                                resp_wa_sent=whatsapp_so_template(whatsapp_instance_doc,rsp.name,rsp_record_name)
                                 whatsapp_log.append("details",resp_wa_sent["msg_detail"])
                         whatsapp_log.insert()
                     else:
@@ -1558,8 +1633,10 @@ def generate_bulk_so(fy,month,frequency):
                 '''
                 er_doc = frappe.get_doc(er_dict)
                 er_doc.insert()
-
-
+            print("Reached the End of Bulk SO creation")
+            frappe.db.set_value('RSP Record', rsp_record_name, "frequency_selected", ",".join(frequency))
+            frappe.db.set_value('RSP Record', rsp_record_name, "status", "SO Created")
+            
             # print(len(customer_service_map))
             # print(customer_failed_service_map)
             # if not customer_failed_service_map:
@@ -1571,7 +1648,7 @@ def generate_bulk_so(fy,month,frequency):
 
 
 
-def get_so_map(rsp_id,cust_state,first_day_of_month,last_day_of_month,fr):
+def get_so_map(rsp_record_name,rsp_id,cust_state,first_day_of_month,last_day_of_month,frequency):
     rsp_doc = frappe.get_doc("Recurring Service Pricing", rsp_id)
     so_fields = ["customer", "transaction_date", "custom_so_from_date", "custom_so_to_date",
                     "custom_auto_generated",
@@ -1584,6 +1661,7 @@ def get_so_map(rsp_id,cust_state,first_day_of_month,last_day_of_month,fr):
     
     customer_so_map["custom_auto_generated"] = 1
     customer_so_map["custom_rsp"] = rsp_id
+    customer_so_map["custom_rsp_record"] = rsp_record_name
 
     status,tax_category,taxes_and_charges,taxes=get_taxes(cust_state)
     if status:
@@ -1593,19 +1671,23 @@ def get_so_map(rsp_id,cust_state,first_day_of_month,last_day_of_month,fr):
     else:
         return {"status":False,"error":f"Taxes Not Mapped properly for {rsp_doc.customer_id}, check customer's State field"}
 
-    services_map, first_day_of_so =get_services(rsp_doc.recurring_services,first_day_of_month,last_day_of_month,fr)
-
-    customer_so_map["custom_so_from_date"] = first_day_of_so 
-    customer_so_map["custom_so_to_date"] = first_day_of_month - timedelta(days=1)
-    customer_so_map["delivery_date"] = first_day_of_month + timedelta(days=1)
+    so_list =get_services(rsp_record_name,rsp_doc.recurring_services,first_day_of_month,last_day_of_month,frequency)
     
     
-    if services_map: 
-        customer_so_map["items"] = services_map
-        # print(len(services_map))
-        # print(customer_so_map)
-        print(customer_so_map)
-        return {"status":True,"customer_so_map": customer_so_map}
+    if so_list: 
+        customer_so_maps=[]
+        for so in so_list:
+            customer_so_map_i=deepcopy(customer_so_map)
+            services_map, first_day_of_so = so_list[so]
+            customer_so_map_i["custom_so_from_date"] = first_day_of_so 
+            customer_so_map_i["custom_so_to_date"] = first_day_of_month - timedelta(days=1)
+            customer_so_map_i["delivery_date"] = first_day_of_month + timedelta(days=1)
+            customer_so_map_i["items"] = services_map
+            # print(len(services_map))
+            # print(customer_so_map)
+            # print(customer_so_map)
+            customer_so_maps.append(customer_so_map_i)
+        return {"status":True,"customer_so_maps": customer_so_maps}
     else:
         return {"status":None,"error":f"No Services Mapped for {rsp_doc.customer_id}"}
 
@@ -1636,7 +1718,7 @@ def get_date_range_of_so(cur_month,cur_year):
         last_day_of_month = datetime(cur_year[1], (month_num[cur_month] - 12 + 3), last_day).date()
     return first_day_of_month,last_day_of_month
 
-def get_services(rsp_services,first_day_of_month,last_day_of_month,fr):
+def get_services(rsp_record_name,rsp_services,first_day_of_month,last_day_of_month,frequency):
     # mon_freq = {
     #             "apr": ["M", "Q", "Y",], 
     #             "may": ["M"], 
@@ -1670,55 +1752,83 @@ def get_services(rsp_services,first_day_of_month,last_day_of_month,fr):
                 "Half-yearly":"H",
                 "Yearly":"Y",
                 }
-    first_day_of_so= first_day_of_month-timedelta(days=1)
+    # first_day_of_so= first_day_of_month-timedelta(days=1)
 
     cur_month_freq = mon_freq[first_day_of_month.month]
-    services_map = []
+    so_list={f:[[],None] for f in frequency}
+    # services_map = []
     for item in rsp_services:
-        service_dict = {}
-        service_doc = frappe.get_doc(item.service_type, item.service_id)
-        # service_addon_doc = frappe.get_all(filters={"":item.service_type, "":item.service_id},fields:["","","",])
-        serv_frequency = freq_map[item.frequency]
+        if item.revised_charges:
+            service_dict = {}
+            service_doc = frappe.get_doc(item.service_type, item.service_id)
+            # service_addon_doc = frappe.get_all(filters={"":item.service_type, "":item.service_id},fields:["","","",])
+            serv_frequency = freq_map[item.frequency]
+            if serv_frequency in frequency and serv_frequency in cur_month_freq:
+                soi_from_date=get_first_day_of_service(serv_frequency,first_day_of_month)
+                soi_to_date = first_day_of_month- timedelta(days=1)
+                response_validation=validate_service_addons(item.service_name,item.service_id,soi_from_date,soi_to_date)
+                if not response_validation["status"] :
 
-        soi_from_date=get_first_day_of_service(serv_frequency,first_day_of_month)
-        soi_to_date = first_day_of_month- timedelta(days=1)
-        response_validation=validate_service_addons(item.service_name,item.service_id,soi_from_date,soi_to_date)
-        if not response_validation["status"]:
-            er_dict={}
-            er_dict["doctype"]= "Custom Error Log"
-            er_dict["master_type"]= "Recurring Service Pricing"
-            er_dict["master_reference"]= item.parent
-            er_dict["type"]= item.service_type                
-            er_dict["record_reference"]= item.service_id
-            er_dict["context"]="One addon adding for auto postpaid Sales Order creation"
-            er_dict["error_statement"]= f'''Exception Error  creating Monthly SO for {item.parent}: {response_validation['msg']}
-            '''
-            er_doc = frappe.get_doc(er_dict)
-            er_doc.insert()
-            # print(f"Service Addon Validation Failed: {response_validation['error']}")
-            continue
+                    er_dict={}
+                    er_dict["doctype"]= "Addon Error Log"
+                    er_dict["service_master_type"] = item.service_type
+                    er_dict["service_master_reference"] = item.service_id
+                    er_dict["item"] = item.service_name
+                    er_dict["frequency"] = serv_frequency
+                    er_dict["rsp_record"] = rsp_record_name
+                    er_dict["rsp"] = item.parent
+                    er_dict["soi_from_date"] = soi_from_date
+                    er_dict["soi_to_date"] = soi_to_date
+                    er_dict["error_statement"] = f'''Exception Error  creating Monthly SO for {item.parent}: {response_validation['msg']}
+                    '''
+                    er_doc = frappe.get_doc(er_dict)
+                    er_doc.insert()
+                    # print(f"Service Addon Validation Failed: {response_validation['error']}")
+                    continue
 
-        # if serv_frequency in cur_month_freq and (item.service_type,serv_frequency) in services:
-        if serv_frequency in cur_month_freq and serv_frequency==fr:
-            items_fields = ["item_code", "custom_soi_from_date", "custom_soi_to_date", "description",
-                            "gst_hsn_code", "qty", "uom", "rate",
-                                            "gst_treatment"]
-            
-            service_dict["item_code"] = item.service_name
-            service_dict["custom_soi_from_date"] = soi_from_date
-            service_dict["description"] = service_doc.description
-            service_dict["custom_service_master"]=service_doc.description
-            service_dict["custom_master_order_id"] = item.service_id
-            service_dict["gst_hsn_code"] = service_doc.hsn_code
-            service_dict["qty"] = 1
-            service_dict["rate"] = item.revised_charges
-            # service_dict["custom_soi_to_date"] = get_last_day_of_service(serv_frequency)
-            service_dict["custom_soi_to_date"] = soi_to_date
-            if first_day_of_so>soi_from_date:
-                first_day_of_so=soi_from_date
-            
-            services_map.append(service_dict)
-    return services_map,first_day_of_so
+                # if serv_frequency in cur_month_freq and (item.service_type,serv_frequency) in services:
+                # if serv_frequency in cur_month_freq :
+                items_fields = ["item_code", "custom_soi_from_date", "custom_soi_to_date", "description",
+                                "gst_hsn_code", "qty", "uom", "rate",
+                                                "gst_treatment"]
+                
+                service_dict["item_code"] = item.service_name
+                service_dict["custom_soi_from_date"] = soi_from_date
+                service_dict["description"] = service_doc.description
+                service_dict["custom_service_master"] = service_doc.description
+                service_dict["custom_master_order_id"] = item.service_id
+                service_dict["gst_hsn_code"] = service_doc.hsn_code
+                service_dict["qty"] = 1
+                service_dict["rate"] = item.revised_charges
+                # service_dict["custom_soi_to_date"] = get_last_day_of_service(serv_frequency)
+                service_dict["custom_soi_to_date"] = soi_to_date
+                # if first_day_of_so>soi_from_date:
+                #     first_day_of_so=soi_from_date
+                # print(service_dict)
+                # services_map.append(service_dict)
+                so_list[serv_frequency][0] += [service_dict]
+                so_list[serv_frequency][1] = soi_from_date
+                # elif serv_frequency in cur_month_freq and serv_frequency not in frequency and response_validation["status"]:
+                #     er_dict={}
+                #     er_dict["doctype"]= "Addon Error Log"
+                #     er_dict["service_master_type"] = item.service_type
+                #     er_dict["service_master_reference"] = item.service_id
+                #     er_dict["item"] = item.service_name
+                #     er_dict["frequency"] = serv_frequency
+                #     er_dict["rsp_record"] = rsp_record_name
+                #     er_dict["rsp"] = item.parent
+                #     er_dict["soi_from_date"] = soi_from_date
+                #     er_dict["soi_to_date"] = soi_to_date
+                #     er_dict["error_statement"] = f'''The Frequency Selected by Bulk Monthly SO creator ({frappe.session.user}) is {frequency} which is not including current addon frequency that is {serv_frequency}, hence skipping the addon in SO creation
+                #     '''
+                #     er_doc = frappe.get_doc(er_dict)
+                #     er_doc.insert()
+                #     # print(f"Service Addon Validation Failed: {response_validation['error']}")
+                #     continue
+        
+    # return services_map,first_day_of_so
+    # print(so_list)
+    return so_list
 
 def validate_service_addons(item_code,service_master_id,soi_from_date,soi_to_date):
 
@@ -1839,7 +1949,7 @@ def get_taxes(cust_state):
             
 
 def create_sales_order(customer_so_map=None):  
-    if customer_so_map:
+    if customer_so_map and customer_so_map["items"]:
         try:
             so_dict={}
             so_dict["doctype"]= "Sales Order"
@@ -1876,6 +1986,7 @@ def create_sales_order(customer_so_map=None):
             frappe.log_error(f"An error occurred in creating Sales Orders: {er}")
 
             return {"status":False, "error":f"{er}"}
+    return {"status":False, "error":f"No Items to create SO"}
 
 # @frappe.whitelist()
 # def go_to_month_so(rsp_id):
@@ -1957,100 +2068,257 @@ def generate_payment_link(so_id,rsp_id):
 
 
 
-def autogen_so_mail(so_id, smtp_server,sender_email,rsp_id):
+def autogen_so_mail( smtp_server,sender_email,rsp_id,rsp_record_name):
     try:
-        so_doc=frappe.get_doc("Sales Order",so_id)
+        rsp_doc=frappe.get_doc("Recurring Service Pricing",rsp_id)
+        print(rsp_doc,rsp_doc.customer_name,rsp_doc.customer_id,"Soooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
 
         # sender_password = email_account.get_password()
         base_url = frappe.utils.get_url()
 
-        recipients = so_doc.custom_primary_email
+        # recipients = rsp_doc.email
 
-        recipients = "lokesh.bwr@gmail.com"
+        recipients = "vatsal.k@360ithub.com"
         cc_email = "vatsal.k@360ithub.com"
 
-        subject = f"New Sales Order generated from {so_doc.custom_so_from_date} to {so_doc.custom_so_to_date}"
+        # subject = "New Sales Order generated from {so_doc.custom_so_from_date} to {so_doc.custom_so_to_date}"
 
-        body = f"""
-        <html>
+        # body = """
+        # <html>
+        # <body>
+        # <p>Dear {so_doc.customer_name},</p>
+        # <p style="margin: 0; padding: 0;">Please find attached the Sales Order {so_doc.name} for your reference.</p>
+        # <p style="margin: 0; padding: 0;">Details are as follows:</p>"""
+        # # body += """
+        # # <table class="table table-bordered" style="border-collapse: collapse; width: 100%;">
+        # #     <thead>
+        # #         <tr style="background-color: #3498DB; color: white; text-align: left;">
+        # #             <th style="border: solid 2px #bcb9b4; width: 5%;">S.No.</th>
+        # #             <th style="border: solid 2px #bcb9b4; width: 15%;">Item Code</th>
+        # #             <th style="border: solid 2px #bcb9b4; width: 15%;">File ID</th>
+        # #             <th style="border: solid 2px #bcb9b4; width: 30%;">Description</th>
+        # #             <th style="border: solid 2px #bcb9b4; width: 5%;">Quantity</th>
+        # #             <th style="border: solid 2px #bcb9b4; width: 10%;">Rate</th>
+        # #             <th style="border: solid 2px #bcb9b4; width: 10%;">Amount</th>
+        # #         </tr>
+        # #     </thead>
+        # #     <tbody>
+        # # """
+        # body += """
+        # <table class="table table-bordered" style="border-collapse: collapse; width: 100%;">
+        #     <thead>
+        #         <tr style="background-color: #3498DB; color: white; text-align: left;">
+        #             <th style="border: solid 2px #bcb9b4; width: 5%;">S.No.</th>
+        #             <th style="border: solid 2px #bcb9b4; width: 15%;">Item Code</th>
+        #             <th style="border: solid 2px #bcb9b4; width: 5%;">Quantity</th>
+        #             <th style="border: solid 2px #bcb9b4; width: 10%;">Rate</th>
+        #             <th style="border: solid 2px #bcb9b4; width: 10%;">Amount</th>
+        #         </tr>
+        #     </thead>
+        #     <tbody>
+        # """
+        # count = 1
+        # for item in range(5):
+            
+        #     # body += f"""
+        #     # <tr style="color: black;">
+        #     #     <td style="border: solid 2px #bcb9b4;width: 5%;">{count}</td>
+        #     #     <td style="border: solid 2px #bcb9b4;width: 15%;">{item.item_code}</td>
+        #     #     <td style="border: solid 2px #bcb9b4;width: 15%;">{item.custom_service_master.split("-")[-1]}</td>
+        #     #     <td style="border: solid 2px #bcb9b4;width: 30%;">{item.custom_service_master.split("-")[0]}</td>
+        #     #     <td style="border: solid 2px #bcb9b4;width: 5%;">{item.qty}</td>
+        #     #     <td style="border: solid 2px #bcb9b4;width: 10%;">{item.rate}</td>
+        #     #     <td style="border: solid 2px #bcb9b4;width: 10%;">{item.amount}</td>
+        #     # </tr>
+        #     # """
+        #     body += """
+        #     <tr style="color: black;">
+        #         <td style="border: solid 2px #bcb9b4;width: 5%;">{count}</td>
+        #         <td style="border: solid 2px #bcb9b4;width: 15%;">{item.item_code}</td>
+        #         <td style="border: solid 2px #bcb9b4;width: 5%;">{item.qty}</td>
+        #         <td style="border: solid 2px #bcb9b4;width: 10%;">{item.rate}</td>
+        #         <td style="border: solid 2px #bcb9b4;width: 10%;">{item.amount}</td>
+        #     </tr>
+        #     """
+        #     count += 1
+        # discount_row=""
+        # # if so_doc.discount_amount>0:
+        # #     discount_row=f"""<div style="margin: 0px; padding: 0; display: flex;justify-content: space-between;">
+        # #                         <div style="width: 50%;">Discount:</div>
+        # #                         <div style="width: 50%;">₹ { so_doc.discount_amount }</div>
+        # #                     </div>"""
+        # body += """
+        #     </tbody>
+        # </table><br>
+
+        # <div style="float: right;width:30%">
+        #     <div style="margin: 0px; padding: 0; display: flex;justify-content: space-between;">
+        #         <div style="width: 50%;">Total:</div>
+        #         <div style="width: 50%;">₹ { so_doc.total }</div>
+        #     </div>
+        #     <div style="margin: 0px; padding: 0; display: flex;justify-content: space-between;">
+        #         <div style="width: 50%;">Taxes:</div>
+        #         <div style="width: 50%;">₹ { so_doc.total_taxes_and_charges }</div>
+        #     </div>
+        #     {discount_row}
+        #     <div style="margin: 0px; padding: 0; display: flex;justify-content: space-between;">
+        #         <div style="width: 50%;">Grand Total:</div>
+        #         <div style="width: 50%;"><strong>₹ { so_doc.rounded_total }</strong></div>
+        #     </div>
+        # </div>
+        # <div style="clear: both;"></div>
+        # <p>Thank you for your business!</p><br>
+
+        # <p>Regards,<br>LSA Office</p>
+        # </body>
+        # </html>
+        # """
+
+        def is_valid_email(email):
+            # Regex for validating an email address
+            email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+            return re.match(email_regex, email) is not None
+
+        # admin_settings = frappe.get_doc("Admin Settings")
+        # cc_email = [email.strip() for email in admin_settings.bulk_email_cc_for_customer_followup.split(',') if is_valid_email(email.strip())]
+
+        # Fetch existing sales orders
+        existing_sales_orders = frappe.get_all(
+            "Sales Order",
+            filters={"customer": rsp_doc.customer_id, "docstatus": ['in', [0, 1]]}
+        )
+        current_datetime = datetime.now().strftime("%d-%m-%Y %I:%M %p")
+
+        # Prepare the email message body
+        custom_count_of_so_due = 0
+        custom_total_amount_due_of_so = 0.00
+        message = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 20px; background-color: #f9f9f9; }}
+                .container {{ max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; }}
+                h2 {{ color: #4CAF50; text-align: center; }}
+                .due-list {{ margin: 20px 0; padding: 0; list-style: none; }}
+                .due-list li {{ margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background-color: #f2f2f2; }}
+                .footer {{ margin-top: 20px; font-size: 0.9em; color: #777; text-align: center; }}
+            </style>
+        </head>
         <body>
-        <p>Dear {so_doc.customer_name},</p>
-        <p style="margin: 0; padding: 0;">Please find attached the Sales Order {so_doc.name} for your reference.</p>
-        <p style="margin: 0; padding: 0;">Details are as follows:</p>"""
-        body += """
-        <table class="table table-bordered" style="border-collapse: collapse; width: 100%;">
-            <thead>
-                <tr style="background-color: #3498DB; color: white; text-align: left;">
-                    <th style="border: solid 2px #bcb9b4; width: 5%;">S.No.</th>
-                    <th style="border: solid 2px #bcb9b4; width: 15%;">Item Code</th>
-                    <th style="border: solid 2px #bcb9b4; width: 15%;">File ID</th>
-                    <th style="border: solid 2px #bcb9b4; width: 30%;">Description</th>
-                    <th style="border: solid 2px #bcb9b4; width: 5%;">Quantity</th>
-                    <th style="border: solid 2px #bcb9b4; width: 10%;">Rate</th>
-                    <th style="border: solid 2px #bcb9b4; width: 10%;">Amount</th>
-                </tr>
-            </thead>
-            <tbody>
+            <div class="container">
+                <h2>Payment Reminder</h2>
+                <p>Dear <strong>{rsp_doc.customer_name}</strong>,</p>
+                <p>You have a due amount to be paid for the following Sales Invoices:</p>
+                <ul class="due-list">
         """
-        count = 1
-        for item in so_doc.items:
-            body += f"""
-            <tr style="color: black;">
-                <td style="border: solid 2px #bcb9b4;width: 5%;">{count}</td>
-                <td style="border: solid 2px #bcb9b4;width: 15%;">{item.item_code}</td>
-                # <td style="border: solid 2px #bcb9b4;width: 15%;">{item.custom_service_master.split("-")[-1]}</td>
-                <td style="border: solid 2px #bcb9b4;width: 30%;">{item.custom_service_master.split("-")[0]}</td>
-                <td style="border: solid 2px #bcb9b4;width: 5%;">{item.qty}</td>
-                <td style="border: solid 2px #bcb9b4;width: 10%;">{item.rate}</td>
-                <td style="border: solid 2px #bcb9b4;width: 10%;">{item.amount}</td>
-            </tr>
-            """
-            count += 1
-        discount_row=""
-        if so_doc.discount_amount>0:
-            discount_row=f"""<div style="margin: 0px; padding: 0; display: flex;justify-content: space-between;">
-                                <div style="width: 50%;">Discount:</div>
-                                <div style="width: 50%;">₹ { so_doc.discount_amount }</div>
-                            </div>"""
-        body += f"""
-            </tbody>
-        </table><br>
+        
+        message += """
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr style="background-color:#3498DB;color:white;text-align: center;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">No</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Sales Order Period</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Due Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+        """
 
-        <div style="float: right;width:30%">
-            <div style="margin: 0px; padding: 0; display: flex;justify-content: space-between;">
-                <div style="width: 50%;">Total:</div>
-                <div style="width: 50%;">₹ { so_doc.total }</div>
-            </div>
-            <div style="margin: 0px; padding: 0; display: flex;justify-content: space-between;">
-                <div style="width: 50%;">Taxes:</div>
-                <div style="width: 50%;">₹ { so_doc.total_taxes_and_charges }</div>
-            </div>
-            {discount_row}
-            <div style="margin: 0px; padding: 0; display: flex;justify-content: space-between;">
-                <div style="width: 50%;">Grand Total:</div>
-                <div style="width: 50%;"><strong>₹ { so_doc.rounded_total }</strong></div>
-            </div>
-        </div>
-        <div style="clear: both;"></div>
-        <p>Thank you for your business!</p><br>
+        if existing_sales_orders:
+            for existing_sales_order in existing_sales_orders:
+                sales_order = frappe.get_doc("Sales Order", existing_sales_order.name)
+                custom_so_balance = sales_order.rounded_total
+                advance_paid = 0
 
-        <p>Regards,<br>LSA Office</p>
+                # Get payment entries related to the sales order
+                pes = frappe.get_all(
+                    "Payment Entry Reference",
+                    filters={"reference_doctype": "Sales Order", "reference_name": sales_order.name, "docstatus": 1},
+                    fields=["name", "parent", "allocated_amount"]
+                )
+                for pe in pes:
+                    custom_so_balance -= pe.allocated_amount
+                    advance_paid += pe.allocated_amount
+
+                # Adjust balance for any related sales invoices
+                if custom_so_balance > 0:
+                    si_item_list = frappe.get_all(
+                        "Sales Invoice Item",
+                        filters={"sales_order": sales_order.name, "docstatus": 1},
+                        fields=["name", "parent"]
+                    )
+                    si_list = list(set(si.parent for si in si_item_list))
+                    for si_name in si_list:
+                        si_pe = frappe.get_all(
+                            "Payment Entry Reference",
+                            filters={"reference_doctype": "Sales Invoice", "reference_name": si_name, "docstatus": 1},
+                            fields=["name", "parent", "allocated_amount"]
+                        )
+                        for pe in si_pe:
+                            custom_so_balance -= pe.allocated_amount
+                            advance_paid += pe.allocated_amount
+
+                # Update message and details if there is a balance due
+                if custom_so_balance > 0:
+                    custom_count_of_so_due += 1
+                    custom_total_amount_due_of_so += custom_so_balance
+                    
+                    # Format dates directly using strftime
+                    formatted_date_from = sales_order.custom_so_from_date.strftime("%d-%m-%Y")
+                    formatted_date_to = sales_order.custom_so_to_date.strftime("%d-%m-%Y")
+                    
+                    message += f"""
+                            <tr>
+                                <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{custom_count_of_so_due}</td>
+                                <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{formatted_date_from} to {formatted_date_to}</td>
+                                <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">₹{custom_so_balance}/-</td>
+                            </tr>
+                        """
+
+        message += """
+                </tbody>
+            </table>
+        """
+
+        # Add bank details and final message content
+        message += f"""
+                <p>Kindly pay the net due amount as on {current_datetime} of ₹ {custom_total_amount_due_of_so:.2f}/- to the below bank details:</p>
+                <p><strong>Our Bank Account:</strong><br>
+                Lokesh Sankhala and ASSOCIATES<br>
+                Account No = 73830200000526<br>
+                IFSC = BARB0VJJCRO (fifth character is zero)<br>
+                Bank = Bank of Baroda, JC Road, Bangalore-560002<br>
+                UPI ID = LSABOB@UPI<br>
+                Gpay / Phonepe no = 9513199200
+                </p>
+                <p>Call us immediately in case of any queries.</p>
+                
+                <p>Best Regards,<br>LSA Office Account Team<br><a href="mailto:accounts@lsaoffice.com">accounts@lsaoffice.com</a><br>8951692788</p>
+            </div>
         </body>
         </html>
         """
 
+        subject = f"Follow-Up on Your Sales Orders Dues INR {custom_total_amount_due_of_so}/- from Lokesh Sankhala and Associates"
+        
         
 
         # Attach the PDF file
+        pdf_filename = f"{rsp_doc.customer_id}.pdf"
         pdf_link = f"{base_url}/api/method/frappe.utils.print_format.download_pdf?doctype=Sales%20Order&name=SAL-ORD-2023-00436&format=Sales%20Order%20Format&no_letterhead=0&letterhead=LSA&settings=%7B%7D&_lang=en/SAL-ORD-2023-00436.pdf"
-        pdf_filename = f"sales_order_{so_doc.custom_so_from_date}.pdf"
-        
+        pdf_link = f"{base_url}/api/method/frappe.utils.print_format.download_pdf?doctype=Customer&name={rsp_doc.customer_id}&format=Customer%20pending%20Sales%20order%20summary&no_letterhead=0&letterhead=LSA&settings=%7B%7D&_lang=en/{pdf_filename}"
+        pdf_link = f"https://online.lsaoffice.com/api/method/frappe.utils.print_format.download_pdf?doctype=Sales%20Order&name=SAL-ORD-2024-00908&format=Payment%20Pending%20Sales%20Order&no_letterhead=0&letterhead=LSA&settings=%7B%7D&_lang=en/{pdf_filename}"
+        # pdf_link= f"{base_url}/api/method/frappe.utils.print_format.download_pdf?doctype=Customer&name={rsp_doc.customer_id}&format=Customer%20pending%20Sales%20order%20summary&no_letterhead=0&letterhead=LSA&settings=%7B%7D&_lang=en/{pdf_filename}"
+        print(pdf_link)
 
         # Connect to the SMTP server and send the email
     
     
         # Send email
-        response=single_mail_with_attachment_with_server(smtp_server, sender_email, recipients, subject, body,pdf_link,pdf_filename, cc_email)
+        response=single_mail_with_attachment_with_server(smtp_server, sender_email, recipients, subject, message,pdf_link,pdf_filename, cc_email)
         if response["status"]:
             return {"status":True,"msg":"Email sent successfully!"}
         else:
@@ -2060,10 +2328,10 @@ def autogen_so_mail(so_id, smtp_server,sender_email,rsp_id):
             er_dict["doctype"]= "Custom Error Log"
             er_dict["master_type"]= "Recurring Service Pricing"
             er_dict["master_reference"]= rsp_id
-            er_dict["type"]= "Sales Order"
-            er_dict["record_reference"]= so_doc.name
+            er_dict["type"]= "RSP Record"
+            er_dict["record_reference"]= rsp_record_name
             er_dict["context"]="Email Notification for Auto-gen SO"
-            er_dict["error_statement"]= f'''Error Sending Mail Notification Monthly SO bulk operation for {so_doc.customer}: {response['msg']}
+            er_dict["error_statement"]= f'''Error Sending Mail Notification Monthly SO bulk operation for {rsp_doc.customer_id}: {response['msg']}
             '''
             er_doc = frappe.get_doc(er_dict)
             er_doc.insert()
@@ -2076,10 +2344,10 @@ def autogen_so_mail(so_id, smtp_server,sender_email,rsp_id):
         er_dict["doctype"]= "Custom Error Log"
         er_dict["master_type"]= "Recurring Service Pricing"
         er_dict["master_reference"]= rsp_id
-        er_dict["type"]= "Sales Order"
-        er_dict["record_reference"]= so_doc.name
+        er_dict["type"]= "RSP Record"
+        er_dict["record_reference"]= rsp_record_name
         er_dict["context"]="Email Notification for Auto-gen SO"
-        er_dict["error_statement"]= f'''Error Sending Mail Notification Monthly SO bulk operation for {so_doc.customer}: {e}
+        er_dict["error_statement"]= f'''Error Sending Mail Notification Monthly SO bulk operation for {rsp_doc.customer_id}: {e}
         '''
         er_doc = frappe.get_doc(er_dict)
         er_doc.insert()
@@ -2087,16 +2355,16 @@ def autogen_so_mail(so_id, smtp_server,sender_email,rsp_id):
         
 
 @frappe.whitelist()
-def whatsapp_so_template(whatsapp_instance_doc,so_id,rsp_id):
+def whatsapp_so_template(whatsapp_instance_doc,rsp_id,rsp_record_name):
     
-    so_doc=frappe.get_doc("Sales Order",so_id)
-    new_mobile= so_doc.custom_primary_mobile_no
-    new_mobile="9986892788"
+    rsp_doc=frappe.get_doc("Recurring Service Pricing",rsp_id)
+    # new_mobile= rsp_doc.mobile_no
+    new_mobile="9098543046"
     msg_detail={
-                    "type": "Sales Order",
-                    "document_id": so_doc.name,
+                    "type": "Recurring Service Pricing",
+                    "document_id": rsp_id,
                     "mobile_number": new_mobile,
-                    "customer":so_doc.customer,
+                    "customer":rsp_doc.customer_id,
                 }
     try:
         
@@ -2105,39 +2373,46 @@ def whatsapp_so_template(whatsapp_instance_doc,so_id,rsp_id):
         
         # Check if the mobile number has 10 digits
         
-        payment_link=""
-        if so_doc.custom_razorpay_payment_url:
-            payment_link=f"Payment Link is : {so_doc.custom_razorpay_payment_url}"
+#         payment_link=""
+#         if so_doc.custom_razorpay_payment_url:
+#             payment_link=f"Payment Link is : {so_doc.custom_razorpay_payment_url}"
         
-        due_amount_message=f"with pending amount of ₹ {so_doc.rounded_total}/-"
+#         due_amount_message=f"with pending amount of ₹ {so_doc.rounded_total}/-"
 
-        from_date=so_doc.custom_so_from_date.strftime('%d-%m-%Y')
-        to_date=so_doc.custom_so_to_date.strftime('%d-%m-%Y')
+#         from_date=so_doc.custom_so_from_date.strftime('%d-%m-%Y')
+#         to_date=so_doc.custom_so_to_date.strftime('%d-%m-%Y')
         
-        message = f'''Dear {so_doc.customer_name},
+#         message = f'''Dear {so_doc.customer_name},
 
-Please find attached Sale Order from {from_date} to {to_date} period {due_amount_message}. Kindly pay on below bank account details
+# Please find attached Sale Order from {from_date} to {to_date} period {due_amount_message}. Kindly pay on below bank account details
 
-Our Bank Account
-Lokesh Sankhala and ASSOSCIATES
-Account No = 73830200000526
-IFSC = BARB0VJJCRO
-Bank = Bank of Baroda,JC Road,Bangalore-560002
-UPI id = LSABOB@UPI
-Gpay / Phonepe no = 9513199200
-{payment_link}
+# Our Bank Account
+# Lokesh Sankhala and ASSOSCIATES
+# Account No = 73830200000526
+# IFSC = BARB0VJJCRO
+# Bank = Bank of Baroda,JC Road,Bangalore-560002
+# UPI id = LSABOB@UPI
+# Gpay / Phonepe no = 9513199200
+# {payment_link}
 
-Call us immediately in case of query.
+# Call us immediately in case of query.
 
-Best Regards,
-LSA Office Account Team
-accounts@lsaoffice.com
-8951692788'''
+# Best Regards,
+# LSA Office Account Team
+# accounts@lsaoffice.com
+# 8951692788'''
+        message =create_message_template(rsp_doc.customer_id)
         
         ########################### Below commented link is work on Live #######################
-        # pdflink = f"{base_url}/api/method/frappe.utils.print_format.download_pdf?doctype=Sales%20Order&name={so_doc.name}&format=Sales%20Order%20Format&no_letterhead=0&letterhead=LSA&settings=%7B%7D&_lang=en/{so_doc.name}.pdf"
-        dummy_pdf = "https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-        pdflink=dummy_pdf
+        pdf_filename="sales_order_summary.pdf"
+        pdflink = f"{base_url}/api/method/frappe.utils.print_format.download_pdf?doctype=Customer&name={rsp_doc.customer_id}&format=Customer%20pending%20Sales%20order%20summary&no_letterhead=0&letterhead=LSA&settings=%7B%7D&_lang=en/{pdf_filename}"
+        
+
+        pdf_filename = f"{rsp_doc.customer_id}_so_summary.pdf"
+        pdflink = f"https://online.lsaoffice.com/api/method/frappe.utils.print_format.download_pdf?doctype=Sales%20Order&name=SAL-ORD-2024-00908&format=Payment%20Pending%20Sales%20Order&no_letterhead=0&letterhead=LSA&settings=%7B%7D&_lang=en/{pdf_filename}"
+        
+        # dummy_pdf = "https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
+        # pdflink=dummy_pdf
         resp_wa_sent_pdf=send_custom_whatsapp_message_with_file(whatsapp_instance_doc, new_mobile, message ,pdflink)
 
 
@@ -2147,10 +2422,10 @@ accounts@lsaoffice.com
 
             
             msg_detail={
-                            "type": "Sales Order",
-                            "document_id": so_doc.name,
+                            "type": "Recurring Service Pricing",
+                            "document_id": rsp_id,
                             "mobile_number": new_mobile,
-                            "customer":so_doc.customer,
+                            "customer":rsp_doc.customer_id,
                             "message_id":resp_wa_sent_pdf["message_id"],
                             "sent_successfully":1,
                         }
@@ -2161,10 +2436,10 @@ accounts@lsaoffice.com
             er_dict["doctype"]= "Custom Error Log"
             er_dict["master_type"]= "Recurring Service Pricing"
             er_dict["master_reference"]= rsp_id
-            er_dict["type"]= "Sales Order"
-            er_dict["record_reference"]= so_doc.name
+            er_dict["type"]= "RSP Record"
+            er_dict["record_reference"]= rsp_record_name
             er_dict["context"]="WhatsApp Notification for Auto-gen SO"
-            er_dict["error_statement"]= f'''Error Sending WhatsApp Notification Monthly SO bulk operation for {so_doc.customer}: {resp_wa_sent_pdf['msg']}
+            er_dict["error_statement"]= f'''Error Sending WhatsApp Notification Monthly SO bulk operation for {rsp_doc.customer_id}: {resp_wa_sent_pdf['msg']}
             '''
             er_doc = frappe.get_doc(er_dict)
             er_doc.insert()
@@ -2178,18 +2453,109 @@ accounts@lsaoffice.com
         er_dict["doctype"]= "Custom Error Log"
         er_dict["master_type"]= "Recurring Service Pricing"
         er_dict["master_reference"]= rsp_id
-        er_dict["type"]= "Sales Order"
-        er_dict["record_reference"]= so_doc.name
+        er_dict["type"]= "RSP Record"
+        er_dict["record_reference"]= rsp_record_name
         er_dict["context"]="WhatsApp Notification for Auto-gen SO"
-        er_dict["error_statement"]= f'''Error Sending WhatsApp Notification Monthly SO bulk operation for {so_doc.customer}: {er}
+        er_dict["error_statement"]= f'''Error Sending WhatsApp Notification Monthly SO bulk operation for {rsp_doc.customer_id}: {er}
         '''
         er_doc = frappe.get_doc(er_dict)
         er_doc.insert()
         return {"status":False,"error":er,"msg":"An unexpected error occurred while sending the WhatsApp message. Please contact the system administrator.","msg_detail":msg_detail}
 
 
-    
 
+@frappe.whitelist()
+def create_message_template(customer_id):
+    customer_name = frappe.get_value('Customer', {'name': customer_id }, 'customer_name')
+
+    # Get all relevant sales orders
+    existing_sales_orders = frappe.get_all(
+        "Sales Order",
+        filters={"customer": customer_id, "docstatus": ['in', [0, 1]]}
+    )
+    current_datetime = datetime.now().strftime("%d-%m-%Y %I:%M %p")
+    # Initialize the message template
+    message = f"Dear {customer_name},\n\nYou are having a due amount to be paid for the following Sales Invoices:\n"
+    
+    custom_count_of_so_due = 0
+    custom_total_amount_due_of_so = 0.00
+    custom_details_of_so_due = {}
+
+    if existing_sales_orders:
+        for existing_sales_order in existing_sales_orders:
+            sales_order = frappe.get_doc("Sales Order", existing_sales_order.name)
+
+            # Initialize amounts
+            custom_so_balance = sales_order.rounded_total
+            advance_paid = 0
+
+            # Get payment entries related to the sales order
+            pes = frappe.get_all(
+                "Payment Entry Reference",
+                filters={"reference_doctype": "Sales Order", "reference_name": sales_order.name, "docstatus": 1},
+                fields=["name", "parent", "allocated_amount"]
+            )
+            for pe in pes:
+                custom_so_balance -= pe.allocated_amount
+                advance_paid += pe.allocated_amount
+
+            # Adjust balance for any related sales invoices
+            if custom_so_balance > 0:
+                si_item_list = frappe.get_all(
+                    "Sales Invoice Item",
+                    filters={"sales_order": sales_order.name, "docstatus": 1},
+                    fields=["name", "parent"]
+                )
+                si_list = list(set(si.parent for si in si_item_list))
+                for si_name in si_list:
+                    si_pe = frappe.get_all(
+                        "Payment Entry Reference",
+                        filters={"reference_doctype": "Sales Invoice", "reference_name": si_name, "docstatus": 1},
+                        fields=["name", "parent", "allocated_amount"]
+                    )
+                    for pe in si_pe:
+                        custom_so_balance -= pe.allocated_amount
+                        advance_paid += pe.allocated_amount
+
+            # Update message and details if there is a balance due
+            if custom_so_balance > 0:
+                custom_count_of_so_due += 1
+                custom_total_amount_due_of_so += custom_so_balance
+                custom_details_of_so_due[sales_order.name] = [
+                    "Unpaid" if custom_so_balance == sales_order.rounded_total else "Partially Paid",
+                    sales_order.rounded_total,
+                    advance_paid,
+                    custom_so_balance,
+                    sales_order.custom_so_from_date,
+                    sales_order.custom_so_to_date,
+                    sales_order.custom_followup_count
+                ]
+                formatted_date_from = sales_order.custom_so_from_date.strftime("%d-%m-%Y")
+                formatted_date_to = sales_order.custom_so_to_date.strftime("%d-%m-%Y")
+
+                message += f"\n{custom_count_of_so_due}. {formatted_date_from} to {formatted_date_to} with due amount ₹{custom_so_balance}/-. \n"
+
+        # Add bank details and final message content
+        message += f"""
+        \nKindly pay the net due amount as on {current_datetime} of ₹ {custom_total_amount_due_of_so:.2f}/- to the below bank details::
+
+Our Bank Account:
+Lokesh Sankhala and ASSOCIATES
+Account No = 73830200000526
+IFSC = BARB0VJJCRO (fifth character is zero)
+Bank = Bank of Baroda, JC Road, Bangalore-560002
+UPI id = LSABOB@UPI
+Gpay / Phonepe no = 9513199200
+
+Call us immediately in case of any queries.
+
+Best Regards,
+LSA Office Account Team
+accounts@lsaoffice.com
+8951692788
+        """
+    print(message)
+    return message  # Added return statement to return the message template
 
 
 
@@ -3189,3 +3555,59 @@ accounts@lsaoffice.com
 #     frappe.db.set_value('Recurring Service Pricing', doc.name, "share_with_client_via_mail", 1)
 #     log(doc.name)
 
+
+
+
+# # Get all Customer Chargeable Doctypes
+# all_services = frappe.get_all("Customer Chargeable Doctypes")
+
+# for service in all_services:
+#     # Get all records for the current service doctype
+#     all_service_records = frappe.get_all(service.name, fields=["name", "service_name", "frequency", "current_recurring_fees"])
+    
+#     for record in all_service_records:
+#         # Get the document for each service record
+#         serv_doc = frappe.get_doc(service.name, record.name)
+        
+#         # Check if the 'addon_services' child table exists or is empty
+#         if not serv_doc.addon_services and serv_doc.name!="AQAPJ6278P":
+#             # Log the missing addon_services child table or empty state
+#             log(f"{service.name}:{record.name} has no addon_services")
+
+#             # Adding a row to the addon_services table and mapping the required fields
+#             row = serv_doc.append('addon_services', {})
+#             row.addon_service_name = record.service_name  # Map service_name from parent to child
+#             row.current_charges = record.current_recurring_fees  # Map current_recurring_fees from parent to child
+#             row.frequency = record.frequency  # Map frequency from parent to child
+
+#             # Save the document after adding the row to the child table
+#             serv_doc.save()
+#             frappe.db.commit()
+
+#         else:
+#             # If 'addon_services' is not empty, you can still log this if needed
+#             # log(f"{service.name}:{record.name} already has addon_services")
+#             pass
+
+
+# addons=frappe.get_all("Service Master Addon")
+# for add in addons:
+#     addon_doc=frappe.get_doc("Service Master Addon",add.name)
+#     addon_doc.status="Active"
+#     addon_doc.save()
+
+
+
+
+def service_master_addon_validation(doc,method):
+    old_doc = frappe.get_doc(doc.doctype, doc.name)
+    old_addons=[i.addon_service_name for i in old_doc.addon_services]
+    new_addons=[j.addon_service_name for j in doc.addon_services]
+
+    if len(old_addons)>len(new_addons):
+        frappe.throw("You can't delete addons, you can only inactivate the addons!")
+
+    if len(old_addons)<len(new_addons) and not ( set(new_addons)-set(old_addons)):
+        frappe.throw("You can't add one type of addons multiple times, you can revise charges with new RSP approval!")
+
+        

@@ -1263,7 +1263,7 @@ def float_to_inr(value):
 
 def validate_sales_order(so_doc, method):
     frappe.log_error("Sales Order Item, validation is being triggered")
-    print("Sales Order Item, validation is being triggereddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
+    # print("Sales Order Item, validation is being triggereddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
     for item_doc in so_doc.items:
         # Check for overlapping date ranges
         service_masters_addon_for_current_duration = frappe.get_all(
@@ -1281,7 +1281,7 @@ def validate_sales_order(so_doc, method):
             },
             fields=["name","parent"]
         )
-        print("service master itemmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",item_doc.item_code,service_masters_addon_for_current_duration)
+        # print("service master itemmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",item_doc.item_code,service_masters_addon_for_current_duration)
         
         # If overlapping records are found, prevent further processing
         if service_masters_addon_for_current_duration:

@@ -494,6 +494,7 @@ def fetch_services(c_id=None,frequency=None):
     master_service_filter={'customer_id': c_id,
                            "enabled":1,}
     master_service_addon_filter={"status":"Running",
+                            "status":"Active",
                            "frequency":("in",freq_dict[frequency])}
     all_services = frappe.get_all("Customer Chargeable Doctypes")
     c_services=[]

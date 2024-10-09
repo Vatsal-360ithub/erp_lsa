@@ -1,0 +1,143 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2024-10-05 10:07:44.090708",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "subscription_id",
+  "plan",
+  "plan_id",
+  "plan_name",
+  "customer_id",
+  "status",
+  "razorpay_customer_id",
+  "column_break_rfgg",
+  "amount",
+  "quantity",
+  "start_date",
+  "end_date",
+  "total_count",
+  "section_break_nepa",
+  "description",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fetch_from": "plan.plan_id",
+   "fieldname": "plan_id",
+   "fieldtype": "Data",
+   "label": "Plan ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "label": "Customer ID",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plan.plan_name",
+   "fieldname": "plan_name",
+   "fieldtype": "Data",
+   "label": "Plan Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "created\nauthenticated\nactive\npending\nhalted\ncancelled\ncompleted\nexpired",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_rfgg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_nepa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes",
+   "read_only": 1
+  },
+  {
+   "fieldname": "subscription_id",
+   "fieldtype": "Data",
+   "label": "Subscription ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Int",
+   "label": "Quantity"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "total_count",
+   "fieldtype": "Int",
+   "label": "Total Count"
+  },
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "label": "Plan",
+   "options": "Razorpay Plans"
+  },
+  {
+   "fieldname": "razorpay_customer_id",
+   "fieldtype": "Link",
+   "label": "Razorpay Customer ID",
+   "options": "Razorpay Customer"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-05 15:03:49.376207",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Razorpay Subscription",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

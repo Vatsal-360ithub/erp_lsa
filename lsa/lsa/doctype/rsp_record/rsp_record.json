@@ -1,0 +1,94 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2024-10-04 11:33:03.728906",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "fy",
+  "frequency_selected",
+  "column_break_fyxl",
+  "month",
+  "status",
+  "error_logs_for_addons_tab",
+  "addons_error_logs",
+  "sales_order_summary_tab",
+  "sales_order_summary"
+ ],
+ "fields": [
+  {
+   "fieldname": "fy",
+   "fieldtype": "Link",
+   "label": "FY",
+   "options": "FY"
+  },
+  {
+   "fieldname": "column_break_fyxl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "month",
+   "fieldtype": "Select",
+   "label": "Month",
+   "options": "\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nJanuary\nFebruary\nMarch"
+  },
+  {
+   "fieldname": "error_logs_for_addons_tab",
+   "fieldtype": "Tab Break",
+   "label": "Error Logs for Addons"
+  },
+  {
+   "fieldname": "addons_error_logs",
+   "fieldtype": "HTML",
+   "label": "Addons Error Logs"
+  },
+  {
+   "fieldname": "sales_order_summary_tab",
+   "fieldtype": "Tab Break",
+   "label": "Sales Order Summary"
+  },
+  {
+   "fieldname": "sales_order_summary",
+   "fieldtype": "HTML",
+   "label": "Sales Order Summary"
+  },
+  {
+   "fieldname": "frequency_selected",
+   "fieldtype": "Data",
+   "label": "Frequency Selected",
+   "read_only": 1
+  },
+  {
+   "default": "Pending SO Creation",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending SO Creation\nSO Created"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-04 15:14:07.851969",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "RSP Record",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -147,6 +147,21 @@ doc_events = {
     "Sales Order":{
         "before_save" : "lsa.custom_sales_order.validate_sales_order",
                 },
+    "Gstfile":{
+       "before_save" :"lsa.lsa.doctype.recurring_service_pricing.recurring_service_pricing.service_master_addon_validation"
+                },
+    "TDS File":{
+       "before_save" :"lsa.lsa.doctype.recurring_service_pricing.recurring_service_pricing.service_master_addon_validation"
+                },
+    "Professional Tax File":{
+       "before_save" :"lsa.lsa.doctype.recurring_service_pricing.recurring_service_pricing.service_master_addon_validation"
+                },
+    "IT Assessee File":{
+       "before_save" :"lsa.lsa.doctype.recurring_service_pricing.recurring_service_pricing.service_master_addon_validation"
+                },
+    "MCA ROC File":{
+       "before_save" :"lsa.lsa.doctype.recurring_service_pricing.recurring_service_pricing.service_master_addon_validation"
+                },
 }
 
 

@@ -1,0 +1,123 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format::ER-{master_type}-{#####}",
+ "creation": "2024-10-04 11:50:10.752808",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_xamq",
+  "service_master_type",
+  "service_master_reference",
+  "item",
+  "frequency",
+  "column_break_xuqv",
+  "rsp_record",
+  "rsp",
+  "soi_from_date",
+  "soi_to_date",
+  "section_break_bfxr",
+  "error_statement"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_xamq",
+   "fieldtype": "Section Break",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_xuqv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_bfxr",
+   "fieldtype": "Section Break",
+   "read_only": 1
+  },
+  {
+   "fieldname": "error_statement",
+   "fieldtype": "Long Text",
+   "label": "Error Statement",
+   "read_only": 1
+  },
+  {
+   "fieldname": "service_master_type",
+   "fieldtype": "Link",
+   "label": "Service Master Type",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "service_master_reference",
+   "fieldtype": "Dynamic Link",
+   "label": "Service Master reference ",
+   "options": "service_master_type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rsp_record",
+   "fieldtype": "Link",
+   "label": "RSP Record",
+   "options": "RSP Record",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rsp",
+   "fieldtype": "Link",
+   "label": "RSP",
+   "options": "Recurring Service Pricing",
+   "read_only": 1
+  },
+  {
+   "fieldname": "soi_from_date",
+   "fieldtype": "Date",
+   "label": "SOI From Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "soi_to_date",
+   "fieldtype": "Date",
+   "label": "SOI To Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "M\nQ\nY",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-04 11:55:38.200947",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Addon Error Log",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

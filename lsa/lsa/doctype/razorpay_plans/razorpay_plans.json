@@ -1,0 +1,125 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2024-10-04 17:23:19.231440",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan_id",
+  "razorpay_customer_id",
+  "customer_id",
+  "plan_name",
+  "status",
+  "column_break_rfgg",
+  "amount",
+  "currency",
+  "period",
+  "interval",
+  "section_break_nepa",
+  "description",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan_id",
+   "fieldtype": "Data",
+   "label": "Plan ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "plan_name",
+   "fieldtype": "Data",
+   "label": "Plan Name",
+   "read_only": 1
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nInactive"
+  },
+  {
+   "fieldname": "column_break_rfgg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "label": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "period",
+   "fieldtype": "Select",
+   "label": "Period",
+   "options": "\nmonthly\nquarterly\nyearly",
+   "read_only": 1
+  },
+  {
+   "fieldname": "interval",
+   "fieldtype": "Int",
+   "label": "Interval",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_nepa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "label": "Customer ID",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "razorpay_customer_id",
+   "fieldtype": "Link",
+   "label": " Razorpay Customer ID",
+   "options": "Razorpay Customer"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-05 15:48:25.630227",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Razorpay Plans",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

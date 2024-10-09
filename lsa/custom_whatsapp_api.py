@@ -203,18 +203,18 @@ def send_custom_whatsapp_message_with_file(whatsapp_instance_doc, new_mobile, me
     }
     
     try:
-        message_id=""
-        response = requests.post(url, params=params)
-        response.raise_for_status()
-        response_data = response.json()
-        message_id = response_data['data']['messageIDs'][0]
+        # message_id=""
+        # response = requests.post(url, params=params)
+        # response.raise_for_status()
+        # response_data = response.json()
+        # message_id = response_data['data']['messageIDs'][0]
 
-        if response_data.get('status') == 'success':
+        # if response_data.get('status') == 'success':
             
-            return {"status": True, "msg": "WhatsApp message sent successfully", "message_id": message_id}
-        else:
-            frappe.log_error(f"An error occurred while sending the WhatsApp message. For {new_mobile}",f"{response_data}")
-            return {"status": False, "msg": f"An error occurred while sending the WhatsApp message: {response_data}"}
+        #     return {"status": True, "msg": "WhatsApp message sent successfully", "message_id": message_id}
+        # else:
+        #     frappe.log_error(f"An error occurred while sending the WhatsApp message. For {new_mobile}",f"{response_data}")
+        #     return {"status": False, "msg": f"An error occurred while sending the WhatsApp message: {response_data}"}
         return {"status": True, "msg": f"Kept the actual WA API off for testing","message_id":"MSG-007-TEST"}
 
     except requests.exceptions.RequestException as e:

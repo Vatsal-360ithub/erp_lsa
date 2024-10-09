@@ -64,17 +64,18 @@
    "read_only": 1
   },
   {
+   "default": "Inactive",
    "fieldname": "status",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Status",
-   "options": "Running\nStopped"
+   "options": "Active\nInactive",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-24 16:03:20.962867",
+ "modified": "2024-10-01 15:08:13.487492",
  "modified_by": "Administrator",
  "module": "Lsa",
  "name": "Service Master Addon",

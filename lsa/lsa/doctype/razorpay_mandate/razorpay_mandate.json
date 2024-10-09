@@ -1,0 +1,112 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:razorpay_mandate_id",
+ "creation": "2024-10-05 13:13:31.516005",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "razorpay_mandate_id",
+  "razorpay_customer_id",
+  "razorpay_plan_id",
+  "customer_id",
+  "column_break_dxir",
+  "start_date",
+  "mandate_amount",
+  "end_date",
+  "short_url",
+  "status",
+  "section_break_imac",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "razorpay_customer_id",
+   "fieldtype": "Data",
+   "label": " Razorpay Customer ID",
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_dxir",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "label": "Customer ID",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nPending\nActive\nInactive\nCancelled\nFailed\nExpired\nApproved\nRejected\nUnder Review\nCompleted"
+  },
+  {
+   "fieldname": "section_break_imac",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "razorpay_plan_id",
+   "fieldtype": "Link",
+   "label": "Razorpay Plan ID",
+   "options": "Razorpay Plans"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "short_url",
+   "fieldtype": "Data",
+   "label": "Short URL"
+  },
+  {
+   "fieldname": "razorpay_mandate_id",
+   "fieldtype": "Data",
+   "label": " Razorpay Mandate ID",
+   "unique": 1
+  },
+  {
+   "fieldname": "mandate_amount",
+   "fieldtype": "Currency",
+   "label": "Mandate Amount"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-05 15:16:40.814656",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Razorpay Mandate",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

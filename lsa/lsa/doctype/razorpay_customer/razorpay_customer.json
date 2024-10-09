@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:razorpay_customer_id",
+ "creation": "2024-10-05 12:33:31.161733",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "razorpay_customer_id",
+  "razorpay_customer_name",
+  "razorpay_customer_mobile",
+  "razorpay_customer_email",
+  "mandate_status",
+  "column_break_dxir",
+  "customer_id",
+  "customer_name",
+  "customer_mobile",
+  "customer_email",
+  "status",
+  "section_break_imac",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "razorpay_customer_id",
+   "fieldtype": "Data",
+   "label": " Razorpay Customer ID",
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_dxir",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "razorpay_customer_name",
+   "fieldtype": "Data",
+   "label": " Razorpay Customer Name"
+  },
+  {
+   "fieldname": "razorpay_customer_mobile",
+   "fieldtype": "Data",
+   "label": " Razorpay Customer Mobile"
+  },
+  {
+   "fieldname": "razorpay_customer_email",
+   "fieldtype": "Data",
+   "label": " Razorpay Customer Email"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "customer_mobile",
+   "fieldtype": "Data",
+   "label": "Customer Mobile"
+  },
+  {
+   "fieldname": "customer_email",
+   "fieldtype": "Data",
+   "label": "Customer Email"
+  },
+  {
+   "fieldname": "section_break_imac",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "label": "Customer ID",
+   "options": "Customer"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nInactive"
+  },
+  {
+   "fieldname": "mandate_status",
+   "fieldtype": "Select",
+   "label": "Mandate Status"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-05 13:09:42.399080",
+ "modified_by": "Administrator",
+ "module": "Lsa",
+ "name": "Razorpay Customer",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
